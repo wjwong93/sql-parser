@@ -1,9 +1,23 @@
-#! /bin/bash
+#!/bin/bash
+
+#alias antlr4='java -Xmx500M -cp "/usr/local/lib/antlr-4.13.1-complete.jar:$CLASSPATH" org.antlr.v4.Tool'
 
 cd antlr
-antlr4 -visitor -o ../src PostgreSQLLexer.g4
-antlr4 -visitor -o ../src PostgreSQLParser.g4
+#antlr4 -visitor -o ../src PostgreSQLLexer.g4
+#antlr4 -visitor -o ../src PostgreSQLParser.g4
 
 cd ../src
-rm *.tokens
-rm *.interp
+if [ -f "*.tokens" ]
+then
+  rm *.tokens
+fi
+
+if [ -f "*.interp" ]
+then
+  rm *.interp
+fi
+
+cd ..
+javac -cp /usr/local/lib/antlr-4.13.1-complete.jar -d out/production/sql_parser_2 src/*.java
+
+./run pgq_read.sql

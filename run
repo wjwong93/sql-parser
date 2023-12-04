@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ -z $1 ]
+then
+  echo "Specify SQL file to use as input"
+  exit 1
+fi
+
+cd out/production/sql_parser_2
+java -cp /usr/local/lib/antlr-4.13.1-complete.jar: SQLParser ../../../$1
