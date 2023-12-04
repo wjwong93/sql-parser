@@ -3288,6 +3288,60 @@ public interface PostgreSQLParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOpt_col_def_list(PostgreSQLParser.Opt_col_def_listContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_table}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraph_table(PostgreSQLParser.Graph_tableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_reference}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraph_reference(PostgreSQLParser.Graph_referenceContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_pattern}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraph_pattern(PostgreSQLParser.Graph_patternContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_table_shape}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraph_table_shape(PostgreSQLParser.Graph_table_shapeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_table_columns_clause}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_table_column_definition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraph_table_column_definition(PostgreSQLParser.Graph_table_column_definitionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#path_pattern_list}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPath_pattern_list(PostgreSQLParser.Path_pattern_listContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#path_pattern}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPath_pattern(PostgreSQLParser.Path_patternContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#path_variable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPath_variable(PostgreSQLParser.Path_variableContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PostgreSQLParser#opt_ordinality}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

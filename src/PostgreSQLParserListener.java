@@ -5469,6 +5469,96 @@ public interface PostgreSQLParserListener extends ParseTreeListener {
 	 */
 	void exitOpt_col_def_list(PostgreSQLParser.Opt_col_def_listContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_table}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#graph_table}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraph_table(PostgreSQLParser.Graph_tableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_reference}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraph_reference(PostgreSQLParser.Graph_referenceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#graph_reference}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraph_reference(PostgreSQLParser.Graph_referenceContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraph_pattern(PostgreSQLParser.Graph_patternContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#graph_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraph_pattern(PostgreSQLParser.Graph_patternContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_table_shape}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraph_table_shape(PostgreSQLParser.Graph_table_shapeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#graph_table_shape}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraph_table_shape(PostgreSQLParser.Graph_table_shapeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_table_columns_clause}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#graph_table_columns_clause}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_table_column_definition}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraph_table_column_definition(PostgreSQLParser.Graph_table_column_definitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#graph_table_column_definition}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraph_table_column_definition(PostgreSQLParser.Graph_table_column_definitionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#path_pattern_list}.
+	 * @param ctx the parse tree
+	 */
+	void enterPath_pattern_list(PostgreSQLParser.Path_pattern_listContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#path_pattern_list}.
+	 * @param ctx the parse tree
+	 */
+	void exitPath_pattern_list(PostgreSQLParser.Path_pattern_listContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#path_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void enterPath_pattern(PostgreSQLParser.Path_patternContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#path_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void exitPath_pattern(PostgreSQLParser.Path_patternContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#path_variable}.
+	 * @param ctx the parse tree
+	 */
+	void enterPath_variable(PostgreSQLParser.Path_variableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#path_variable}.
+	 * @param ctx the parse tree
+	 */
+	void exitPath_variable(PostgreSQLParser.Path_variableContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PostgreSQLParser#opt_ordinality}.
 	 * @param ctx the parse tree
 	 */
