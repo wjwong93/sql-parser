@@ -5,15 +5,9 @@ antlr4 -visitor -o ../src PostgreSQLLexer.g4
 antlr4 -visitor -o ../src PostgreSQLParser.g4
 
 cd ../src
-if [ -f "*.tokens" ]
-then
-  rm *.tokens
-fi
+rm *.tokens
+rm *.interp
 
-if [ -f "*.interp" ]
-then
-  rm *.interp
-fi
 
 cd ..
 javac -cp /usr/local/lib/antlr-4.13.1-complete.jar -d out/production/sql_parser_2 src/*.java

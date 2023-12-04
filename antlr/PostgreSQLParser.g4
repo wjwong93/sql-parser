@@ -3298,11 +3298,51 @@ path_pattern_list
     ;
 
 path_pattern
-    : PathPatternStringConstant
+    : path_factor (path_factor)*
+//    | PathPatternStringConstant
     ;
 
-path_variable
-    : identifier
+path_factor
+    : path_primary
+    | path_primary QUESTION_MARK
+    ;
+
+path_primary
+    : vertex_pattern
+    | edge_pattern
+    ;
+
+element_pattern_filler
+    : identifier (IS identifier)?
+    ;
+
+vertex_pattern
+    : OPEN_PAREN element_pattern_filler CLOSE_PAREN
+    ;
+
+edge_pattern
+    : full_edge_pattern
+    | abbreviated_edge_pattern
+    ;
+
+full_edge_pattern
+    : LEFT_ARROW_BRACKET element_pattern_filler RIGHT_BRACKET_MINUS
+    | TILDE_LEFT_BRACKET element_pattern_filler RIGHT_BRACKET_TILDE
+    | MINUS_LEFT_BRACKET element_pattern_filler BRACKET_RIGHT_ARROW
+    | LEFT_ARROW_TILDE_BRACKET element_pattern_filler RIGHT_BRACKET_TILDE
+    | TILDE_LEFT_BRACKET element_pattern_filler BRACKET_TILDE_RIGHT_ARROW
+    | LEFT_ARROW_BRACKET element_pattern_filler BRACKET_RIGHT_ARROW
+    | MINUS_LEFT_BRACKET element_pattern_filler RIGHT_BRACKET_MINUS
+    ;
+
+abbreviated_edge_pattern
+    : LEFT_ARROW
+    | TILDE
+    | RIGHT_ARROW
+    | LEFT_ARROW_TILDE
+    | TILDE_RIGHT_ARROW
+    | LEFT_MINUS_RIGHT
+    | MINUS
     ;
 
 //TODO WITH_LA was used

@@ -5549,15 +5549,75 @@ public interface PostgreSQLParserListener extends ParseTreeListener {
 	 */
 	void exitPath_pattern(PostgreSQLParser.Path_patternContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PostgreSQLParser#path_variable}.
+	 * Enter a parse tree produced by {@link PostgreSQLParser#path_factor}.
 	 * @param ctx the parse tree
 	 */
-	void enterPath_variable(PostgreSQLParser.Path_variableContext ctx);
+	void enterPath_factor(PostgreSQLParser.Path_factorContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PostgreSQLParser#path_variable}.
+	 * Exit a parse tree produced by {@link PostgreSQLParser#path_factor}.
 	 * @param ctx the parse tree
 	 */
-	void exitPath_variable(PostgreSQLParser.Path_variableContext ctx);
+	void exitPath_factor(PostgreSQLParser.Path_factorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#path_primary}.
+	 * @param ctx the parse tree
+	 */
+	void enterPath_primary(PostgreSQLParser.Path_primaryContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#path_primary}.
+	 * @param ctx the parse tree
+	 */
+	void exitPath_primary(PostgreSQLParser.Path_primaryContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#element_pattern_filler}.
+	 * @param ctx the parse tree
+	 */
+	void enterElement_pattern_filler(PostgreSQLParser.Element_pattern_fillerContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#element_pattern_filler}.
+	 * @param ctx the parse tree
+	 */
+	void exitElement_pattern_filler(PostgreSQLParser.Element_pattern_fillerContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#vertex_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void enterVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#vertex_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void exitVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#edge_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void enterEdge_pattern(PostgreSQLParser.Edge_patternContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#edge_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void exitEdge_pattern(PostgreSQLParser.Edge_patternContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#full_edge_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void enterFull_edge_pattern(PostgreSQLParser.Full_edge_patternContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#full_edge_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void exitFull_edge_pattern(PostgreSQLParser.Full_edge_patternContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#abbreviated_edge_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void enterAbbreviated_edge_pattern(PostgreSQLParser.Abbreviated_edge_patternContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#abbreviated_edge_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void exitAbbreviated_edge_pattern(PostgreSQLParser.Abbreviated_edge_patternContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PostgreSQLParser#opt_ordinality}.
 	 * @param ctx the parse tree
