@@ -1,0 +1,9 @@
+#! /bin/bash
+
+cd antlr
+antlr4 -visitor -o ../src PostgreSQLLexer.g4
+antlr4 -visitor -o ../src PostgreSQLParser.g4
+
+cd ../src
+rm *.tokens
+rm *.interp
