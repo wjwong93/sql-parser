@@ -3180,6 +3180,7 @@ non_ansi_join
 table_ref
     : (
         relation_expr opt_alias_clause tablesample_clause?
+        | graph_table opt_alias_clause
         | func_table func_alias_clause
         | xmltable opt_alias_clause
         | select_with_parens opt_alias_clause
@@ -3266,6 +3267,42 @@ rowsfrom_list
 opt_col_def_list
     : AS OPEN_PAREN tablefuncelementlist CLOSE_PAREN
     |
+    ;
+
+graph_table
+    : GRAPH_TABLE OPEN_PAREN graph_reference MATCH graph_pattern graph_table_shape CLOSE_PAREN
+    ;
+
+graph_reference
+    : identifier
+    ;
+
+graph_pattern
+    : path_pattern_list where_clause
+    ;
+
+graph_table_shape
+    : graph_table_columns_clause
+    ;
+
+graph_table_columns_clause
+    : COLUMNS OPEN_PAREN graph_table_column_definition (COMMA graph_table_column_definition)* CLOSE_PAREN
+    ;
+
+graph_table_column_definition
+    : identifier DOT identifier (AS identifier)?
+    ;
+
+path_pattern_list
+    : path_pattern (COMMA path_pattern)*
+    ;
+
+path_pattern
+    : PathPatternStringConstant
+    ;
+
+path_variable
+    : identifier
     ;
 
 //TODO WITH_LA was used

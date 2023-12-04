@@ -250,6 +250,8 @@ FROM: 'FROM';
 
 GRANT: 'GRANT';
 
+GRAPH_TABLE: 'GRAPH_TABLE';
+
 GROUP_P: 'GROUP';
 
 HAVING: 'HAVING';
@@ -1477,6 +1479,9 @@ InvalidUnterminatedUnicodeQuotedIdentifier: 'U' '&' InvalidUnterminatedQuotedIde
 //
 
 // String Constants (4.1.2.1)
+
+// TEMP
+PathPatternStringConstant: '(cust1 IS Customer)-[e1]->(movie IS Movie)<-[e2](cust2 IS Customer)';
 
 StringConstant: UnterminatedStringConstant '\'';
 

@@ -15,7 +15,17 @@ public class SQLParser {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         PostgreSQLParser parser = new PostgreSQLParser(tokens);
         ParseTree tree = parser.root();
-        System.out.println(tree.toStringTree(parser));
+
+// Visitor method
+//        EvalVisitor eval = new EvalVisitor();
+//        eval.setSourceFile(inputFile);
+//        eval.visit(tree);
+
+//    Listener method
+        ParseTreeWalker walker = new ParseTreeWalker();
+        SQLParserListener cypherExtractor = new SQLParserListener();
+        cypherExtractor.setSourceString(inputFile);
+        walker.walk(cypherExtractor, tree);
 
     }
 }
