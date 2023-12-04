@@ -3336,11 +3336,47 @@ public interface PostgreSQLParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPath_pattern(PostgreSQLParser.Path_patternContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PostgreSQLParser#path_variable}.
+	 * Visit a parse tree produced by {@link PostgreSQLParser#path_factor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPath_variable(PostgreSQLParser.Path_variableContext ctx);
+	T visitPath_factor(PostgreSQLParser.Path_factorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#path_primary}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPath_primary(PostgreSQLParser.Path_primaryContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#element_pattern_filler}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElement_pattern_filler(PostgreSQLParser.Element_pattern_fillerContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#vertex_pattern}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#edge_pattern}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEdge_pattern(PostgreSQLParser.Edge_patternContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#full_edge_pattern}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFull_edge_pattern(PostgreSQLParser.Full_edge_patternContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#abbreviated_edge_pattern}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAbbreviated_edge_pattern(PostgreSQLParser.Abbreviated_edge_patternContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PostgreSQLParser#opt_ordinality}.
 	 * @param ctx the parse tree

@@ -114,6 +114,33 @@ TYPECAST: '::';
 
 PERCENT: '%';
 
+// For PGQ
+QUESTION_MARK: '\\?';
+TILDE: '~';
+BRACKET_RIGHT_ARROW: ']->';
+BRACKET_TILDE_RIGHT_ARROW: ']~>';
+LEFT_ARROW_BRACKET: '<-[';
+LEFT_ARROW_TILDE_BRACKET: '<~[';
+LEFT_MINUS_RIGHT: '<->';
+LEFT_MINUS_SLASH: '<-/';
+LEFT_TILDE_SLASH: '<~/';
+SLASH_MINUS_RIGHT: '/->';
+SLASH_TILDE_RIGHT: '/~>';
+MULTISET_ALTERNATION_OPERATOR: '|+|';
+LEFT_ARROW: '<-';
+LEFT_ARROW_TILDE: '<~';
+MINUS_LEFT_BRACKET: '-[';
+MINUS_SLASH: '-/';
+RIGHT_ARROW: '->';
+RIGHT_BRACKET_MINUS: ']-';
+RIGHT_BRACKET_TILDE: ']~';
+SLASH_MINUS: '/-';
+SLASH_TILDE: '/~';
+TILDE_LEFT_BRACKET: '~[';
+TILDE_RIGHT_ARROW: '~>';
+TILDE_SLASH: '~/';
+
+
 PARAM: '$' ([0-9])+;
 //
 
@@ -1479,10 +1506,6 @@ InvalidUnterminatedUnicodeQuotedIdentifier: 'U' '&' InvalidUnterminatedQuotedIde
 //
 
 // String Constants (4.1.2.1)
-
-// TEMP
-PathPatternStringConstant: '(cust1 IS Customer)-[e1]->(movie IS Movie)<-[e2](cust2 IS Customer)';
-
 StringConstant: UnterminatedStringConstant '\'';
 
 UnterminatedStringConstant: '\'' ('\'\'' | ~ '\'')*;
