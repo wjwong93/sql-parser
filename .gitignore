@@ -1,3 +1,5 @@
+cypher/
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/

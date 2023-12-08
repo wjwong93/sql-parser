@@ -9,10 +9,43 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
-        int startIndex = ctx.MATCH().getSymbol().getStartIndex();
-        int stopIndex = ctx.graph_pattern().getStop().getStopIndex();
+        System.out.print("MATCH ");
+    }
+
+    @Override
+    public void exitGraph_pattern(PostgreSQLParser.Graph_patternContext ctx) {
+        System.out.println();
+
+        int startIndex = ctx.where_clause().getStart().getStartIndex();
+        int stopIndex = ctx.getStop().getStopIndex();
 
         System.out.println(sourceString.substring(startIndex, stopIndex+1).replaceAll("\\t+", " "));
+    }
+
+    @Override
+    public void enterVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx) {
+        System.out.print("(");
+    }
+    @Override
+    public void exitVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx) {
+        System.out.print(")");
+    }
+    @Override
+    public void enterFull_edge_pattern(PostgreSQLParser.Full_edge_patternContext ctx) {
+        System.out.print(ctx.getStart().getText());
+    }
+    @Override
+    public void exitFull_edge_pattern(PostgreSQLParser.Full_edge_patternContext ctx) {
+        System.out.print(ctx.getStop().getText());
+    }
+
+    @Override
+    public void enterElement_pattern_filler(PostgreSQLParser.Element_pattern_fillerContext ctx) {
+        System.out.print(ctx.identifier(0).Identifier().getText());
+        if (ctx.IS() != null) {
+            System.out.print(":");
+            System.out.print(ctx.identifier(1).Identifier().getText());
+        }
     }
 
     @Override
