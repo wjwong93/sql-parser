@@ -5,53 +5,55 @@ import java.util.List;
 
 public class SQLParserListener extends PostgreSQLParserBaseListener{
     private String sourceString;
+    private StringBuilder result = new StringBuilder();
     private List<String> graphTableColumns;
 
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
-        System.out.print("MATCH ");
+        result.append("MATCH ");
     }
 
     @Override
     public void exitGraph_pattern(PostgreSQLParser.Graph_patternContext ctx) {
-        System.out.println();
+        result.append("\n");
 
         int startIndex = ctx.where_clause().getStart().getStartIndex();
         int stopIndex = ctx.getStop().getStopIndex();
 
-        System.out.println(sourceString.substring(startIndex, stopIndex+1).replaceAll("\\t+", " "));
+        result.append(sourceString.substring(startIndex, stopIndex+1).replaceAll("\\s+", " "));
+        result.append("\n");
     }
 
     @Override
     public void enterVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx) {
-        System.out.print("(");
+        result.append("(");
     }
     @Override
     public void exitVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx) {
-        System.out.print(")");
+        result.append(")");
     }
     @Override
     public void enterFull_edge_pattern(PostgreSQLParser.Full_edge_patternContext ctx) {
-        System.out.print(ctx.getStart().getText());
+        result.append(ctx.getStart().getText());
     }
     @Override
     public void exitFull_edge_pattern(PostgreSQLParser.Full_edge_patternContext ctx) {
-        System.out.print(ctx.getStop().getText());
+        result.append(ctx.getStop().getText());
     }
 
     @Override
     public void enterElement_pattern_filler(PostgreSQLParser.Element_pattern_fillerContext ctx) {
-        System.out.print(ctx.identifier(0).Identifier().getText());
+        result.append(ctx.identifier(0).Identifier().getText());
         if (ctx.IS() != null) {
-            System.out.print(":");
-            System.out.print(ctx.identifier(1).Identifier().getText());
+            result.append(":");
+            result.append(ctx.identifier(1).Identifier().getText());
         }
     }
 
     @Override
     public void enterGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx) {
         graphTableColumns = new ArrayList<>();
-        System.out.print("RETURN ");
+        result.append("RETURN ");
     }
 
     @Override
@@ -71,10 +73,14 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void exitGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx) {
-        System.out.println(String.join(", ", graphTableColumns));
+        result.append(String.join(", ", graphTableColumns));
     }
 
     public void setSourceString(String filepath) throws Exception {
         sourceString = Files.readString(Path.of(filepath));
+    }
+
+    public String getResult() {
+        return result.toString();
     }
 }
