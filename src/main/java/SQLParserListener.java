@@ -9,14 +9,13 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     private String sourceString;
     final private StringBuilder result = new StringBuilder();
     private List<String> graphTableColumns;
+    private List<String> pathPatterns;
 
-
-    @Override
-    public void enterWhere_clause(PostgreSQLParser.Where_clauseContext ctx) {}
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
         result.append(ctx.MATCH().getText()).append(" ");
     }
+
     @Override
     public void exitGraph_pattern(PostgreSQLParser.Graph_patternContext ctx) {
         result.append("\n");
@@ -28,62 +27,78 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
         result.append("\n");
     }
     @Override
+    public void enterPath_pattern_list(PostgreSQLParser.Path_pattern_listContext ctx) {
+        pathPatterns = new ArrayList<>();
+    }
+    @Override
+    public void exitPath_pattern_list(PostgreSQLParser.Path_pattern_listContext ctx) {
+        result.append(String.join(", ", pathPatterns));
+    }
+    @Override
+    public void enterPath_pattern(PostgreSQLParser.Path_patternContext ctx) {
+        pathPatterns.add("");
+    }
+    @Override
     public void enterVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx) {
-        result.append(ctx.OPEN_PAREN().getText());
+        int n = pathPatterns.size();
+        pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.OPEN_PAREN().getText());
     }
     @Override
     public void exitVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx) {
-        result.append(ctx.CLOSE_PAREN().getText());
+        int n = pathPatterns.size();
+        pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.CLOSE_PAREN().getText());
     }
     @Override
     public void enterEdge_pattern(PostgreSQLParser.Edge_patternContext ctx) {
+        int n = pathPatterns.size();
         if (ctx.full_edge_pattern() != null)
-            result.append(ctx.full_edge_pattern().getStart().getText());
+            pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.full_edge_pattern().getStart().getText());
         else if (ctx.abbreviated_edge_pattern() != null)
-            result.append(ctx.abbreviated_edge_pattern().getText());
+            pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.abbreviated_edge_pattern().getText());
+
     }
     @Override
     public void exitEdge_pattern(PostgreSQLParser.Edge_patternContext ctx) {
+        int n = pathPatterns.size();
         if (ctx.full_edge_pattern() != null)
-            result.append(ctx.full_edge_pattern().getStop().getText());
+            pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.full_edge_pattern().getStop().getText());
+
     }
 
     @Override
     public void enterElement_pattern_filler(PostgreSQLParser.Element_pattern_fillerContext ctx) {
+        int n = pathPatterns.size();
         if (ctx.identifier(0) != null) {
-            result.append(ctx.identifier(0).Identifier().getText());
+            pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.identifier(0).Identifier().getText());
             if (ctx.IS() != null) {
-                result.append(":");
-                result.append(ctx.identifier(1).Identifier().getText());
+                pathPatterns.set(n-1, pathPatterns.get(n-1) + ":" + ctx.identifier(1).Identifier().getText());
             }
         }
     }
 
     @Override
     public void enterQuantified_path_primary(PostgreSQLParser.Quantified_path_primaryContext ctx) {
-        result.append(ctx.full_edge_pattern().getStart().getText());
+        int n = pathPatterns.size();
+        pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.full_edge_pattern().getStart().getText());
     }
     @Override
     public void exitQuantified_path_primary(PostgreSQLParser.Quantified_path_primaryContext ctx) {
-        result.append(ctx.full_edge_pattern().getStop().getText());
+        int n = pathPatterns.size();
+        pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.full_edge_pattern().getStop().getText());
     }
     @Override
     public void enterGraph_pattern_quantifier(PostgreSQLParser.Graph_pattern_quantifierContext ctx) {
+        int n = pathPatterns.size();
         if (ctx.STAR() != null) {
-            result.append("*0..");
+            pathPatterns.set(n-1, pathPatterns.get(n-1) + "*0..");
         } else if (ctx.PLUS() != null) {
-            result.append("*");
+            pathPatterns.set(n-1, pathPatterns.get(n-1) + "*");
         } else if (ctx.COMMA() != null) {
             // General Quantifier
-            result
-                .append("*")
-                .append(ctx.Integral(0).getText())
-                .append("..")
-                .append(ctx.Integral(1).getText());
-
+            pathPatterns.set(n-1, pathPatterns.get(n-1) + "*" + ctx.Integral(0).getText() + ".." + ctx.Integral(1).getText());
         } else {
             // Fixed Quantifier
-            result.append("*").append(ctx.Integral(0).getText());
+            pathPatterns.set(n-1, pathPatterns.get(n-1) + "*" + ctx.Integral(0).getText());
         }
     }
 

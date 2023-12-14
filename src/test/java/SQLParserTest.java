@@ -52,4 +52,19 @@ class SQLParserTest {
             System.err.println(e);
         }
     }
+    @Test
+    void yasuda4() {
+        /* あるキーを持つノードに依存しているノードと、新しく計算し直す時に必要なノードの検索
+         */
+        try (
+                FileInputStream inputStream = new FileInputStream("src/test/resources/input/4.sql");
+        ) {
+            assertEquals(
+                    Files.readString(Path.of("src/test/resources/output/4.cypher")).replaceAll("\\s+", " "),
+                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/4.sql").replaceAll("\\s+", " ")
+            );
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
 }

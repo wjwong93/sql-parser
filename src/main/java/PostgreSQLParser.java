@@ -143,13 +143,13 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 		InvalidUnterminatedBinaryStringConstant=680, HexadecimalStringConstant=681, 
 		UnterminatedHexadecimalStringConstant=682, InvalidHexadecimalStringConstant=683, 
 		InvalidUnterminatedHexadecimalStringConstant=684, Integral=685, NumericFail=686, 
-		Numeric=687, PLSQLVARIABLENAME=688, PLSQLIDENTIFIER=689, Whitespace=690, 
-		Newline=691, LineComment=692, BlockComment=693, UnterminatedBlockComment=694, 
-		MetaCommand=695, EndMetaCommand=696, ErrorCharacter=697, EscapeStringConstant=698, 
-		UnterminatedEscapeStringConstant=699, InvalidEscapeStringConstant=700, 
-		InvalidUnterminatedEscapeStringConstant=701, AfterEscapeStringConstantMode_NotContinued=702, 
-		AfterEscapeStringConstantWithNewlineMode_NotContinued=703, DollarText=704, 
-		EndDollarStringConstant=705, AfterEscapeStringConstantWithNewlineMode_Continued=706;
+		Numeric=687, UnsignedInteger=688, PLSQLVARIABLENAME=689, PLSQLIDENTIFIER=690, 
+		Whitespace=691, Newline=692, LineComment=693, BlockComment=694, UnterminatedBlockComment=695, 
+		MetaCommand=696, EndMetaCommand=697, ErrorCharacter=698, EscapeStringConstant=699, 
+		UnterminatedEscapeStringConstant=700, InvalidEscapeStringConstant=701, 
+		InvalidUnterminatedEscapeStringConstant=702, AfterEscapeStringConstantMode_NotContinued=703, 
+		AfterEscapeStringConstantWithNewlineMode_NotContinued=704, DollarText=705, 
+		EndDollarStringConstant=706, AfterEscapeStringConstantWithNewlineMode_Continued=707;
 	public static final int
 		RULE_root = 0, RULE_plsqlroot = 1, RULE_stmtblock = 2, RULE_stmtmulti = 3, 
 		RULE_stmt = 4, RULE_plsqlconsolecommand = 5, RULE_callstmt = 6, RULE_createrolestmt = 7, 
@@ -740,8 +740,8 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 			"'TO_DATE'", "'TO_NUMBER'", null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, "'\\\\'", null, null, null, null, null, null, null, null, 
-			null, "'''"
+			null, null, null, "'\\\\'", null, null, null, null, null, null, null, 
+			null, null, "'''"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -857,12 +857,13 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 			"InvalidBinaryStringConstant", "InvalidUnterminatedBinaryStringConstant", 
 			"HexadecimalStringConstant", "UnterminatedHexadecimalStringConstant", 
 			"InvalidHexadecimalStringConstant", "InvalidUnterminatedHexadecimalStringConstant", 
-			"Integral", "NumericFail", "Numeric", "PLSQLVARIABLENAME", "PLSQLIDENTIFIER", 
-			"Whitespace", "Newline", "LineComment", "BlockComment", "UnterminatedBlockComment", 
-			"MetaCommand", "EndMetaCommand", "ErrorCharacter", "EscapeStringConstant", 
-			"UnterminatedEscapeStringConstant", "InvalidEscapeStringConstant", "InvalidUnterminatedEscapeStringConstant", 
-			"AfterEscapeStringConstantMode_NotContinued", "AfterEscapeStringConstantWithNewlineMode_NotContinued", 
-			"DollarText", "EndDollarStringConstant", "AfterEscapeStringConstantWithNewlineMode_Continued"
+			"Integral", "NumericFail", "Numeric", "UnsignedInteger", "PLSQLVARIABLENAME", 
+			"PLSQLIDENTIFIER", "Whitespace", "Newline", "LineComment", "BlockComment", 
+			"UnterminatedBlockComment", "MetaCommand", "EndMetaCommand", "ErrorCharacter", 
+			"EscapeStringConstant", "UnterminatedEscapeStringConstant", "InvalidEscapeStringConstant", 
+			"InvalidUnterminatedEscapeStringConstant", "AfterEscapeStringConstantMode_NotContinued", 
+			"AfterEscapeStringConstantWithNewlineMode_NotContinued", "DollarText", 
+			"EndDollarStringConstant", "AfterEscapeStringConstantWithNewlineMode_Continued"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -39693,7 +39694,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 			setState(5422);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921573612592133L) != 0) || ((((_la - 128)) & ~0x3f) == 0 && ((1L << (_la - 128)) & -31L) != 0) || ((((_la - 192)) & ~0x3f) == 0 && ((1L << (_la - 192)) & -1L) != 0) || ((((_la - 256)) & ~0x3f) == 0 && ((1L << (_la - 256)) & -18874369L) != 0) || ((((_la - 320)) & ~0x3f) == 0 && ((1L << (_la - 320)) & -1L) != 0) || ((((_la - 384)) & ~0x3f) == 0 && ((1L << (_la - 384)) & -1L) != 0) || ((((_la - 448)) & ~0x3f) == 0 && ((1L << (_la - 448)) & -8589934593L) != 0) || ((((_la - 512)) & ~0x3f) == 0 && ((1L << (_la - 512)) & -17181179905L) != 0) || ((((_la - 576)) & ~0x3f) == 0 && ((1L << (_la - 576)) & -1L) != 0) || ((((_la - 640)) & ~0x3f) == 0 && ((1L << (_la - 640)) & 844425232121855L) != 0)) {
+			if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921573612592133L) != 0) || ((((_la - 128)) & ~0x3f) == 0 && ((1L << (_la - 128)) & -31L) != 0) || ((((_la - 192)) & ~0x3f) == 0 && ((1L << (_la - 192)) & -1L) != 0) || ((((_la - 256)) & ~0x3f) == 0 && ((1L << (_la - 256)) & -18874369L) != 0) || ((((_la - 320)) & ~0x3f) == 0 && ((1L << (_la - 320)) & -1L) != 0) || ((((_la - 384)) & ~0x3f) == 0 && ((1L << (_la - 384)) & -1L) != 0) || ((((_la - 448)) & ~0x3f) == 0 && ((1L << (_la - 448)) & -8589934593L) != 0) || ((((_la - 512)) & ~0x3f) == 0 && ((1L << (_la - 512)) & -17181179905L) != 0) || ((((_la - 576)) & ~0x3f) == 0 && ((1L << (_la - 576)) & -1L) != 0) || ((((_la - 640)) & ~0x3f) == 0 && ((1L << (_la - 640)) & 1688850162253823L) != 0)) {
 				{
 				setState(5421);
 				func_args_list();
@@ -39981,7 +39982,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 			setState(5454);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921573612592133L) != 0) || ((((_la - 128)) & ~0x3f) == 0 && ((1L << (_la - 128)) & -31L) != 0) || ((((_la - 192)) & ~0x3f) == 0 && ((1L << (_la - 192)) & -1L) != 0) || ((((_la - 256)) & ~0x3f) == 0 && ((1L << (_la - 256)) & -18874369L) != 0) || ((((_la - 320)) & ~0x3f) == 0 && ((1L << (_la - 320)) & -1L) != 0) || ((((_la - 384)) & ~0x3f) == 0 && ((1L << (_la - 384)) & -1L) != 0) || ((((_la - 448)) & ~0x3f) == 0 && ((1L << (_la - 448)) & -8589934593L) != 0) || ((((_la - 512)) & ~0x3f) == 0 && ((1L << (_la - 512)) & -17181179905L) != 0) || ((((_la - 576)) & ~0x3f) == 0 && ((1L << (_la - 576)) & -1L) != 0) || ((((_la - 640)) & ~0x3f) == 0 && ((1L << (_la - 640)) & 844425232121855L) != 0)) {
+			if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921573612592133L) != 0) || ((((_la - 128)) & ~0x3f) == 0 && ((1L << (_la - 128)) & -31L) != 0) || ((((_la - 192)) & ~0x3f) == 0 && ((1L << (_la - 192)) & -1L) != 0) || ((((_la - 256)) & ~0x3f) == 0 && ((1L << (_la - 256)) & -18874369L) != 0) || ((((_la - 320)) & ~0x3f) == 0 && ((1L << (_la - 320)) & -1L) != 0) || ((((_la - 384)) & ~0x3f) == 0 && ((1L << (_la - 384)) & -1L) != 0) || ((((_la - 448)) & ~0x3f) == 0 && ((1L << (_la - 448)) & -8589934593L) != 0) || ((((_la - 512)) & ~0x3f) == 0 && ((1L << (_la - 512)) & -17181179905L) != 0) || ((((_la - 576)) & ~0x3f) == 0 && ((1L << (_la - 576)) & -1L) != 0) || ((((_la - 640)) & ~0x3f) == 0 && ((1L << (_la - 640)) & 1688850162253823L) != 0)) {
 				{
 				setState(5453);
 				func_args_with_defaults_list();
@@ -43310,7 +43311,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 			setState(5754);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921504893115397L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & -6775L) != 0) || ((((_la - 207)) & ~0x3f) == 0 && ((1L << (_la - 207)) & -1L) != 0) || ((((_la - 271)) & ~0x3f) == 0 && ((1L << (_la - 271)) & -577L) != 0) || ((((_la - 335)) & ~0x3f) == 0 && ((1L << (_la - 335)) & -1L) != 0) || ((((_la - 399)) & ~0x3f) == 0 && ((1L << (_la - 399)) & -1L) != 0) || ((((_la - 463)) & ~0x3f) == 0 && ((1L << (_la - 463)) & -68719738881L) != 0) || ((((_la - 527)) & ~0x3f) == 0 && ((1L << (_la - 527)) & -524329L) != 0) || ((((_la - 591)) & ~0x3f) == 0 && ((1L << (_la - 591)) & -1L) != 0) || ((((_la - 655)) & ~0x3f) == 0 && ((1L << (_la - 655)) & 25769812991L) != 0)) {
+			while (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921504893115397L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & -6775L) != 0) || ((((_la - 207)) & ~0x3f) == 0 && ((1L << (_la - 207)) & -1L) != 0) || ((((_la - 271)) & ~0x3f) == 0 && ((1L << (_la - 271)) & -577L) != 0) || ((((_la - 335)) & ~0x3f) == 0 && ((1L << (_la - 335)) & -1L) != 0) || ((((_la - 399)) & ~0x3f) == 0 && ((1L << (_la - 399)) & -1L) != 0) || ((((_la - 463)) & ~0x3f) == 0 && ((1L << (_la - 463)) & -68719738881L) != 0) || ((((_la - 527)) & ~0x3f) == 0 && ((1L << (_la - 527)) & -524329L) != 0) || ((((_la - 591)) & ~0x3f) == 0 && ((1L << (_la - 591)) & -1L) != 0) || ((((_la - 655)) & ~0x3f) == 0 && ((1L << (_la - 655)) & 51539616767L) != 0)) {
 				{
 				{
 				setState(5749);
@@ -43552,7 +43553,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 				setState(5776); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==LANGUAGE || ((((_la - 672)) & ~0x3f) == 0 && ((1L << (_la - 672)) & 67108885L) != 0) );
+			} while ( _la==LANGUAGE || ((((_la - 672)) & ~0x3f) == 0 && ((1L << (_la - 672)) & 134217749L) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -59903,7 +59904,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 			setState(7778);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921504893115405L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & -6775L) != 0) || ((((_la - 207)) & ~0x3f) == 0 && ((1L << (_la - 207)) & -1L) != 0) || ((((_la - 271)) & ~0x3f) == 0 && ((1L << (_la - 271)) & -577L) != 0) || ((((_la - 335)) & ~0x3f) == 0 && ((1L << (_la - 335)) & -1L) != 0) || ((((_la - 399)) & ~0x3f) == 0 && ((1L << (_la - 399)) & -1L) != 0) || ((((_la - 463)) & ~0x3f) == 0 && ((1L << (_la - 463)) & -68719738881L) != 0) || ((((_la - 527)) & ~0x3f) == 0 && ((1L << (_la - 527)) & -524329L) != 0) || ((((_la - 591)) & ~0x3f) == 0 && ((1L << (_la - 591)) & -1L) != 0) || ((((_la - 655)) & ~0x3f) == 0 && ((1L << (_la - 655)) & 25769812991L) != 0)) {
+			if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921504893115405L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & -6775L) != 0) || ((((_la - 207)) & ~0x3f) == 0 && ((1L << (_la - 207)) & -1L) != 0) || ((((_la - 271)) & ~0x3f) == 0 && ((1L << (_la - 271)) & -577L) != 0) || ((((_la - 335)) & ~0x3f) == 0 && ((1L << (_la - 335)) & -1L) != 0) || ((((_la - 399)) & ~0x3f) == 0 && ((1L << (_la - 399)) & -1L) != 0) || ((((_la - 463)) & ~0x3f) == 0 && ((1L << (_la - 463)) & -68719738881L) != 0) || ((((_la - 527)) & ~0x3f) == 0 && ((1L << (_la - 527)) & -524329L) != 0) || ((((_la - 591)) & ~0x3f) == 0 && ((1L << (_la - 591)) & -1L) != 0) || ((((_la - 655)) & ~0x3f) == 0 && ((1L << (_la - 655)) & 51539616767L) != 0)) {
 				{
 				setState(7777);
 				alias_clause();
@@ -60451,7 +60452,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 			setState(7786);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921504893115405L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & -6775L) != 0) || ((((_la - 207)) & ~0x3f) == 0 && ((1L << (_la - 207)) & -1L) != 0) || ((((_la - 271)) & ~0x3f) == 0 && ((1L << (_la - 271)) & -577L) != 0) || ((((_la - 335)) & ~0x3f) == 0 && ((1L << (_la - 335)) & -1L) != 0) || ((((_la - 399)) & ~0x3f) == 0 && ((1L << (_la - 399)) & -1L) != 0) || ((((_la - 463)) & ~0x3f) == 0 && ((1L << (_la - 463)) & -68719738881L) != 0) || ((((_la - 527)) & ~0x3f) == 0 && ((1L << (_la - 527)) & -524329L) != 0) || ((((_la - 591)) & ~0x3f) == 0 && ((1L << (_la - 591)) & -1L) != 0) || ((((_la - 655)) & ~0x3f) == 0 && ((1L << (_la - 655)) & 25769812991L) != 0)) {
+			if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921504893115405L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & -6775L) != 0) || ((((_la - 207)) & ~0x3f) == 0 && ((1L << (_la - 207)) & -1L) != 0) || ((((_la - 271)) & ~0x3f) == 0 && ((1L << (_la - 271)) & -577L) != 0) || ((((_la - 335)) & ~0x3f) == 0 && ((1L << (_la - 335)) & -1L) != 0) || ((((_la - 399)) & ~0x3f) == 0 && ((1L << (_la - 399)) & -1L) != 0) || ((((_la - 463)) & ~0x3f) == 0 && ((1L << (_la - 463)) & -68719738881L) != 0) || ((((_la - 527)) & ~0x3f) == 0 && ((1L << (_la - 527)) & -524329L) != 0) || ((((_la - 591)) & ~0x3f) == 0 && ((1L << (_la - 591)) & -1L) != 0) || ((((_la - 655)) & ~0x3f) == 0 && ((1L << (_la - 655)) & 51539616767L) != 0)) {
 				{
 				setState(7785);
 				alias_clause();
@@ -69640,7 +69641,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 					setState(8433);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-					if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921504893115397L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & -6775L) != 0) || ((((_la - 207)) & ~0x3f) == 0 && ((1L << (_la - 207)) & -1L) != 0) || ((((_la - 271)) & ~0x3f) == 0 && ((1L << (_la - 271)) & -577L) != 0) || ((((_la - 335)) & ~0x3f) == 0 && ((1L << (_la - 335)) & -1L) != 0) || ((((_la - 399)) & ~0x3f) == 0 && ((1L << (_la - 399)) & -1L) != 0) || ((((_la - 463)) & ~0x3f) == 0 && ((1L << (_la - 463)) & -68719738881L) != 0) || ((((_la - 527)) & ~0x3f) == 0 && ((1L << (_la - 527)) & -524329L) != 0) || ((((_la - 591)) & ~0x3f) == 0 && ((1L << (_la - 591)) & -1L) != 0) || ((((_la - 655)) & ~0x3f) == 0 && ((1L << (_la - 655)) & 25769812991L) != 0)) {
+					if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1152921504893115397L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & -6775L) != 0) || ((((_la - 207)) & ~0x3f) == 0 && ((1L << (_la - 207)) & -1L) != 0) || ((((_la - 271)) & ~0x3f) == 0 && ((1L << (_la - 271)) & -577L) != 0) || ((((_la - 335)) & ~0x3f) == 0 && ((1L << (_la - 335)) & -1L) != 0) || ((((_la - 399)) & ~0x3f) == 0 && ((1L << (_la - 399)) & -1L) != 0) || ((((_la - 463)) & ~0x3f) == 0 && ((1L << (_la - 463)) & -68719738881L) != 0) || ((((_la - 527)) & ~0x3f) == 0 && ((1L << (_la - 527)) & -524329L) != 0) || ((((_la - 591)) & ~0x3f) == 0 && ((1L << (_la - 591)) & -1L) != 0) || ((((_la - 655)) & ~0x3f) == 0 && ((1L << (_la - 655)) & 51539616767L) != 0)) {
 						{
 						setState(8432);
 						colid();
@@ -75148,7 +75149,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 				setState(8730);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1153027058009381893L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & 74346914954363009L) != 0) || ((((_la - 234)) & ~0x3f) == 0 && ((1L << (_la - 234)) & 56295003965620233L) != 0) || ((((_la - 299)) & ~0x3f) == 0 && ((1L << (_la - 299)) & 18068292027564033L) != 0) || _la==TYPE_P || ((((_la - 460)) & ~0x3f) == 0 && ((1L << (_la - 460)) & -144097595889811453L) != 0) || ((((_la - 524)) & ~0x3f) == 0 && ((1L << (_la - 524)) & 12516927L) != 0) || ((((_la - 663)) & ~0x3f) == 0 && ((1L << (_la - 663)) & 100663331L) != 0)) {
+				if (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1153027058009381893L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & 74346914954363009L) != 0) || ((((_la - 234)) & ~0x3f) == 0 && ((1L << (_la - 234)) & 56295003965620233L) != 0) || ((((_la - 299)) & ~0x3f) == 0 && ((1L << (_la - 299)) & 18068292027564033L) != 0) || _la==TYPE_P || ((((_la - 460)) & ~0x3f) == 0 && ((1L << (_la - 460)) & -144097595889811453L) != 0) || ((((_la - 524)) & ~0x3f) == 0 && ((1L << (_la - 524)) & 12516927L) != 0) || ((((_la - 663)) & ~0x3f) == 0 && ((1L << (_la - 663)) & 201326627L) != 0)) {
 					{
 					setState(8729);
 					xmltable_column_option_list();
@@ -75228,7 +75229,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 				setState(8739); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( ((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1153027058009381893L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & 74346914954363009L) != 0) || ((((_la - 234)) & ~0x3f) == 0 && ((1L << (_la - 234)) & 56295003965620233L) != 0) || ((((_la - 299)) & ~0x3f) == 0 && ((1L << (_la - 299)) & 18068292027564033L) != 0) || _la==TYPE_P || ((((_la - 460)) & ~0x3f) == 0 && ((1L << (_la - 460)) & -144097595889811453L) != 0) || ((((_la - 524)) & ~0x3f) == 0 && ((1L << (_la - 524)) & 12516927L) != 0) || ((((_la - 663)) & ~0x3f) == 0 && ((1L << (_la - 663)) & 100663331L) != 0) );
+			} while ( ((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & 1153027058009381893L) != 0) || ((((_la - 143)) & ~0x3f) == 0 && ((1L << (_la - 143)) & 74346914954363009L) != 0) || ((((_la - 234)) & ~0x3f) == 0 && ((1L << (_la - 234)) & 56295003965620233L) != 0) || ((((_la - 299)) & ~0x3f) == 0 && ((1L << (_la - 299)) & 18068292027564033L) != 0) || _la==TYPE_P || ((((_la - 460)) & ~0x3f) == 0 && ((1L << (_la - 460)) & -144097595889811453L) != 0) || ((((_la - 524)) & ~0x3f) == 0 && ((1L << (_la - 524)) & 12516927L) != 0) || ((((_la - 663)) & ~0x3f) == 0 && ((1L << (_la - 663)) & 201326627L) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -83727,7 +83728,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 				setState(9620);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2936346957045612548L) != 0) || ((((_la - 66)) & ~0x3f) == 0 && ((1L << (_la - 66)) & 1883631574943154107L) != 0) || ((((_la - 133)) & ~0x3f) == 0 && ((1L << (_la - 133)) & -1L) != 0) || ((((_la - 197)) & ~0x3f) == 0 && ((1L << (_la - 197)) & -1L) != 0) || ((((_la - 261)) & ~0x3f) == 0 && ((1L << (_la - 261)) & -589825L) != 0) || ((((_la - 325)) & ~0x3f) == 0 && ((1L << (_la - 325)) & -1L) != 0) || ((((_la - 389)) & ~0x3f) == 0 && ((1L << (_la - 389)) & -1L) != 0) || ((((_la - 453)) & ~0x3f) == 0 && ((1L << (_la - 453)) & -268435457L) != 0) || ((((_la - 517)) & ~0x3f) == 0 && ((1L << (_la - 517)) & -536911873L) != 0) || ((((_la - 581)) & ~0x3f) == 0 && ((1L << (_la - 581)) & -1L) != 0) || ((((_la - 645)) & ~0x3f) == 0 && ((1L << (_la - 645)) & 9039160934399999L) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2936346957045612548L) != 0) || ((((_la - 66)) & ~0x3f) == 0 && ((1L << (_la - 66)) & 1883631574943154107L) != 0) || ((((_la - 133)) & ~0x3f) == 0 && ((1L << (_la - 133)) & -1L) != 0) || ((((_la - 197)) & ~0x3f) == 0 && ((1L << (_la - 197)) & -1L) != 0) || ((((_la - 261)) & ~0x3f) == 0 && ((1L << (_la - 261)) & -589825L) != 0) || ((((_la - 325)) & ~0x3f) == 0 && ((1L << (_la - 325)) & -1L) != 0) || ((((_la - 389)) & ~0x3f) == 0 && ((1L << (_la - 389)) & -1L) != 0) || ((((_la - 453)) & ~0x3f) == 0 && ((1L << (_la - 453)) & -268435457L) != 0) || ((((_la - 517)) & ~0x3f) == 0 && ((1L << (_la - 517)) & -536911873L) != 0) || ((((_la - 581)) & ~0x3f) == 0 && ((1L << (_la - 581)) & -1L) != 0) || ((((_la - 645)) & ~0x3f) == 0 && ((1L << (_la - 645)) & 18072748468207615L) != 0)) {
 					{
 					setState(9619);
 					expr_list();
@@ -83809,7 +83810,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 			setState(9634);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2936346957045612548L) != 0) || ((((_la - 66)) & ~0x3f) == 0 && ((1L << (_la - 66)) & 1883631574943154107L) != 0) || ((((_la - 133)) & ~0x3f) == 0 && ((1L << (_la - 133)) & -1L) != 0) || ((((_la - 197)) & ~0x3f) == 0 && ((1L << (_la - 197)) & -1L) != 0) || ((((_la - 261)) & ~0x3f) == 0 && ((1L << (_la - 261)) & -589825L) != 0) || ((((_la - 325)) & ~0x3f) == 0 && ((1L << (_la - 325)) & -1L) != 0) || ((((_la - 389)) & ~0x3f) == 0 && ((1L << (_la - 389)) & -1L) != 0) || ((((_la - 453)) & ~0x3f) == 0 && ((1L << (_la - 453)) & -268435457L) != 0) || ((((_la - 517)) & ~0x3f) == 0 && ((1L << (_la - 517)) & -536911873L) != 0) || ((((_la - 581)) & ~0x3f) == 0 && ((1L << (_la - 581)) & -1L) != 0) || ((((_la - 645)) & ~0x3f) == 0 && ((1L << (_la - 645)) & 9039160934399999L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2936346957045612548L) != 0) || ((((_la - 66)) & ~0x3f) == 0 && ((1L << (_la - 66)) & 1883631574943154107L) != 0) || ((((_la - 133)) & ~0x3f) == 0 && ((1L << (_la - 133)) & -1L) != 0) || ((((_la - 197)) & ~0x3f) == 0 && ((1L << (_la - 197)) & -1L) != 0) || ((((_la - 261)) & ~0x3f) == 0 && ((1L << (_la - 261)) & -589825L) != 0) || ((((_la - 325)) & ~0x3f) == 0 && ((1L << (_la - 325)) & -1L) != 0) || ((((_la - 389)) & ~0x3f) == 0 && ((1L << (_la - 389)) & -1L) != 0) || ((((_la - 453)) & ~0x3f) == 0 && ((1L << (_la - 453)) & -268435457L) != 0) || ((((_la - 517)) & ~0x3f) == 0 && ((1L << (_la - 517)) & -536911873L) != 0) || ((((_la - 581)) & ~0x3f) == 0 && ((1L << (_la - 581)) & -1L) != 0) || ((((_la - 645)) & ~0x3f) == 0 && ((1L << (_la - 645)) & 18072748468207615L) != 0)) {
 				{
 				setState(9633);
 				expr_list();
@@ -104974,7 +104975,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 	}
 
 	private static final String _serializedATNSegment0 =
-		"\u0004\u0001\u02c2\u2a6d\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
+		"\u0004\u0001\u02c3\u2a6d\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
 		"\u0002\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004"+
 		"\u0002\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007"+
 		"\u0002\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b"+
@@ -107345,8 +107346,8 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 		"\u0000\u0707\u0701\u0001\u0000\u0000\u0000\u0707\u0702\u0001\u0000\u0000"+
 		"\u0000\u0707\u0703\u0001\u0000\u0000\u0000\u0707\u0704\u0001\u0000\u0000"+
 		"\u0000\u0707\u0705\u0001\u0000\u0000\u0000\u0707\u0706\u0001\u0000\u0000"+
-		"\u0000\u0708\t\u0001\u0000\u0000\u0000\u0709\u070b\u0005\u02b7\u0000\u0000"+
-		"\u070a\u070c\u0005\u02b8\u0000\u0000\u070b\u070a\u0001\u0000\u0000\u0000"+
+		"\u0000\u0708\t\u0001\u0000\u0000\u0000\u0709\u070b\u0005\u02b8\u0000\u0000"+
+		"\u070a\u070c\u0005\u02b9\u0000\u0000\u070b\u070a\u0001\u0000\u0000\u0000"+
 		"\u070b\u070c\u0001\u0000\u0000\u0000\u070c\u000b\u0001\u0000\u0000\u0000"+
 		"\u070d\u070e\u0005\u01cc\u0000\u0000\u070e\u070f\u0003\u04dc\u026e\u0000"+
 		"\u070f\r\u0001\u0000\u0000\u0000\u0710\u0711\u0005H\u0000\u0000\u0711"+
@@ -111565,7 +111566,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 		"\u23ff\u0001\u0000\u0000\u0000\u240b\u2400\u0001\u0000\u0000\u0000\u240b"+
 		"\u2401\u0001\u0000\u0000\u0000\u240b\u2405\u0001\u0000\u0000\u0000\u240b"+
 		"\u2406\u0001\u0000\u0000\u0000\u240b\u2407\u0001\u0000\u0000\u0000\u240c"+
-		"\u04d9\u0001\u0000\u0000\u0000\u240d\u240e\u0005\u02b0\u0000\u0000\u240e"+
+		"\u04d9\u0001\u0000\u0000\u0000\u240d\u240e\u0005\u02b1\u0000\u0000\u240e"+
 		"\u04db\u0001\u0000\u0000\u0000\u240f\u2410\u0003\u0564\u02b2\u0000\u2410"+
 		"\u2423\u0005\u0002\u0000\u0000\u2411\u2415\u0003\u0524\u0292\u0000\u2412"+
 		"\u2413\u0005\b\u0000\u0000\u2413\u2414\u0005\u0080\u0000\u0000\u2414\u2416"+
@@ -112006,11 +112007,11 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 		"\u26ef\u056f\u0001\u0000\u0000\u0000\u26f0\u26f1\u0003\u0572\u02b9\u0000"+
 		"\u26f1\u26f2\u0003\u0574\u02ba\u0000\u26f2\u0571\u0001\u0000\u0000\u0000"+
 		"\u26f3\u26ff\u0005\u02a0\u0000\u0000\u26f4\u26ff\u0005\u02a2\u0000\u0000"+
-		"\u26f5\u26f9\u0005\u02a4\u0000\u0000\u26f6\u26f8\u0005\u02c0\u0000\u0000"+
+		"\u26f5\u26f9\u0005\u02a4\u0000\u0000\u26f6\u26f8\u0005\u02c1\u0000\u0000"+
 		"\u26f7\u26f6\u0001\u0000\u0000\u0000\u26f8\u26fb\u0001\u0000\u0000\u0000"+
 		"\u26f9\u26f7\u0001\u0000\u0000\u0000\u26f9\u26fa\u0001\u0000\u0000\u0000"+
 		"\u26fa\u26fc\u0001\u0000\u0000\u0000\u26fb\u26f9\u0001\u0000\u0000\u0000"+
-		"\u26fc\u26ff\u0005\u02c1\u0000\u0000\u26fd\u26ff\u0005\u02ba\u0000\u0000"+
+		"\u26fc\u26ff\u0005\u02c2\u0000\u0000\u26fd\u26ff\u0005\u02bb\u0000\u0000"+
 		"\u26fe\u26f3\u0001\u0000\u0000\u0000\u26fe\u26f4\u0001\u0000\u0000\u0000"+
 		"\u26fe\u26f5\u0001\u0000\u0000\u0000\u26fe\u26fd\u0001\u0000\u0000\u0000"+
 		"\u26ff\u0573\u0001\u0000\u0000\u0000\u2700\u2701\u0005\u0202\u0000\u0000"+
@@ -112063,7 +112064,7 @@ public class PostgreSQLParser extends PostgreSQLParserBase {
 		"\u0000\u0000\u0000\u2744\u273f\u0001\u0000\u0000\u0000\u2744\u2740\u0001"+
 		"\u0000\u0000\u0000\u2744\u2741\u0001\u0000\u0000\u0000\u2744\u2742\u0001"+
 		"\u0000\u0000\u0000\u2744\u2743\u0001\u0000\u0000\u0000\u2745\u0589\u0001"+
-		"\u0000\u0000\u0000\u2746\u2747\u0005\u02b1\u0000\u0000\u2747\u058b\u0001"+
+		"\u0000\u0000\u0000\u2746\u2747\u0005\u02b2\u0000\u0000\u2747\u058b\u0001"+
 		"\u0000\u0000\u0000\u2748\u2749\u0007=\u0000\u0000\u2749\u058d\u0001\u0000"+
 		"\u0000\u0000\u274a\u277f\u0005\u0197\u0000\u0000\u274b\u277f\u0005\u0198"+
 		"\u0000\u0000\u274c\u277f\u0003\u0490\u0248\u0000\u274d\u277f\u0005\u019a"+
