@@ -6,6 +6,6 @@ FROM GRAPH_TABLE(MovieRentals
 		AND movie.genre = 'Romantic Comedy'
 		AND e2.Date_Rented > e1.Date_Rented
 		AND cust1.Last_Name != cust2.Last_Name
-	COLUMNS	(cust1.Last_Name AS EarlierRenter, cust2.Last_Name AS LaterRenter, e1.Date_Rented)
+	COLUMNS(cust1.Last_Name AS EarlierRenter, cust2.Last_Name AS LaterRenter, e1.Date_Rented)
 )
 ORDER BY Date_Rented;
