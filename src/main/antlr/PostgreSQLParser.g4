@@ -3290,7 +3290,7 @@ graph_table_columns_clause
     ;
 
 graph_table_column_definition
-    : identifier DOT identifier (AS identifier)?
+    : identifier (DOT identifier)? (AS identifier)?
     ;
 
 path_pattern_list
@@ -3299,17 +3299,28 @@ path_pattern_list
 
 path_pattern
     : path_factor (path_factor)*
-//    | PathPatternStringConstant
     ;
 
 path_factor
     : path_primary
     | path_primary QUESTION_MARK
+    | quantified_path_primary
+    ;
+
+quantified_path_primary
+    : full_edge_pattern graph_pattern_quantifier
     ;
 
 path_primary
     : vertex_pattern
     | edge_pattern
+    ;
+
+graph_pattern_quantifier
+    : STAR
+    | PLUS
+    | OPEN_BRACE Integral CLOSE_BRACE
+    | OPEN_BRACE (Integral)? COMMA (Integral)? CLOSE_BRACE
     ;
 
 element_pattern_filler

@@ -3342,11 +3342,23 @@ public interface PostgreSQLParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPath_factor(PostgreSQLParser.Path_factorContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#quantified_path_primary}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuantified_path_primary(PostgreSQLParser.Quantified_path_primaryContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PostgreSQLParser#path_primary}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPath_primary(PostgreSQLParser.Path_primaryContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_pattern_quantifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraph_pattern_quantifier(PostgreSQLParser.Graph_pattern_quantifierContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PostgreSQLParser#element_pattern_filler}.
 	 * @param ctx the parse tree
