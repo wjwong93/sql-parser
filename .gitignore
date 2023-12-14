@@ -1,4 +1,6 @@
 cypher/
+src/main/antlr/*.tokens
+src/main/antlr/*.interp
 
 ### IntelliJ IDEA ###
 out/
