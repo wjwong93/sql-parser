@@ -3325,6 +3325,7 @@ graph_pattern_quantifier
 
 element_pattern_filler
     : identifier (IS identifier)?
+    |
     ;
 
 vertex_pattern

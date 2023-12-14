@@ -50,10 +50,12 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void enterElement_pattern_filler(PostgreSQLParser.Element_pattern_fillerContext ctx) {
-        result.append(ctx.identifier(0).Identifier().getText());
-        if (ctx.IS() != null) {
-            result.append(":");
-            result.append(ctx.identifier(1).Identifier().getText());
+        if (ctx.identifier(0) != null) {
+            result.append(ctx.identifier(0).Identifier().getText());
+            if (ctx.IS() != null) {
+                result.append(":");
+                result.append(ctx.identifier(1).Identifier().getText());
+            }
         }
     }
 
@@ -111,7 +113,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void exitGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx) {
-        result.append(String.join(", ", graphTableColumns));
+        result.append(String.join(", ", graphTableColumns)).append("\n");
     }
 
     public void setSourceString(String filepath) throws Exception {

@@ -4,5 +4,5 @@ FROM GRAPH_TABLE(DependentNodes
         (s)-[r IS dep]->+(n)
     WHERE s.key =~ '.*{key}.*'
         AND n.note = true
-    COLUMNS (s, n)
+    COLUMNS(s, n)
 )
