@@ -1570,6 +1570,8 @@ Numeric:
     | Digits 'E' [+-]? Digits
 ;
 
+UnsignedInteger: Digits;
+
 fragment Digits: [0-9]+;
 
 PLSQLVARIABLENAME: ':' [A-Z_] [A-Z_0-9$]*;
