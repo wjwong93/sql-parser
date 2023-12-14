@@ -69,6 +69,10 @@ OPEN_BRACKET: '[';
 
 CLOSE_BRACKET: ']';
 
+OPEN_BRACE: '{';
+
+CLOSE_BRACE: '}';
+
 COMMA: ',';
 
 SEMI: ';';

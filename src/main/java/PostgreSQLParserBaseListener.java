@@ -6678,6 +6678,18 @@ public class PostgreSQLParserBaseListener implements PostgreSQLParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterQuantified_path_primary(PostgreSQLParser.Quantified_path_primaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQuantified_path_primary(PostgreSQLParser.Quantified_path_primaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPath_primary(PostgreSQLParser.Path_primaryContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -6685,6 +6697,18 @@ public class PostgreSQLParserBaseListener implements PostgreSQLParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPath_primary(PostgreSQLParser.Path_primaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGraph_pattern_quantifier(PostgreSQLParser.Graph_pattern_quantifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGraph_pattern_quantifier(PostgreSQLParser.Graph_pattern_quantifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

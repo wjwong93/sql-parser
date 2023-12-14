@@ -5559,6 +5559,16 @@ public interface PostgreSQLParserListener extends ParseTreeListener {
 	 */
 	void exitPath_factor(PostgreSQLParser.Path_factorContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#quantified_path_primary}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuantified_path_primary(PostgreSQLParser.Quantified_path_primaryContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#quantified_path_primary}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuantified_path_primary(PostgreSQLParser.Quantified_path_primaryContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PostgreSQLParser#path_primary}.
 	 * @param ctx the parse tree
 	 */
@@ -5568,6 +5578,16 @@ public interface PostgreSQLParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPath_primary(PostgreSQLParser.Path_primaryContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_pattern_quantifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraph_pattern_quantifier(PostgreSQLParser.Graph_pattern_quantifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#graph_pattern_quantifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraph_pattern_quantifier(PostgreSQLParser.Graph_pattern_quantifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PostgreSQLParser#element_pattern_filler}.
 	 * @param ctx the parse tree
