@@ -8,21 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SQLParserTest {
     @Test
-    void sampleSQLPGQQuery() {
-        /* Sample SQL/PGQ query from Oracle
-        */
-        try (
-            FileInputStream inputStream = new FileInputStream("src/test/resources/input/pgq_read.sql");
-        ) {
-            assertEquals(
-                    Files.readString(Path.of("src/test/resources/output/pgq_read.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/pgq_read.sql").replaceAll("\\s+", " ")
-            );
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-    }
-    @Test
     void pureSQLQuery() {
         /* No Graph query in SQL
         */
@@ -38,15 +23,60 @@ class SQLParserTest {
         }
     }
     @Test
+    void oracle1() {
+        /* Sample SQL/PGQ query from Oracle
+         */
+        try (
+                FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle1.sql");
+        ) {
+            assertEquals(
+                    Files.readString(Path.of("src/test/resources/output/oracle1.cypher")).replaceAll("\\s+", " "),
+                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/oracle1.sql").replaceAll("\\s+", " ")
+            );
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    @Test
+    void oracle2() {
+        /* Sample SQL/PGQ query from Oracle
+         */
+        try (
+                FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle2.sql");
+        ) {
+            assertEquals(
+                    Files.readString(Path.of("src/test/resources/output/oracle2.cypher")).replaceAll("\\s+", " "),
+                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/oracle2.sql").replaceAll("\\s+", " ")
+            );
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    @Test
+    void oracle3() {
+        /* Sample SQL/PGQ query from Oracle
+         */
+        try (
+                FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle3.sql");
+        ) {
+            assertEquals(
+                    Files.readString(Path.of("src/test/resources/output/oracle3.cypher")).replaceAll("\\s+", " "),
+                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/oracle3.sql").replaceAll("\\s+", " ")
+            );
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    @Test
     void yasuda3() {
         /* あるキーを持つノードに依存しているノードの検索(例えば間違ったデータの影響を受けているノードn)
         */
         try (
-                FileInputStream inputStream = new FileInputStream("src/test/resources/input/3.sql");
+                FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda3.sql");
         ) {
             assertEquals(
-                    Files.readString(Path.of("src/test/resources/output/3.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/3.sql").replaceAll("\\s+", " ")
+                    Files.readString(Path.of("src/test/resources/output/yasuda3.cypher")).replaceAll("\\s+", " "),
+                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/yasuda3.sql").replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -57,11 +87,11 @@ class SQLParserTest {
         /* あるキーを持つノードに依存しているノードと、新しく計算し直す時に必要なノードの検索
          */
         try (
-                FileInputStream inputStream = new FileInputStream("src/test/resources/input/4.sql");
+                FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda4.sql");
         ) {
             assertEquals(
-                    Files.readString(Path.of("src/test/resources/output/4.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/4.sql").replaceAll("\\s+", " ")
+                    Files.readString(Path.of("src/test/resources/output/yasuda4.cypher")).replaceAll("\\s+", " "),
+                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/yasuda4.sql").replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
