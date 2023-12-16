@@ -68,11 +68,21 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     @Override
     public void enterElement_pattern_filler(PostgreSQLParser.Element_pattern_fillerContext ctx) {
         int n = pathPatterns.size();
-        if (ctx.identifier(0) != null) {
-            pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.identifier(0).Identifier().getText());
-            if (ctx.IS() != null) {
-                pathPatterns.set(n-1, pathPatterns.get(n-1) + ":" + ctx.identifier(1).Identifier().getText());
-            }
+        int identifier_i = 0;
+        StringBuilder res = new StringBuilder();
+
+        if (ctx.identifier().size() == 2) {
+            res.append(ctx.identifier(identifier_i).getText().replace("\"", ""));
+            identifier_i++;
+        }
+
+        if (ctx.IS() != null) {
+            res.append(":");
+        }
+
+        if (!ctx.identifier().isEmpty()) {
+            res.append(ctx.identifier(identifier_i).getText().replace("\"", ""));
+            pathPatterns.set(n-1, pathPatterns.get(n-1) + res);
         }
     }
 
@@ -111,16 +121,20 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     @Override
     public void enterGraph_table_column_definition(PostgreSQLParser.Graph_table_column_definitionContext ctx) {
         StringBuilder columnDefinition = new StringBuilder();
-        columnDefinition.append(ctx.identifier(0).Identifier().getText());
+        int identifier_i = 0;
+
+        columnDefinition.append(ctx.identifier(identifier_i).getText().replace("\"", ""));
+        identifier_i++;
 
         if (ctx.DOT() != null) {
             columnDefinition.append(".");
-            columnDefinition.append(ctx.identifier(1).Identifier().getText());
+            columnDefinition.append(ctx.identifier(identifier_i).getText().replace("\"", ""));
+            identifier_i++;
         }
 
         if (ctx.AS() != null) {
             columnDefinition.append(" ").append(ctx.AS().getText()).append(" ");
-            columnDefinition.append(ctx.identifier(2).Identifier().getText());
+            columnDefinition.append(ctx.identifier(identifier_i).getText().replace("\"", ""));
         }
 
         graphTableColumns.add(columnDefinition.toString());
