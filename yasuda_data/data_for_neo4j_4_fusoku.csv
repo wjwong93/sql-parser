@@ -1,0 +1,8 @@
+relation,from_node_type,from_node,from_node_key,from_node_ts,to_node_type,to_node,to_node_key,to_node_ts
+indep,sensor,sensor1104,"202311041200-sensor-gh1-temp-sen11,202311041200-sensor-gh1-temp-sen12,202311041200-sensor-gh1-humid-sen13,202311041200-sensor-gh1-humid-sen14",202311061800,precal,precal_m2_1104,202311041200-precal-gh1-m2,202311041200
+dep,sensor,sensor1104,"202311041200-sensor-gh1-temp-sen11,202311041200-sensor-gh1-temp-sen12,202311041200-sensor-gh1-humid-sen13,202311041200-sensor-gh1-humid-sen14",202311061800,estproduction,estpro1104,"202311041200-estproduction-gh1-1110,202311041200-estproduction-gh1-1111,202311041200-estproduction-gh1-1112",202311061800
+indep,precal,precal_m2_1105,202311051200-precal-gh1-m2,202311051200,model,m2ver1105,202311051000-model-m2,202311061800
+dep,model,m2ver1105,202311051000-model-m2,202311061800,estproduction,estpro1105,"202311051200-estproduction-gh1-1110,202311051200-estproduction-gh1-1111,202311051200-estproduction-gh1-1112",202311061800
+indep,sensor,sensor1105,"202311051200-sensor-gh1-temp-sen11,202311051200-sensor-gh1-temp-sen12,202311051200-sensor-gh1-humid-sen13,202311051200-sensor-gh1-humid-sen14",202311051200,precal,precal_m2_1105,202311051200-precal-gh1-m2,202311051200
+dep,sensor,sensor1103,"202311031200-sensor-gh1-temp-sen11,202311031200-sensor-gh1-temp-sen12,202311031200-sensor-gh1-humid-sen13,202311031200-sensor-gh1-humid-sen14",202311031200,model,m2ver1105,202311051000-model-m2,202311061800
+dep,sensor,sensor1104,"202311041200-sensor-gh1-temp-sen11,202311041200-sensor-gh1-temp-sen12,202311041200-sensor-gh1-humid-sen13,202311041200-sensor-gh1-humid-sen14",202311061800,model,m2ver1105,202311051000-model-m2,202311061800
