@@ -1,0 +1,4 @@
+relation,from_node_type,from_node,from_node_key,from_node_note,from_node_ts,to_node_type,to_node,to_node_key,to_node_note,to_node_ts
+dep,estproduction,estpro1110,"202311101200-estproduction-gh1-1113,202311101200-estproduction-gh1-1114,202311101200-estproduction-gh1-1115",TRUE,202311101200,fruit,fruit1111,"202311111200-fruit-gh1-c11-f111,202311111200-fruit-gh1-c11-f112,202311111200-fruit-gh1-c11-f113",simulation,202311131500
+indep,estproduction,estpro1110,"202311101200-estproduction-gh1-1113,202311101200-estproduction-gh1-1114,202311101200-estproduction-gh1-1115",TRUE,202311101200,precal,precal_simulation_1111,202311111200-precal-gh1-simulation,simulation,202311131500
+dep,precal,precal_simulation_1111,202311111200-precal-gh1-simulation,simulation,202311131500,fruit,fruit1111,"202311111200-fruit-gh1-c11-f111,202311111200-fruit-gh1-c11-f112,202311111200-fruit-gh1-c11-f113",simulation,202311131500
