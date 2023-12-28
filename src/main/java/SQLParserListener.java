@@ -13,7 +13,13 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
+        result.append("USE ").append(ctx.graph_reference().getText()).append("\n");
         result.append(ctx.MATCH().getText()).append(" ");
+    }
+
+    @Override
+    public void exitGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
+        result.append(";\n");
     }
 
     @Override
@@ -142,7 +148,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void exitGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx) {
-        result.append(String.join(", ", graphTableColumns)).append("\n");
+        result.append(String.join(", ", graphTableColumns));
     }
 
     public void setSourceString(String filepath) throws Exception {
