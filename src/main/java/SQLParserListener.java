@@ -15,7 +15,6 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
         result.append("USE ").append(ctx.graph_reference().getText()).append("\n");
-        result.append(ctx.MATCH().getText()).append(" ");
     }
 
     @Override
@@ -151,20 +150,29 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void exitGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx) {
-        result.append(String.join(", ", repeatedTokens));
+        result.append(String.join(", ", repeatedTokens)).append("\n");
         repeatedTokens = null;
     }
 
     @Override
     public void enterUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
         result.append("USE ").append(ctx.graph_reference().getText()).append("\n");
-        if (ctx.MERGE() != null) result.append(ctx.MERGE().getText()).append(" ");
-        else if (ctx.CREATE() != null) result.append(ctx.CREATE().getText()).append(" ");
     }
 
     @Override
     public void exitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
         result.append(";\n");
+    }
+
+    @Override
+    public void enterGraph_match_clause(PostgreSQLParser.Graph_match_clauseContext ctx) {
+        result.append(ctx.MATCH().getText()).append(" ");
+    }
+
+    @Override
+    public void enterGraph_create_clause(PostgreSQLParser.Graph_create_clauseContext ctx) {
+        if (ctx.MERGE() != null) result.append(ctx.MERGE().getText()).append(" ");
+        else if (ctx.CREATE() != null) result.append(ctx.CREATE().getText()).append(" ");
     }
 
     @Override
@@ -175,7 +183,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void exitGraph_set_clause(PostgreSQLParser.Graph_set_clauseContext ctx) {
-        result.append(String.join(", ", repeatedTokens));
+        result.append(String.join(", ", repeatedTokens)).append("\n");
         repeatedTokens = null;
     }
 

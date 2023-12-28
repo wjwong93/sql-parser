@@ -3271,7 +3271,7 @@ opt_col_def_list
     ;
 
 graph_table
-    : GRAPH_TABLE OPEN_PAREN graph_reference MATCH graph_pattern graph_table_shape CLOSE_PAREN
+    : GRAPH_TABLE OPEN_PAREN graph_reference graph_match_clause graph_table_shape CLOSE_PAREN
     ;
 
 graph_reference
@@ -5653,7 +5653,15 @@ opt_returning_clause_into
 
 // Extension to SQL/PGQ
 updategraphstmt
-    : UPDATE GRAPH_TABLE OPEN_PAREN graph_reference (MERGE|CREATE) graph_pattern graph_set_clause CLOSE_PAREN
+    : UPDATE GRAPH_TABLE OPEN_PAREN graph_reference graph_match_clause? graph_create_clause? graph_set_clause? CLOSE_PAREN
+    ;
+
+graph_match_clause
+    : MATCH graph_pattern
+    ;
+
+graph_create_clause
+    : (MERGE|CREATE) graph_pattern
     ;
 
 graph_set_clause

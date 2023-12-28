@@ -5011,6 +5011,18 @@ public interface PostgreSQLParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_match_clause}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraph_match_clause(PostgreSQLParser.Graph_match_clauseContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_create_clause}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraph_create_clause(PostgreSQLParser.Graph_create_clauseContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_set_clause}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

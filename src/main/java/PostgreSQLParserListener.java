@@ -8343,6 +8343,26 @@ public interface PostgreSQLParserListener extends ParseTreeListener {
 	 */
 	void exitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_match_clause}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraph_match_clause(PostgreSQLParser.Graph_match_clauseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#graph_match_clause}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraph_match_clause(PostgreSQLParser.Graph_match_clauseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_create_clause}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraph_create_clause(PostgreSQLParser.Graph_create_clauseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#graph_create_clause}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraph_create_clause(PostgreSQLParser.Graph_create_clauseContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_set_clause}.
 	 * @param ctx the parse tree
 	 */

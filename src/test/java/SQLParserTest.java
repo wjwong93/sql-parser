@@ -83,6 +83,21 @@ class SQLParserTest {
         }
     }
     @Test
+    void yasuda2() {
+        /* リレーションの作成
+         */
+        try (
+                FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda2.sql");
+        ) {
+            assertEquals(
+                    Files.readString(Path.of("src/test/resources/output/yasuda2.cypher")).replaceAll("\\s+", " "),
+                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/yasuda2.sql").replaceAll("\\s+", " ")
+            );
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    @Test
     void yasuda3() {
         /* あるキーを持つノードに依存しているノードの検索(例えば間違ったデータの影響を受けているノードn)
         */
