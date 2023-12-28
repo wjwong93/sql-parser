@@ -3753,12 +3753,6 @@ public interface PostgreSQLParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitC_expr_case(PostgreSQLParser.C_expr_caseContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PostgreSQLParser#plsqlvariablename}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPlsqlvariablename(PostgreSQLParser.PlsqlvariablenameContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link PostgreSQLParser#func_application}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -4296,12 +4290,6 @@ public interface PostgreSQLParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIdentifier(PostgreSQLParser.IdentifierContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PostgreSQLParser#plsqlidentifier}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPlsqlidentifier(PostgreSQLParser.PlsqlidentifierContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PostgreSQLParser#unreserved_keyword}.
 	 * @param ctx the parse tree
@@ -5016,4 +5004,22 @@ public interface PostgreSQLParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitOpt_returning_clause_into(PostgreSQLParser.Opt_returning_clause_intoContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#updategraphstmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_set_clause}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraph_set_clause(PostgreSQLParser.Graph_set_clauseContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PostgreSQLParser#graph_set_primary}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraph_set_primary(PostgreSQLParser.Graph_set_primaryContext ctx);
 }
