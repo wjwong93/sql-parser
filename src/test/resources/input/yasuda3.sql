@@ -1,5 +1,5 @@
 SELECT *
-FROM GRAPH_TABLE(DependentNodes
+FROM GRAPH_TABLE(neo4j
     MATCH
         (s)-[r IS DEP]->+(n)
     WHERE s.name =~ '.*estpro1110_202311101200.*'

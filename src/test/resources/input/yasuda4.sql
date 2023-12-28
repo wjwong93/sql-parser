@@ -1,5 +1,5 @@
 SELECT *
-FROM GRAPH_TABLE(DependentNodes
+FROM GRAPH_TABLE(neo4j
     MATCH
         (s)-[r IS DEP]->+(n),
         (m)-[]->{0,1}(n)-[]->{0,1}(l)
