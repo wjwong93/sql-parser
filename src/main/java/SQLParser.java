@@ -14,10 +14,6 @@ public class SQLParser {
 
         System.out.println(extractCypherQuery(is, inputFile));
 
-// Visitor method
-//        EvalVisitor eval = new EvalVisitor();
-//        eval.setSourceFile(inputFile);
-//        eval.visit(tree);
     }
 
     public static String extractCypherQuery(InputStream inputStream, String inputFile) throws Exception {
