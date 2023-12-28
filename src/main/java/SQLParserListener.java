@@ -8,8 +8,9 @@ import java.util.List;
 public class SQLParserListener extends PostgreSQLParserBaseListener{
     private String sourceString;
     final private StringBuilder result = new StringBuilder();
-    private List<String> graphTableColumns;
+
     private List<String> pathPatterns;
+    private List<String> repeatedTokens;
 
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
@@ -26,11 +27,13 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     public void exitGraph_pattern(PostgreSQLParser.Graph_patternContext ctx) {
         result.append("\n");
 
-        int startIndex = ctx.where_clause().getStart().getStartIndex();
-        int stopIndex = ctx.getStop().getStopIndex();
+        if (ctx.where_clause().WHERE() != null) {
+            int startIndex = ctx.where_clause().getStart().getStartIndex();
+            int stopIndex = ctx.getStop().getStopIndex();
 
-        result.append(sourceString.substring(startIndex, stopIndex+1).replaceAll("\\s+", " "));
-        result.append("\n");
+            result.append(sourceString.substring(startIndex, stopIndex + 1).replaceAll("\\s+", " "));
+            result.append("\n");
+        }
     }
     @Override
     public void enterPath_pattern_list(PostgreSQLParser.Path_pattern_listContext ctx) {
@@ -120,7 +123,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void enterGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx) {
-        graphTableColumns = new ArrayList<>();
+        repeatedTokens = new ArrayList<>();
         result.append("RETURN ");
     }
 
@@ -129,26 +132,70 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
         StringBuilder columnDefinition = new StringBuilder();
         int identifier_i = 0;
 
-        columnDefinition.append(ctx.identifier(identifier_i).getText().replace("\"", ""));
-        identifier_i++;
+        columnDefinition.append(ctx.identifier(identifier_i++).getText().replace("\"", ""));
 
         if (ctx.DOT() != null) {
-            columnDefinition.append(".");
-            columnDefinition.append(ctx.identifier(identifier_i).getText().replace("\"", ""));
-            identifier_i++;
+            columnDefinition
+                .append(".")
+                .append(ctx.identifier(identifier_i++).getText().replace("\"", ""));
         }
 
         if (ctx.AS() != null) {
-            columnDefinition.append(" ").append(ctx.AS().getText()).append(" ");
-            columnDefinition.append(ctx.identifier(identifier_i).getText().replace("\"", ""));
+            columnDefinition
+                .append(" ").append(ctx.AS().getText()).append(" ")
+                .append(ctx.identifier(identifier_i).getText().replace("\"", ""));
         }
 
-        graphTableColumns.add(columnDefinition.toString());
+        repeatedTokens.add(columnDefinition.toString());
     }
 
     @Override
     public void exitGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx) {
-        result.append(String.join(", ", graphTableColumns));
+        result.append(String.join(", ", repeatedTokens));
+        repeatedTokens = null;
+    }
+
+    @Override
+    public void enterUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
+        result.append("USE ").append(ctx.graph_reference().getText()).append("\n");
+        if (ctx.MERGE() != null) result.append(ctx.MERGE().getText()).append(" ");
+        else if (ctx.CREATE() != null) result.append(ctx.CREATE().getText()).append(" ");
+    }
+
+    @Override
+    public void exitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
+        result.append(";\n");
+    }
+
+    @Override
+    public void enterGraph_set_clause(PostgreSQLParser.Graph_set_clauseContext ctx) {
+        result.append(ctx.SET().getText()).append(" ");
+        repeatedTokens = new ArrayList<>();
+    }
+
+    @Override
+    public void exitGraph_set_clause(PostgreSQLParser.Graph_set_clauseContext ctx) {
+        result.append(String.join(", ", repeatedTokens));
+        repeatedTokens = null;
+    }
+
+    @Override
+    public void enterGraph_set_primary(PostgreSQLParser.Graph_set_primaryContext ctx) {
+        int identifier_i = 0;
+        StringBuilder res = new StringBuilder();
+        res.append(ctx.identifier(identifier_i++).getText().replace("\"", ""));
+        if (ctx.DOT() != null) {
+            res
+                .append(ctx.DOT().getText())
+                .append(ctx.identifier(identifier_i++).getText().replace("\"", ""))
+                .append(" ").append(ctx.EQUAL().getText()).append(" ")
+                .append(ctx.identifier(identifier_i).getText());
+        } else if (ctx.COLON() != null) {
+            res
+                .append(ctx.COLON().getText())
+                .append(ctx.identifier(identifier_i).getText().replace("\"", ""));
+        }
+        repeatedTokens.add(res.toString());
     }
 
     public void setSourceString(String filepath) throws Exception {

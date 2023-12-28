@@ -1574,9 +1574,9 @@ UnsignedInteger: Digits;
 
 fragment Digits: [0-9]+;
 
-PLSQLVARIABLENAME: ':' [A-Z_] [A-Z_0-9$]*;
+//PLSQLVARIABLENAME: ':' [A-Z_] [A-Z_0-9$]*;
 
-PLSQLIDENTIFIER: ':"' ('\\' . | '""' | ~ ('"' | '\\'))* '"';
+//PLSQLIDENTIFIER: ':"' ('\\' . | '""' | ~ ('"' | '\\'))* '"';
 //
 
 // WHITESPACE (4.1)

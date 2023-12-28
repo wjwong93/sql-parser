@@ -7494,18 +7494,6 @@ public class PostgreSQLParserBaseListener implements PostgreSQLParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPlsqlvariablename(PostgreSQLParser.PlsqlvariablenameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPlsqlvariablename(PostgreSQLParser.PlsqlvariablenameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterFunc_application(PostgreSQLParser.Func_applicationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -8569,18 +8557,6 @@ public class PostgreSQLParserBaseListener implements PostgreSQLParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIdentifier(PostgreSQLParser.IdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPlsqlidentifier(PostgreSQLParser.PlsqlidentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPlsqlidentifier(PostgreSQLParser.PlsqlidentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -10009,6 +9985,42 @@ public class PostgreSQLParserBaseListener implements PostgreSQLParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitOpt_returning_clause_into(PostgreSQLParser.Opt_returning_clause_intoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGraph_set_clause(PostgreSQLParser.Graph_set_clauseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGraph_set_clause(PostgreSQLParser.Graph_set_clauseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGraph_set_primary(PostgreSQLParser.Graph_set_primaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGraph_set_primary(PostgreSQLParser.Graph_set_primaryContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

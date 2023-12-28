@@ -6245,16 +6245,6 @@ public interface PostgreSQLParserListener extends ParseTreeListener {
 	 */
 	void exitC_expr_case(PostgreSQLParser.C_expr_caseContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PostgreSQLParser#plsqlvariablename}.
-	 * @param ctx the parse tree
-	 */
-	void enterPlsqlvariablename(PostgreSQLParser.PlsqlvariablenameContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PostgreSQLParser#plsqlvariablename}.
-	 * @param ctx the parse tree
-	 */
-	void exitPlsqlvariablename(PostgreSQLParser.PlsqlvariablenameContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link PostgreSQLParser#func_application}.
 	 * @param ctx the parse tree
 	 */
@@ -7152,16 +7142,6 @@ public interface PostgreSQLParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIdentifier(PostgreSQLParser.IdentifierContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link PostgreSQLParser#plsqlidentifier}.
-	 * @param ctx the parse tree
-	 */
-	void enterPlsqlidentifier(PostgreSQLParser.PlsqlidentifierContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PostgreSQLParser#plsqlidentifier}.
-	 * @param ctx the parse tree
-	 */
-	void exitPlsqlidentifier(PostgreSQLParser.PlsqlidentifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PostgreSQLParser#unreserved_keyword}.
 	 * @param ctx the parse tree
@@ -8352,4 +8332,34 @@ public interface PostgreSQLParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitOpt_returning_clause_into(PostgreSQLParser.Opt_returning_clause_intoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#updategraphstmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#updategraphstmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_set_clause}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraph_set_clause(PostgreSQLParser.Graph_set_clauseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#graph_set_clause}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraph_set_clause(PostgreSQLParser.Graph_set_clauseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PostgreSQLParser#graph_set_primary}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraph_set_primary(PostgreSQLParser.Graph_set_primaryContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PostgreSQLParser#graph_set_primary}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraph_set_primary(PostgreSQLParser.Graph_set_primaryContext ctx);
 }
