@@ -13,6 +13,8 @@ dependencies {
     antlr("org.antlr:antlr4:4.13.1")
     implementation("org.reactivestreams:reactive-streams")
     implementation("org.neo4j.driver:neo4j-java-driver:5.12.0")
+    implementation("org.fusesource.leveldbjni:leveldbjni-all:1.8")
+    implementation("com.opencsv:opencsv:5.9")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
 }

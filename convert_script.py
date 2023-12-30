@@ -29,7 +29,7 @@ def buildQuery(row):
     return result
 
 
-csv_paths = glob.glob('yasuda_data/*.csv')
+csv_paths = glob.glob('yasuda_data/data_for_neo4j*.csv')
 
 cypher_file = open('src/test/resources/data/yasuda_data.cypher', 'w')
 cypher_file.write('MATCH (n) DETACH DELETE n;\n\n')
