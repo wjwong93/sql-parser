@@ -3787,7 +3787,7 @@ c_expr
     | /*22*/ UNIQUE select_with_parens                                 # c_expr_expr
     | columnref                                                        # c_expr_expr
     | aexprconst                                                       # c_expr_expr
-//    | plsqlvariablename                                                # c_expr_expr
+    | plsqlvariablename                                                # c_expr_expr
     | OPEN_PAREN a_expr_in_parens = a_expr CLOSE_PAREN opt_indirection # c_expr_expr
     | case_expr                                                        # c_expr_case
     | func_expr                                                        # c_expr_expr
@@ -3797,9 +3797,9 @@ c_expr
     | row OVERLAPS row /* 14*/                                         # c_expr_expr
     ;
 
-//plsqlvariablename
-//    : PLSQLVARIABLENAME
-//    ;
+plsqlvariablename
+    : PLSQLVARIABLENAME
+    ;
 
 func_application
     : func_name OPEN_PAREN (
@@ -4311,14 +4311,14 @@ identifier
     : Identifier opt_uescape
     | QuotedIdentifier
     | UnicodeQuotedIdentifier
-//    | plsqlvariablename
-//    | plsqlidentifier
+    | plsqlvariablename
+    | plsqlidentifier
     | plsql_unreserved_keyword
     ;
 
-//plsqlidentifier
-//    : PLSQLIDENTIFIER
-//    ;
+plsqlidentifier
+    : PLSQLIDENTIFIER
+    ;
 
 unreserved_keyword
     : ABORT_P
@@ -5670,5 +5670,5 @@ graph_set_clause
 
 graph_set_primary
     : identifier DOT identifier EQUAL identifier
-    | identifier COLON identifier
+    | identifier IS identifier
     ;

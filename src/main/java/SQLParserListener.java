@@ -198,9 +198,9 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
                 .append(ctx.identifier(identifier_i++).getText().replace("\"", ""))
                 .append(" ").append(ctx.EQUAL().getText()).append(" ")
                 .append(ctx.identifier(identifier_i).getText());
-        } else if (ctx.COLON() != null) {
+        } else if (ctx.IS() != null) {
             res
-                .append(ctx.COLON().getText())
+                .append(":")
                 .append(ctx.identifier(identifier_i).getText().replace("\"", ""));
         }
         repeatedTokens.add(res.toString());
