@@ -144,6 +144,8 @@ TILDE_LEFT_BRACKET: '~[';
 TILDE_RIGHT_ARROW: '~>';
 TILDE_SLASH: '~/';
 
+// For KVS
+KVS: 'KVS';
 
 PARAM: '$' ([0-9])+;
 //
