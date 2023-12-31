@@ -1,5 +1,3 @@
-import org.antlr.v4.runtime.ParserRuleContext;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -7,31 +5,34 @@ import java.util.List;
 
 public class SQLParserListener extends PostgreSQLParserBaseListener{
     private String sourceString;
-    final private StringBuilder result = new StringBuilder();
-
     private List<String> pathPatterns;
     private List<String> repeatedTokens;
+    private StringBuilder queryStringBuilder;
+    final private List<Query> queryList = new ArrayList<>();
 
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
-        result.append("USE ").append(ctx.graph_reference().getText()).append("\n");
+        queryStringBuilder = new StringBuilder();
+        queryStringBuilder.append("USE ").append(ctx.graph_reference().getText()).append("\n");
     }
 
     @Override
     public void exitGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
-        result.append(";\n");
+        queryStringBuilder.append(";\n");
+        queryList.add(new GraphReadQuery(queryStringBuilder.toString()));
+        queryStringBuilder = null;
     }
 
     @Override
     public void exitGraph_pattern(PostgreSQLParser.Graph_patternContext ctx) {
-        result.append("\n");
+        queryStringBuilder.append("\n");
 
         if (ctx.where_clause().WHERE() != null) {
             int startIndex = ctx.where_clause().getStart().getStartIndex();
             int stopIndex = ctx.getStop().getStopIndex();
 
-            result.append(sourceString.substring(startIndex, stopIndex + 1).replaceAll("\\s+", " "));
-            result.append("\n");
+            queryStringBuilder.append(sourceString.substring(startIndex, stopIndex + 1).replaceAll("\\s+", " "));
+            queryStringBuilder.append("\n");
         }
     }
     @Override
@@ -40,7 +41,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     }
     @Override
     public void exitPath_pattern_list(PostgreSQLParser.Path_pattern_listContext ctx) {
-        result.append(String.join(", ", pathPatterns));
+        queryStringBuilder.append(String.join(", ", pathPatterns));
     }
     @Override
     public void enterPath_pattern(PostgreSQLParser.Path_patternContext ctx) {
@@ -123,7 +124,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     @Override
     public void enterGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx) {
         repeatedTokens = new ArrayList<>();
-        result.append("RETURN ");
+        queryStringBuilder.append("RETURN ");
     }
 
     @Override
@@ -150,40 +151,43 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void exitGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx) {
-        result.append(String.join(", ", repeatedTokens)).append("\n");
+        queryStringBuilder.append(String.join(", ", repeatedTokens)).append("\n");
         repeatedTokens = null;
     }
 
     @Override
     public void enterUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
-        result.append("USE ").append(ctx.graph_reference().getText()).append("\n");
+        queryStringBuilder = new StringBuilder();
+        queryStringBuilder.append("USE ").append(ctx.graph_reference().getText()).append("\n");
     }
 
     @Override
     public void exitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
-        result.append(";\n");
+        queryStringBuilder.append(";\n");
+        queryList.add(new GraphWriteQuery(queryStringBuilder.toString()));
+        queryStringBuilder = null;
     }
 
     @Override
     public void enterGraph_match_clause(PostgreSQLParser.Graph_match_clauseContext ctx) {
-        result.append(ctx.MATCH().getText()).append(" ");
+        queryStringBuilder.append(ctx.MATCH().getText()).append(" ");
     }
 
     @Override
     public void enterGraph_create_clause(PostgreSQLParser.Graph_create_clauseContext ctx) {
-        if (ctx.MERGE() != null) result.append(ctx.MERGE().getText()).append(" ");
-        else if (ctx.CREATE() != null) result.append(ctx.CREATE().getText()).append(" ");
+        if (ctx.MERGE() != null) queryStringBuilder.append(ctx.MERGE().getText()).append(" ");
+        else if (ctx.CREATE() != null) queryStringBuilder.append(ctx.CREATE().getText()).append(" ");
     }
 
     @Override
     public void enterGraph_set_clause(PostgreSQLParser.Graph_set_clauseContext ctx) {
-        result.append(ctx.SET().getText()).append(" ");
+        queryStringBuilder.append(ctx.SET().getText()).append(" ");
         repeatedTokens = new ArrayList<>();
     }
 
     @Override
     public void exitGraph_set_clause(PostgreSQLParser.Graph_set_clauseContext ctx) {
-        result.append(String.join(", ", repeatedTokens)).append("\n");
+        queryStringBuilder.append(String.join(", ", repeatedTokens)).append("\n");
         repeatedTokens = null;
     }
 
@@ -211,6 +215,13 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     }
 
     public String getResult() {
-        return result.toString().strip();
+        if (!queryList.isEmpty())
+            return queryList.get(0).toString().strip();
+        else
+            return "";
+    }
+
+    public List<Query> getQueryList() {
+        return queryList;
     }
 }

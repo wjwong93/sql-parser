@@ -20,6 +20,7 @@ class SQLParserTest {
             );
         } catch (Exception e) {
             System.err.println(e);
+            fail();
         }
     }
     @Test
@@ -35,6 +36,7 @@ class SQLParserTest {
             );
         } catch (Exception e) {
             System.err.println(e);
+            fail();
         }
     }
     @Test
@@ -50,6 +52,7 @@ class SQLParserTest {
             );
         } catch (Exception e) {
             System.err.println(e);
+            fail();
         }
     }
     @Test
@@ -65,6 +68,7 @@ class SQLParserTest {
             );
         } catch (Exception e) {
             System.err.println(e);
+            fail();
         }
     }
     @Test
@@ -80,6 +84,7 @@ class SQLParserTest {
             );
         } catch (Exception e) {
             System.err.println(e);
+            fail();
         }
     }
     @Test
@@ -95,6 +100,7 @@ class SQLParserTest {
             );
         } catch (Exception e) {
             System.err.println(e);
+            fail();
         }
     }
     @Test
@@ -110,6 +116,7 @@ class SQLParserTest {
             );
         } catch (Exception e) {
             System.err.println(e);
+            fail();
         }
     }
     @Test
@@ -125,6 +132,7 @@ class SQLParserTest {
             );
         } catch (Exception e) {
             System.err.println(e);
+            fail();
         }
     }
 }

@@ -2,8 +2,8 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class SQLParser {
     public static void main(String[] args) throws Exception {
@@ -12,7 +12,12 @@ public class SQLParser {
         InputStream is = System.in;
         if (inputFile != null) is = new FileInputStream(inputFile);
 
-        System.out.println(extractCypherQuery(is, inputFile));
+//        System.out.println(extractCypherQuery(is, inputFile));
+
+        List<Query> queryList = parse(is, inputFile);
+        for (Query query : queryList) {
+            System.out.println(query.toString());
+        }
 
     }
 
@@ -28,5 +33,19 @@ public class SQLParser {
         cypherExtractor.setSourceString(inputFile);
         walker.walk(cypherExtractor, tree);
         return cypherExtractor.getResult();
+    }
+
+    public static List<Query> parse(InputStream inputStream, String inputFile) throws Exception {
+        CharStream input = CharStreams.fromStream(inputStream);
+        PostgreSQLLexer lexer = new PostgreSQLLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        PostgreSQLParser parser = new PostgreSQLParser(tokens);
+        ParseTree tree = parser.root();
+
+        ParseTreeWalker walker = new ParseTreeWalker();
+        SQLParserListener extractor = new SQLParserListener();
+        extractor.setSourceString(inputFile);
+        walker.walk(extractor, tree);
+        return extractor.getQueryList();
     }
 }
