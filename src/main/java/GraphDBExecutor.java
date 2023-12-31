@@ -31,6 +31,18 @@ public class GraphDBExecutor implements AutoCloseable {
         });
         return result;
     }
+    public void executeReadQuery(String query) {
+        session.executeRead(tx -> {
+            var res = tx.run(query);
+            System.out.println("Number of results: " + res.list().size());
+            return null;
+        });
+    }
+    public void executeWriteQuery(String query) {
+        session.executeWriteWithoutResult(tx -> {
+            tx.run(query);
+        });
+    }
 
     public static void main(String[] args) {
         String inputFile = "src/test/resources/input/yasuda3.sql";
