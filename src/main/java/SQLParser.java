@@ -12,8 +12,6 @@ public class SQLParser {
         InputStream is = System.in;
         if (inputFile != null) is = new FileInputStream(inputFile);
 
-//        System.out.println(extractCypherQuery(is, inputFile));
-
         List<Query> queryList = parse(is, inputFile);
         for (Query query : queryList) {
             System.out.println(query.toString());
