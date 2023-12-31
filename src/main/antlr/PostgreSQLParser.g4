@@ -151,6 +151,7 @@ stmt
     | unlistenstmt
     | updatestmt
     | updategraphstmt // Extension to SQL/PGQ
+    | updatekvsstmt // Extension to SQL/PGQ
     | vacuumstmt
     | variableresetstmt
     | variablesetstmt
@@ -5682,6 +5683,10 @@ kvs_table
 
 insert_kvs
     : INSERT INTO KVS VALUES kv_list
+    ;
+
+updatekvsstmt
+    : UPDATE KVS SET VALUE_P EQUAL identifier WHERE KEY EQUAL identifier (OR KEY EQUAL identifier)*
     ;
 
 kv_list

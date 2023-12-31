@@ -231,7 +231,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     @Override
     public void exitInsert_kvs(PostgreSQLParser.Insert_kvsContext ctx) {
         List<String[]> res = new ArrayList<>();
-        for (int i=0; i<repeatedTokens.size(); i += 2) {
+        for (int i=0; i<repeatedTokens.size(); i+=2) {
             res.add(new String[] {repeatedTokens.get(i), repeatedTokens.get(i+1)});
         }
         queryList.add(new KVPutQuery(res));
@@ -244,6 +244,15 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
         repeatedTokens.add(ctx.identifier(1).getText());
     }
 
+    @Override
+    public void exitUpdatekvsstmt(PostgreSQLParser.UpdatekvsstmtContext ctx) {
+        List<String[]> res = new ArrayList<>();
+        String newVal = ctx.identifier(0).getText();
+        for (var identifier : ctx.identifier().subList(1, ctx.identifier().size())) {
+            res.add(new String[] {identifier.getText(), newVal});
+        }
+        queryList.add(new KVPutQuery(res));
+    }
     public void setSourceString(String filepath) throws Exception {
         sourceString = Files.readString(Path.of(filepath));
     }
