@@ -2781,6 +2781,7 @@ deallocatestmt
 
 insertstmt
     : opt_with_clause INSERT INTO insert_target insert_rest opt_on_conflict returning_clause
+    | insert_kvs
     ;
 
 insert_target
@@ -3182,6 +3183,7 @@ table_ref
     : (
         relation_expr opt_alias_clause tablesample_clause?
         | graph_table opt_alias_clause
+        | kvs_table opt_alias_clause
         | func_table func_alias_clause
         | xmltable opt_alias_clause
         | select_with_parens opt_alias_clause
@@ -5671,4 +5673,21 @@ graph_set_clause
 graph_set_primary
     : identifier DOT identifier EQUAL identifier
     | identifier IS identifier
+    ;
+
+// Key Value Store Extension
+kvs_table
+    : KVS WHERE KEY EQUAL identifier (OR KEY EQUAL identifier)*
+    ;
+
+insert_kvs
+    : INSERT INTO KVS VALUES kv_list
+    ;
+
+kv_list
+    : kv_pair (COMMA kv_pair)*
+    ;
+
+kv_pair
+    : OPEN_PAREN identifier COMMA identifier CLOSE_PAREN
     ;

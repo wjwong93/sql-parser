@@ -210,6 +210,40 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
         repeatedTokens.add(res.toString());
     }
 
+    @Override
+    public void enterKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
+        repeatedTokens = new ArrayList<>();
+        for (var identifier : ctx.identifier()) {
+            repeatedTokens.add(identifier.getText());
+        }
+    }
+    @Override
+    public void exitKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
+        queryList.add(new KVGetQuery(repeatedTokens));
+        repeatedTokens = null;
+    }
+
+    @Override
+    public void enterInsert_kvs(PostgreSQLParser.Insert_kvsContext ctx) {
+        repeatedTokens = new ArrayList<>();
+    }
+
+    @Override
+    public void exitInsert_kvs(PostgreSQLParser.Insert_kvsContext ctx) {
+        List<String[]> res = new ArrayList<>();
+        for (int i=0; i<repeatedTokens.size(); i += 2) {
+            res.add(new String[] {repeatedTokens.get(i), repeatedTokens.get(i+1)});
+        }
+        queryList.add(new KVPutQuery(res));
+        repeatedTokens = null;
+    }
+
+    @Override
+    public void enterKv_pair(PostgreSQLParser.Kv_pairContext ctx) {
+        repeatedTokens.add(ctx.identifier(0).getText());
+        repeatedTokens.add(ctx.identifier(1).getText());
+    }
+
     public void setSourceString(String filepath) throws Exception {
         sourceString = Files.readString(Path.of(filepath));
     }
