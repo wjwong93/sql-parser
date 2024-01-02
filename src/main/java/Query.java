@@ -1,3 +1,5 @@
+import java.sql.Connection;
+
 public abstract class Query {
     String query;
 
@@ -6,6 +8,8 @@ public abstract class Query {
     }
 
     abstract void execute();
+
+    abstract void executeAndStore(Connection conn);
 
     @Override
     public String toString() {
