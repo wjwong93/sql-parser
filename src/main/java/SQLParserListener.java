@@ -10,6 +10,9 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     private StringBuilder queryStringBuilder;
     final private List<Query> queryList = new ArrayList<>();
 
+    // used to assign tableId to read queries
+    private int readTableCount = 0;
+
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
         queryStringBuilder = new StringBuilder();
@@ -19,7 +22,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     @Override
     public void exitGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
         queryStringBuilder.append(";\n");
-        queryList.add(new GraphReadQuery(queryStringBuilder.toString()));
+        queryList.add(new GraphReadQuery(queryStringBuilder.toString(), "t"+readTableCount++));
         queryStringBuilder = null;
     }
 
@@ -214,12 +217,12 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     public void enterKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
         repeatedTokens = new ArrayList<>();
         for (var identifier : ctx.identifier()) {
-            repeatedTokens.add(identifier.getText());
+            repeatedTokens.add(identifier.getText().replaceAll("\"", ""));
         }
     }
     @Override
     public void exitKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
-        queryList.add(new KVGetQuery(repeatedTokens));
+        queryList.add(new KVGetQuery(repeatedTokens, "t"+readTableCount++));
         repeatedTokens = null;
     }
 

@@ -1,6 +1,6 @@
-public class GraphReadQuery extends GraphQuery {
-    public GraphReadQuery(String query) {
-        super(query);
+public class GraphReadQuery extends ReadQuery {
+    public GraphReadQuery(String query, String tableId) {
+        super(query, tableId);
     }
 
     @Override
@@ -12,7 +12,7 @@ public class GraphReadQuery extends GraphQuery {
 
     public static void main(String[] args) {
         String testQuery = "MATCH (n:TestNode) RETURN n;";
-        GraphReadQuery graphReadQuery = new GraphReadQuery(testQuery);
+        GraphReadQuery graphReadQuery = new GraphReadQuery(testQuery, "t0");
         graphReadQuery.execute();
     }
 }
