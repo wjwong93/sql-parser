@@ -5,7 +5,7 @@
 This project aims to realise a Polystore DBMS which supports Graph databases (Neo4j) and Key/Value databases (LevelDB). 
 The query language is based on the SQL/PGQ extension to the SQL Standard. 
 
-### Setup Antlrv4
+### Setup ANTLRv4
 ```bash
 ./init
 ```
@@ -22,12 +22,17 @@ cat src/test/resources/data/yasuda_data.cypher | docker exec -i sqlpgq cypher-sh
 ./gradlew test
 ```
 
-### Extract graph query from SQL/PGQ
+### Run query
 ```bash
 ./gradlew run --args="path/to/query.sql"
 ```
 
-### Parse SQL query
+### Parse query and display extracted query fragments
+```bash
+./gradlew parse --args="path/to/query.sql"
+```
+
+### Parse query using ANTLR
 Installation of `ANTLRv4` and set up of `grun` alias is required.
 ```bash
 cd build/classes/java/main
