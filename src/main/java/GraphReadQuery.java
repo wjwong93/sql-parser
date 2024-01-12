@@ -26,7 +26,7 @@ public class GraphReadQuery extends ReadQuery {
         List<String> cols = recordList.get(0).keys();
         try (Statement stmt = conn.createStatement()) {
             String createTableSql = "CREATE TABLE " + tableId + "(\n" +
-                    cols.stream().map(c -> c + " TEXT NOT NULL").collect(Collectors.joining(",\n")) +
+                    cols.stream().map(c -> "\"" + c + "\" TEXT NOT NULL").collect(Collectors.joining(",\n")) +
                     "\n);";
 //            System.out.println(createTableSql);
             stmt.addBatch(createTableSql);
