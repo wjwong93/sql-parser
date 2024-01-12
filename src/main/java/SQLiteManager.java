@@ -10,7 +10,7 @@ public class SQLiteManager implements AutoCloseable {
             String url = "jdbc:sqlite::memory:";
             conn = DriverManager.getConnection(url);
             if (conn != null) {
-                System.out.println("Database created in memory.");
+//                System.out.println("Database created in memory.");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -30,7 +30,12 @@ public class SQLiteManager implements AutoCloseable {
     }
 
     public static void main(String[] args) {
-        String inputFile = "src/test/resources/input/leveldb_get.sql";
+        if (args.length == 0) {
+            System.err.println("Please specify input query file.");
+            return;
+        }
+
+        String inputFile = args[0];
         try (
             FileInputStream inputStream = new FileInputStream(inputFile);
             SQLiteManager manager = new SQLiteManager()

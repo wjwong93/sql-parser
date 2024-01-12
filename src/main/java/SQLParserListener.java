@@ -215,9 +215,14 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void enterKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
-        repeatedTokens = new ArrayList<>();
-        for (var identifier : ctx.identifier()) {
-            repeatedTokens.add(identifier.getText().replaceAll("\"", ""));
+        if (ctx.identifier().isEmpty()) {
+
+            return;
+        } else {
+            repeatedTokens = new ArrayList<>();
+            for (var identifier : ctx.identifier()) {
+                repeatedTokens.add(identifier.getText().replaceAll("\"", ""));
+            }
         }
     }
     @Override
