@@ -9,9 +9,10 @@ The query language is based on the SQL/PGQ extension to the SQL Standard.
 ### Load test data into databases
 ```bash
 # Setup LevelDB
-python3 convert_script.py
+./gradlew leveldb_setup
 
 # Setup Neo4j
+python3 convert_script.py
 ./neo4j_setup
 ```
 

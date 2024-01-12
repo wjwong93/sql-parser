@@ -44,6 +44,12 @@ tasks.register<JavaExec>("parse") {
     classpath = sourceSets["main"].runtimeClasspath
 }
 
+tasks.register<JavaExec>("leveldb_setup") {
+    description = "Setup LevelDB database and import test data."
+    mainClass = "LevelDBSetup"
+    classpath = sourceSets["main"].runtimeClasspath
+}
+
 tasks.test {
     useJUnitPlatform()
 }
