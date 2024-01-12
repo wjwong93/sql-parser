@@ -25,6 +25,10 @@ application {
     mainClass = "SQLiteManager"
 }
 
+tasks.named("run") {
+    description = "Execute a query."
+}
+
 sourceSets {
     test {
         resources {
@@ -34,6 +38,7 @@ sourceSets {
 }
 
 tasks.register<JavaExec>("parse") {
+    group = "application"
     description = "Parse a query and output the extracted query fragments."
     mainClass = "SQLParser"
     classpath = sourceSets["main"].runtimeClasspath
@@ -56,11 +61,15 @@ tasks.generateGrammarSource {
             into(file("src/main/antlr"))
         }
 
-        delete {
-            file("src/main/java/PostgreSQLLexer.tokens")
-            file("src/main/java/PostgreSQLLexer.interp")
-            file("src/main/java/PostgreSQLParser.tokens")
-            file("src/main/java/PostgreSQLParser.interp")
+        val filesToDelete = project.fileTree("src/main/java").matching {
+            include("PostgreSQLLexer.tokens")
+            include("PostgreSQLLexer.interp")
+            include("PostgreSQLParser.tokens")
+            include("PostgreSQLParser.interp")
+        }
+
+        filesToDelete.files.forEach {
+            file -> file.delete()
         }
     }
 }
