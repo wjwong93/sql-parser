@@ -7,5 +7,5 @@ SELECT *
 FROM GRAPH_TABLE(neo4j
     MATCH (n IS TestNode)
     WHERE n.property = "testProperty"
-    COLUMNS (n)
+    COLUMNS (n.property AS n_property)
 );

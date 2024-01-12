@@ -50,7 +50,6 @@ public class KVGetQuery extends ReadQuery {
             stmt.addBatch(createTableSql);
 
             try (DB db = JniDBFactory.factory.open(new File("./leveldb"), new Options())) {
-                db.delete(JniDBFactory.bytes("testKey"));
                 if (keys == null) {
                     try (DBIterator iterator = db.iterator()) {
                         for (iterator.seekToFirst(); iterator.hasNext(); iterator.next()) {

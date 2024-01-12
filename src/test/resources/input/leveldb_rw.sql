@@ -1,5 +1,9 @@
+SELECT * FROM KVS;
+
 INSERT INTO KVS
 VALUES ("testKey1", "testValue1"), ("testKey2", "testValue2");
+
+SELECT * FROM KVS;
 
 SELECT *
 FROM KVS

@@ -7,5 +7,5 @@ FROM GRAPH_TABLE(neo4j
         AND (m.note = 'TRUE' OR m.note = 'simulation')
         AND (n.note = 'TRUE' OR n.note = 'simulation')
         AND (l.note = 'TRUE' OR l.note = 'simulation')
-    COLUMNS(s, n, m, l)
+    COLUMNS(s."name" AS s_name, n."name" AS n_name, m."name" AS m_name, l."name" AS l_name)
 )
