@@ -14,7 +14,6 @@ The query language is based on the SQL/PGQ extension to the SQL Standard.
 ```bash
 python3 convert_script.py
 ./neo4j_setup
-cat src/test/resources/data/yasuda_data.cypher | docker exec -i sqlpgq cypher-shell
 ```
 
 ### Run tests
@@ -22,7 +21,7 @@ cat src/test/resources/data/yasuda_data.cypher | docker exec -i sqlpgq cypher-sh
 ./gradlew test
 ```
 
-### Run query
+### Execute query
 ```bash
 ./gradlew run --args="path/to/query.sql"
 ```
