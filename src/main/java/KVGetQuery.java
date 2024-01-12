@@ -1,5 +1,6 @@
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.DB;
+import org.iq80.leveldb.DBIterator;
 import org.iq80.leveldb.Options;
 
 import java.io.File;
@@ -20,7 +21,7 @@ public class KVGetQuery extends ReadQuery {
     }
 
     public KVGetQuery(List<String> keys, String tableId) {
-        super(keys.stream().map(
+        super(keys == null ? "GET ALL;" : keys.stream().map(
             k -> "GET(\"" + k + "\");"
         ).collect(Collectors.joining("\n")), tableId);
 
@@ -40,20 +41,32 @@ public class KVGetQuery extends ReadQuery {
     }
 
     @Override
-    public void executeAndStore(Connection conn) {
-
+    void executeAndStore(Connection conn) {
         try (Statement stmt = conn.createStatement()) {
             String createTableSql = "CREATE TABLE " + tableId + "(\n" +
-                    "k TEXT PRIMARY KEY,\n" +
-                    "v TEXT NOT NULL\n" +
+                    "\"key\" TEXT PRIMARY KEY,\n" +
+                    "\"value\" TEXT NOT NULL\n" +
                     ");";
             stmt.addBatch(createTableSql);
 
             try (DB db = JniDBFactory.factory.open(new File("./leveldb"), new Options())) {
-                for (String key : keys) {
-                    String value = JniDBFactory.asString(db.get(JniDBFactory.bytes(key)));
-                    String insertDataSql = "INSERT INTO " + tableId + " VALUES (\"" + key + "\",\"" + value + "\");";
-                    stmt.addBatch(insertDataSql);
+                db.delete(JniDBFactory.bytes("testKey"));
+                if (keys == null) {
+                    try (DBIterator iterator = db.iterator()) {
+                        for (iterator.seekToFirst(); iterator.hasNext(); iterator.next()) {
+                            String key = JniDBFactory.asString(iterator.peekNext().getKey());
+                            String value = JniDBFactory.asString(iterator.peekNext().getValue());
+                            String insertDataSql = "INSERT INTO " + tableId + " VALUES (\"" + key + "\",\"" + value + "\");";
+                            System.out.println(insertDataSql);
+                            stmt.addBatch(insertDataSql);
+                        }
+                    }
+                } else {
+                    for (String key : keys) {
+                        String value = JniDBFactory.asString(db.get(JniDBFactory.bytes(key)));
+                        String insertDataSql = "INSERT INTO " + tableId + " VALUES (\"" + key + "\",\"" + value + "\");";
+                        stmt.addBatch(insertDataSql);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -65,10 +78,7 @@ public class KVGetQuery extends ReadQuery {
 
             ResultSet rs = stmt.executeQuery(selectSql);
 
-            System.out.println("Result:");
-            while (rs.next()) {
-                System.out.println(rs.getString("k") + ", " + rs.getString("v"));
-            }
+            printResultSet(rs);
 
             rs.close();
         } catch (SQLException e) {

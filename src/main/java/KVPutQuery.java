@@ -4,6 +4,7 @@ import org.iq80.leveldb.Options;
 import org.iq80.leveldb.WriteBatch;
 
 import java.io.File;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,12 +32,19 @@ public class KVPutQuery extends KVQuery {
             WriteBatch batch = db.createWriteBatch()
         ) {
             for (String[] kv : keyvalues) {
-                batch.put(JniDBFactory.bytes(kv[0]), JniDBFactory.bytes(kv[1]));
+                String key = kv[0].replaceAll("\"", "");
+                String value = kv[1].replaceAll("\"", "");
+                batch.put(JniDBFactory.bytes(key), JniDBFactory.bytes(value));
             }
             db.write(batch);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    void executeAndStore(Connection conn) {
+        execute();
     }
 
     public static void main(String[] args) {

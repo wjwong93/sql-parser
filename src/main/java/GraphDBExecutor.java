@@ -3,6 +3,8 @@ import org.neo4j.driver.Record;
 
 import java.io.FileInputStream;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GraphDBExecutor implements AutoCloseable {
@@ -19,15 +21,12 @@ public class GraphDBExecutor implements AutoCloseable {
         driver.close();
     }
 
-    public Stream<Record> executeQuery(String query) {
+    public List<Record> executeQuery(String query) {
         var result = session.executeRead(tx -> {
             var res = tx.run(query);
             List<Record> recordList = res.list();
-            System.out.println("Number of results: " + recordList.size());
-            for (var key : recordList.get(0).fields()) {
-                System.out.println(key.key() + " " + key.value().toString());
-            }
-            return res.stream();
+
+            return recordList;
         });
         return result;
     }
@@ -51,9 +50,21 @@ public class GraphDBExecutor implements AutoCloseable {
             FileInputStream inputStream = new FileInputStream(inputFile);
         ) {
             String graphQuery = SQLParser.extractCypherQuery(inputStream, inputFile);
-            Stream<Record> resultStream = executor.executeQuery(graphQuery);
+            List<Record> recordList = executor.executeQuery(graphQuery);
+            printRecordList(recordList);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    static void printRecordList(List<Record> recordList) {
+        System.out.println(String.join(", ", recordList.get(0).keys()));
+        for (var record : recordList) {
+            System.out.println(
+                    record.values().stream()
+                            .map(Value::asString)
+                            .collect(Collectors.joining(", "))
+            );
         }
     }
 }

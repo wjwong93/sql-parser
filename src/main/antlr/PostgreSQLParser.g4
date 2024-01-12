@@ -3294,7 +3294,7 @@ graph_table_columns_clause
     ;
 
 graph_table_column_definition
-    : identifier (DOT identifier)? (AS identifier)?
+    : identifier (DOT identifier) (AS identifier)?
     ;
 
 path_pattern_list
@@ -5679,6 +5679,7 @@ graph_set_primary
 // Key Value Store Extension
 kvs_table
     : KVS WHERE KEY EQUAL identifier (OR KEY EQUAL identifier)*
+    | KVS
     ;
 
 insert_kvs
