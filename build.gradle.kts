@@ -16,12 +16,13 @@ dependencies {
     implementation("org.fusesource.leveldbjni:leveldbjni-all:1.8")
     implementation("com.opencsv:opencsv:5.9")
     implementation("org.xerial:sqlite-jdbc:3.44.1.0")
+    implementation("org.slf4j:slf4j-nop:2.0.11")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
 }
 
 application {
-    mainClass = "SQLParser"
+    mainClass = "SQLiteManager"
 }
 
 sourceSets {
@@ -30,6 +31,12 @@ sourceSets {
             srcDir("test")
         }
     }
+}
+
+tasks.register<JavaExec>("parse") {
+    description = "Parse a query and output the extracted query fragments."
+    mainClass = "SQLParser"
+    classpath = sourceSets["main"].runtimeClasspath
 }
 
 tasks.test {
