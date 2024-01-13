@@ -16,4 +16,4 @@ FROM GRAPH_TABLE(aml
         t1.amount AS amount1,
         t2.amount AS amount2
     )
-) AS gt
+) AS gt;
