@@ -30,6 +30,7 @@ public class SQLParser {
         ParseTreeWalker walker = new ParseTreeWalker();
         SQLParserListener cypherExtractor = new SQLParserListener();
         cypherExtractor.setSourceString(inputFile);
+        cypherExtractor.setTokenStream(tokens);
         walker.walk(cypherExtractor, tree);
         return cypherExtractor.getResult();
     }

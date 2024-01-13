@@ -138,8 +138,8 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
         int identifier_i = 0;
         StringBuilder res = new StringBuilder();
 
-        if (ctx.identifier().size() == 2) {
-            res.append(ctx.identifier(identifier_i).getText().replace("\"", ""));
+        if (ctx.graph_element_identifier().size() == 2) {
+            res.append(ctx.graph_element_identifier(identifier_i).getText().replace("\"", ""));
             identifier_i++;
         }
 
@@ -147,8 +147,8 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
             res.append(":");
         }
 
-        if (!ctx.identifier().isEmpty()) {
-            res.append(ctx.identifier(identifier_i).getText().replace("\"", ""));
+        if (!ctx.graph_element_identifier().isEmpty()) {
+            res.append(ctx.graph_element_identifier(identifier_i).getText().replace("\"", ""));
             pathPatterns.set(n-1, pathPatterns.get(n-1) + res);
         }
     }
@@ -190,18 +190,18 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
         StringBuilder columnDefinition = new StringBuilder();
         int identifier_i = 0;
 
-        columnDefinition.append(ctx.identifier(identifier_i++).getText().replace("\"", ""));
+        columnDefinition.append(ctx.graph_element_identifier(identifier_i++).getText().replace("\"", ""));
 
         if (ctx.DOT() != null) {
             columnDefinition
                 .append(".")
-                .append(ctx.identifier(identifier_i++).getText().replace("\"", ""));
+                .append(ctx.graph_element_identifier(identifier_i++).getText().replace("\"", ""));
         }
 
         if (ctx.AS() != null) {
             columnDefinition
                 .append(" ").append(ctx.AS().getText()).append(" ")
-                .append(ctx.identifier(identifier_i).getText().replace("\"", ""));
+                .append(ctx.graph_element_identifier(identifier_i).getText().replace("\"", ""));
         }
 
         repeatedTokens.add(columnDefinition.toString());
@@ -254,17 +254,17 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     public void enterGraph_set_primary(PostgreSQLParser.Graph_set_primaryContext ctx) {
         int identifier_i = 0;
         StringBuilder res = new StringBuilder();
-        res.append(ctx.identifier(identifier_i++).getText().replace("\"", ""));
+        res.append(ctx.graph_element_identifier(identifier_i++).getText().replace("\"", ""));
         if (ctx.DOT() != null) {
             res
                 .append(ctx.DOT().getText())
-                .append(ctx.identifier(identifier_i++).getText().replace("\"", ""))
+                .append(ctx.graph_element_identifier(identifier_i++).getText().replace("\"", ""))
                 .append(" ").append(ctx.EQUAL().getText()).append(" ")
-                .append(ctx.identifier(identifier_i).getText());
+                .append(ctx.graph_element_identifier(identifier_i).getText());
         } else if (ctx.IS() != null) {
             res
                 .append(":")
-                .append(ctx.identifier(identifier_i).getText().replace("\"", ""));
+                .append(ctx.graph_element_identifier(identifier_i).getText().replace("\"", ""));
         }
         repeatedTokens.add(res.toString());
     }
@@ -274,7 +274,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
         if (ctx.DETACH() != null) queryStringBuilder.append(ctx.DETACH().getText()).append(" ");
         queryStringBuilder.append(ctx.DELETE_P().getText()).append(" ");
         queryStringBuilder.append(
-            ctx.identifier().stream().map(identifierContext -> identifierContext.getText()).collect(Collectors.joining(", "))
+            ctx.graph_element_identifier().stream().map(identifierContext -> identifierContext.getText()).collect(Collectors.joining(", "))
         ).append("\n");
     }
 
@@ -293,10 +293,10 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     @Override
     public void enterProperty_or_node_label(PostgreSQLParser.Property_or_node_labelContext ctx) {
         StringBuilder res = new StringBuilder();
-        res.append(ctx.identifier(0).getText().replace("\"", ""));
+        res.append(ctx.graph_element_identifier(0).getText().replace("\"", ""));
         if (ctx.DOT() != null) res.append(".");
         else if (ctx.IS() != null) res.append(":");
-        res.append(ctx.identifier(1).getText().replace("\"", ""));
+        res.append(ctx.graph_element_identifier(1).getText().replace("\"", ""));
         repeatedTokens.add(res.toString());
     }
 
