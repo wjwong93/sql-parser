@@ -14,7 +14,7 @@ public class SQLParser {
 
         List<Query> queryList = parse(is, inputFile);
         for (Query query : queryList) {
-            System.out.println(query.toString());
+            System.out.println(query.toString() + "\n");
         }
 
     }

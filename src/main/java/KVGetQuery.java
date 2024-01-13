@@ -72,14 +72,6 @@ public class KVGetQuery extends ReadQuery {
             }
 
             stmt.executeBatch();
-
-            String selectSql = "SELECT * FROM " + tableId + ";";
-
-            ResultSet rs = stmt.executeQuery(selectSql);
-
-            printResultSet(rs);
-
-            rs.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
