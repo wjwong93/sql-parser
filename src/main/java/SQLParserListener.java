@@ -3,6 +3,7 @@ import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -364,7 +365,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
         repeatedTokens = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), null);
     }
-    public void setSourceString(String filepath) throws Exception {
+    public void setSourceString(String filepath) throws IOException {
         sourceString = Files.readString(Path.of(filepath));
     }
 

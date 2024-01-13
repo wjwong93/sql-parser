@@ -2,6 +2,7 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -33,18 +34,26 @@ public class SQLParser {
         return cypherExtractor.getResult();
     }
 
-    public static List<Query> parse(InputStream inputStream, String inputFile) throws Exception {
-        CharStream input = CharStreams.fromStream(inputStream);
-        PostgreSQLLexer lexer = new PostgreSQLLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        PostgreSQLParser parser = new PostgreSQLParser(tokens);
-        ParseTree tree = parser.root();
+    public static List<Query> parse(InputStream inputStream, String inputFile) {
+        try {
+            CharStream input = CharStreams.fromStream(inputStream);
+            PostgreSQLLexer lexer = new PostgreSQLLexer(input);
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            PostgreSQLParser parser = new PostgreSQLParser(tokens);
+            parser.setErrorHandler(new ParserErrorStrategy());
+            ParseTree tree = parser.root();
 
-        ParseTreeWalker walker = new ParseTreeWalker();
-        SQLParserListener extractor = new SQLParserListener();
-        extractor.setSourceString(inputFile);
-        extractor.setTokenStream(tokens);
-        walker.walk(extractor, tree);
-        return extractor.getQueryList();
+            ParseTreeWalker walker = new ParseTreeWalker();
+            SQLParserListener extractor = new SQLParserListener();
+            extractor.setSourceString(inputFile);
+            extractor.setTokenStream(tokens);
+            walker.walk(extractor, tree);
+
+            return extractor.getQueryList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
