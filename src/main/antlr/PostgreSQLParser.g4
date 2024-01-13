@@ -107,6 +107,7 @@ stmt
     | declarecursorstmt
     | definestmt
     | deletestmt
+    | deletekvsstmt // Extension to SQL/PGQ
     | discardstmt
     | dostmt
     | dropcaststmt
@@ -5696,4 +5697,9 @@ kv_list
 
 kv_pair
     : OPEN_PAREN identifier COMMA identifier CLOSE_PAREN
+    ;
+
+deletekvsstmt
+    : DELETE_P FROM KVS WHERE KEY EQUAL identifier (OR KEY EQUAL identifier)*
+    | DELETE_P FROM KVS
     ;

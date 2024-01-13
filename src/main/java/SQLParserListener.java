@@ -1,3 +1,7 @@
+import org.antlr.runtime.Token;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -12,6 +16,17 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     // used to assign tableId to read queries
     private int readTableCount = 0;
+
+//    @Override
+//    public void visitTerminal(TerminalNode node) {
+//        if (node.getSymbol().getType() == Token.EOF) {
+//            System.out.println();
+//            System.out.println(node.getSymbol().getTokenIndex());
+//            System.out.println("[" + node.getSourceInterval().a + ", " + node.getSourceInterval().b + "]");
+//        } else {
+//            System.out.println(node.getSymbol().getText() + " " + node.getSymbol().getTokenIndex());
+//        }
+//    }
 
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
@@ -216,7 +231,6 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     @Override
     public void enterKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
         if (ctx.identifier().isEmpty()) {
-
             return;
         } else {
             repeatedTokens = new ArrayList<>();
@@ -260,6 +274,22 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
             res.add(new String[] {identifier.getText(), newVal});
         }
         queryList.add(new KVPutQuery(res));
+    }
+    @Override
+    public void enterDeletekvsstmt(PostgreSQLParser.DeletekvsstmtContext ctx) {
+        if (ctx.identifier().isEmpty()) {
+            return;
+        } else {
+            repeatedTokens = new ArrayList<>();
+            for (var identifier : ctx.identifier()) {
+                repeatedTokens.add(identifier.getText().replaceAll("\"", ""));
+            }
+        }
+    }
+    @Override
+    public void exitDeletekvsstmt(PostgreSQLParser.DeletekvsstmtContext ctx) {
+        queryList.add(new KVDeleteQuery(repeatedTokens));
+        repeatedTokens = null;
     }
     public void setSourceString(String filepath) throws Exception {
         sourceString = Files.readString(Path.of(filepath));

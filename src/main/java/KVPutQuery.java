@@ -42,11 +42,6 @@ public class KVPutQuery extends KVQuery {
         }
     }
 
-    @Override
-    void executeAndStore(Connection conn) {
-        execute();
-    }
-
     public static void main(String[] args) {
         KVPutQuery testQuery = new KVPutQuery("testKey", "testValue");
         testQuery.execute();
