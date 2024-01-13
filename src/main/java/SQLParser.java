@@ -43,6 +43,7 @@ public class SQLParser {
         ParseTreeWalker walker = new ParseTreeWalker();
         SQLParserListener extractor = new SQLParserListener();
         extractor.setSourceString(inputFile);
+        extractor.setTokenStream(tokens);
         walker.walk(extractor, tree);
         return extractor.getQueryList();
     }
