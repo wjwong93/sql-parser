@@ -60,11 +60,9 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
             i++;
         }
         if (!query.isEmpty()) {
-            query.append("\n;\n");
+            query.append("\n;");
             queryList.add(new RelationalReadQuery(query.toString(), "t"+readTableCount++));
         }
-
-
         replaceTableIntervals = null;
     }
     @Override
@@ -76,7 +74,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     @Override
     public void exitGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
         String tableId = "t" + readTableCount++;
-        queryStringBuilder.append(";\n");
+        queryStringBuilder.append(";");
         queryList.add(new GraphReadQuery(queryStringBuilder.toString(), tableId));
         queryStringBuilder = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), tableId);
@@ -222,7 +220,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void exitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
-        queryStringBuilder.append(";\n");
+        queryStringBuilder.append(";");
         queryList.add(new GraphWriteQuery(queryStringBuilder.toString()));
         queryStringBuilder = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), null);
@@ -313,8 +311,10 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void exitKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
-        queryList.add(new KVGetQuery(repeatedTokens, "t"+readTableCount++));
+        String tableId = "t" + readTableCount++;
+        queryList.add(new KVGetQuery(repeatedTokens, tableId));
         repeatedTokens = null;
+        replaceTableIntervals.put(ctx.getSourceInterval(), tableId);
     }
 
     @Override
@@ -330,6 +330,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
         }
         queryList.add(new KVPutQuery(res));
         repeatedTokens = null;
+        replaceTableIntervals.put(ctx.getSourceInterval(), null);
     }
 
     @Override
@@ -346,6 +347,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
             res.add(new String[] {identifier.getText(), newVal});
         }
         queryList.add(new KVPutQuery(res));
+        replaceTableIntervals.put(ctx.getSourceInterval(), null);
     }
     @Override
     public void enterDeletekvsstmt(PostgreSQLParser.DeletekvsstmtContext ctx) {
@@ -360,6 +362,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     public void exitDeletekvsstmt(PostgreSQLParser.DeletekvsstmtContext ctx) {
         queryList.add(new KVDeleteQuery(repeatedTokens));
         repeatedTokens = null;
+        replaceTableIntervals.put(ctx.getSourceInterval(), null);
     }
     public void setSourceString(String filepath) throws Exception {
         sourceString = Files.readString(Path.of(filepath));
