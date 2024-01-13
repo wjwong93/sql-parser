@@ -1,11 +1,16 @@
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.misc.Interval;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SQLParserListener extends PostgreSQLParserBaseListener{
     private String sourceString;
+    private TokenStream tokenStream;
     private List<String> pathPatterns;
     private List<String> repeatedTokens;
     private StringBuilder queryStringBuilder;
@@ -14,17 +19,54 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     // used to assign tableId to read queries
     private int readTableCount = 0;
 
-//    @Override
-//    public void visitTerminal(TerminalNode node) {
-//        if (node.getSymbol().getType() == Token.EOF) {
-//            System.out.println();
-//            System.out.println(node.getSymbol().getTokenIndex());
-//            System.out.println("[" + node.getSourceInterval().a + ", " + node.getSourceInterval().b + "]");
-//        } else {
-//            System.out.println(node.getSymbol().getText() + " " + node.getSymbol().getTokenIndex());
-//        }
-//    }
+    // Store token text
+    final private Map<Integer, String> tokenText = new HashMap<>();
+    private Map<Interval, String> replaceTableIntervals;
 
+    @Override
+    public void visitTerminal(TerminalNode node) {
+//        if (node.getSymbol().getType() == Token.EOF) {
+//            for (var entry : tokenText.entrySet()) {
+//                System.out.println("[" + entry.getKey() + "] " + entry.getValue());
+//            }
+//        } else {
+//            Token token = node.getSymbol();
+//            tokenText.put(token.getTokenIndex(), token.getText());
+//        }
+    }
+
+    @Override
+    public void enterStmt(PostgreSQLParser.StmtContext ctx) {
+        replaceTableIntervals = new LinkedHashMap<>();
+    }
+    @Override
+    public void exitStmt(PostgreSQLParser.StmtContext ctx) {
+        StringBuilder query = new StringBuilder();
+
+        Iterator<Map.Entry<Interval, String>> skipIntervalsIterator = replaceTableIntervals.entrySet().iterator();
+        Map.Entry<Interval, String> currSkipInterval = null;
+        if (skipIntervalsIterator.hasNext()) currSkipInterval = skipIntervalsIterator.next();
+
+        int i = ctx.getSourceInterval().a;
+        while (i <= ctx.getSourceInterval().b) {
+            if (currSkipInterval != null && i == currSkipInterval.getKey().a) {
+                i = currSkipInterval.getKey().b;
+                String tableId = currSkipInterval.getValue();
+                if (tableId != null) query.append(tableId);
+                if (skipIntervalsIterator.hasNext()) currSkipInterval = skipIntervalsIterator.next();
+            } else {
+                query.append(tokenStream.get(i).getText());
+            }
+            i++;
+        }
+        if (!query.isEmpty()) {
+            query.append("\n;\n");
+            queryList.add(new RelationalReadQuery(query.toString(), "t"+readTableCount++));
+        }
+
+
+        replaceTableIntervals = null;
+    }
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
         queryStringBuilder = new StringBuilder();
@@ -33,9 +75,11 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void exitGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
+        String tableId = "t" + readTableCount++;
         queryStringBuilder.append(";\n");
-        queryList.add(new GraphReadQuery(queryStringBuilder.toString(), "t"+readTableCount++));
+        queryList.add(new GraphReadQuery(queryStringBuilder.toString(), tableId));
         queryStringBuilder = null;
+        replaceTableIntervals.put(ctx.getSourceInterval(), tableId);
     }
 
     @Override
@@ -181,6 +225,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
         queryStringBuilder.append(";\n");
         queryList.add(new GraphWriteQuery(queryStringBuilder.toString()));
         queryStringBuilder = null;
+        replaceTableIntervals.put(ctx.getSourceInterval(), null);
     }
 
     @Override
@@ -318,6 +363,10 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     }
     public void setSourceString(String filepath) throws Exception {
         sourceString = Files.readString(Path.of(filepath));
+    }
+
+    public void setTokenStream(TokenStream tokenStream) {
+        this.tokenStream = tokenStream;
     }
 
     public String getResult() {
