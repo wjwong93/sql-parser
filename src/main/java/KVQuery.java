@@ -7,6 +7,6 @@ public abstract class KVQuery extends Query {
 
     @Override
     void executeAndStore(Connection conn) {
-        return;
+        execute();
     }
 }

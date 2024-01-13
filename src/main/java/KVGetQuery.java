@@ -51,12 +51,12 @@ public class KVGetQuery extends ReadQuery {
 
             try (DB db = JniDBFactory.factory.open(new File("./leveldb"), new Options())) {
                 if (keys == null) {
+                    // GET ALL
                     try (DBIterator iterator = db.iterator()) {
                         for (iterator.seekToFirst(); iterator.hasNext(); iterator.next()) {
                             String key = JniDBFactory.asString(iterator.peekNext().getKey());
                             String value = JniDBFactory.asString(iterator.peekNext().getValue());
                             String insertDataSql = "INSERT INTO " + tableId + " VALUES (\"" + key + "\",\"" + value + "\");";
-                            System.out.println(insertDataSql);
                             stmt.addBatch(insertDataSql);
                         }
                     }

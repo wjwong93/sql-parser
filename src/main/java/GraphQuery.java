@@ -7,7 +7,7 @@ public abstract class GraphQuery extends Query {
 
     @Override
     void executeAndStore(Connection conn) {
-        return;
+        execute();
     }
 }
 

@@ -12,11 +12,6 @@ public class GraphWriteQuery extends GraphQuery {
         }
     }
 
-    @Override
-    void executeAndStore(Connection conn) {
-        execute();
-    }
-
     public static void main(String[] args) {
         String testQuery = "CREATE (n) SET n:TestNode;";
         GraphWriteQuery graphWriteQuery = new GraphWriteQuery(testQuery);
