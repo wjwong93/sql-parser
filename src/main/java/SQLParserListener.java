@@ -1,11 +1,8 @@
-import org.antlr.runtime.Token;
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.TerminalNode;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SQLParserListener extends PostgreSQLParserBaseListener{
     private String sourceString;
@@ -229,10 +226,39 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     }
 
     @Override
+    public void enterGraph_delete_clause(PostgreSQLParser.Graph_delete_clauseContext ctx) {
+        if (ctx.DETACH() != null) queryStringBuilder.append(ctx.DETACH().getText()).append(" ");
+        queryStringBuilder.append(ctx.DELETE_P().getText()).append(" ");
+        queryStringBuilder.append(
+            ctx.identifier().stream().map(identifierContext -> identifierContext.getText()).collect(Collectors.joining(", "))
+        ).append("\n");
+    }
+
+    @Override
+    public void enterGraph_remove_clause(PostgreSQLParser.Graph_remove_clauseContext ctx) {
+        queryStringBuilder.append(ctx.REMOVE().getText()).append(" ");
+        repeatedTokens = new ArrayList<>();
+    }
+
+    @Override
+    public void exitGraph_remove_clause(PostgreSQLParser.Graph_remove_clauseContext ctx) {
+        queryStringBuilder.append(String.join(", ", repeatedTokens)).append("\n");
+        repeatedTokens = null;
+    }
+
+    @Override
+    public void enterProperty_or_node_label(PostgreSQLParser.Property_or_node_labelContext ctx) {
+        StringBuilder res = new StringBuilder();
+        res.append(ctx.identifier(0).getText().replace("\"", ""));
+        if (ctx.DOT() != null) res.append(".");
+        else if (ctx.IS() != null) res.append(":");
+        res.append(ctx.identifier(1).getText().replace("\"", ""));
+        repeatedTokens.add(res.toString());
+    }
+
+    @Override
     public void enterKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
-        if (ctx.identifier().isEmpty()) {
-            return;
-        } else {
+        if (!ctx.identifier().isEmpty()) {
             repeatedTokens = new ArrayList<>();
             for (var identifier : ctx.identifier()) {
                 repeatedTokens.add(identifier.getText().replaceAll("\"", ""));
@@ -277,9 +303,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     }
     @Override
     public void enterDeletekvsstmt(PostgreSQLParser.DeletekvsstmtContext ctx) {
-        if (ctx.identifier().isEmpty()) {
-            return;
-        } else {
+        if (!ctx.identifier().isEmpty()) {
             repeatedTokens = new ArrayList<>();
             for (var identifier : ctx.identifier()) {
                 repeatedTokens.add(identifier.getText().replaceAll("\"", ""));

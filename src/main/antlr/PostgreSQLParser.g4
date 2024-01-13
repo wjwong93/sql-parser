@@ -5657,7 +5657,7 @@ opt_returning_clause_into
 
 // Extension to SQL/PGQ
 updategraphstmt
-    : UPDATE GRAPH_TABLE OPEN_PAREN graph_reference graph_match_clause? graph_create_clause? graph_set_clause? CLOSE_PAREN
+    : UPDATE GRAPH_TABLE OPEN_PAREN graph_reference graph_match_clause? ((graph_create_clause? graph_set_clause?) | (graph_delete_clause? graph_remove_clause?)) CLOSE_PAREN
     ;
 
 graph_match_clause
@@ -5674,6 +5674,19 @@ graph_set_clause
 
 graph_set_primary
     : identifier DOT identifier EQUAL identifier
+    | identifier IS identifier
+    ;
+
+graph_delete_clause
+    : DETACH? DELETE_P identifier (COMMA identifier)*
+    ;
+
+graph_remove_clause
+    : REMOVE property_or_node_label (COMMA property_or_node_label)*
+    ;
+
+property_or_node_label
+    : identifier DOT identifier
     | identifier IS identifier
     ;
 

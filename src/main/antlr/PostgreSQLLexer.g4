@@ -147,6 +147,9 @@ TILDE_SLASH: '~/';
 // For KVS
 KVS: 'KVS';
 
+// For Cypher
+REMOVE: 'REMOVE';
+
 PARAM: '$' ([0-9])+;
 //
 
