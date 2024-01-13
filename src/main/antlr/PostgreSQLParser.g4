@@ -3274,93 +3274,6 @@ opt_col_def_list
     |
     ;
 
-graph_table
-    : GRAPH_TABLE OPEN_PAREN graph_reference graph_match_clause graph_table_shape CLOSE_PAREN
-    ;
-
-graph_reference
-    : identifier
-    ;
-
-graph_pattern
-    : path_pattern_list where_clause
-    ;
-
-graph_table_shape
-    : graph_table_columns_clause
-    ;
-
-graph_table_columns_clause
-    : COLUMNS OPEN_PAREN graph_table_column_definition (COMMA graph_table_column_definition)* CLOSE_PAREN
-    ;
-
-graph_table_column_definition
-    : identifier (DOT identifier) (AS identifier)?
-    ;
-
-path_pattern_list
-    : path_pattern (COMMA path_pattern)*
-    ;
-
-path_pattern
-    : path_factor (path_factor)*
-    ;
-
-path_factor
-    : path_primary
-    | path_primary QUESTION_MARK
-    | quantified_path_primary
-    ;
-
-quantified_path_primary
-    : full_edge_pattern graph_pattern_quantifier
-    ;
-
-path_primary
-    : vertex_pattern
-    | edge_pattern
-    ;
-
-graph_pattern_quantifier
-    : STAR
-    | PLUS
-    | OPEN_BRACE Integral CLOSE_BRACE
-    | OPEN_BRACE (Integral)? COMMA (Integral)? CLOSE_BRACE
-    ;
-
-element_pattern_filler
-    : identifier? (IS identifier)?
-    ;
-
-vertex_pattern
-    : OPEN_PAREN element_pattern_filler CLOSE_PAREN
-    ;
-
-edge_pattern
-    : full_edge_pattern
-    | abbreviated_edge_pattern
-    ;
-
-full_edge_pattern
-    : LEFT_ARROW_BRACKET element_pattern_filler RIGHT_BRACKET_MINUS
-    | TILDE_LEFT_BRACKET element_pattern_filler RIGHT_BRACKET_TILDE
-    | MINUS_LEFT_BRACKET element_pattern_filler BRACKET_RIGHT_ARROW
-    | LEFT_ARROW_TILDE_BRACKET element_pattern_filler RIGHT_BRACKET_TILDE
-    | TILDE_LEFT_BRACKET element_pattern_filler BRACKET_TILDE_RIGHT_ARROW
-    | LEFT_ARROW_BRACKET element_pattern_filler BRACKET_RIGHT_ARROW
-    | MINUS_LEFT_BRACKET element_pattern_filler RIGHT_BRACKET_MINUS
-    ;
-
-abbreviated_edge_pattern
-    : LEFT_ARROW
-    | TILDE
-    | RIGHT_ARROW
-    | LEFT_ARROW_TILDE
-    | TILDE_RIGHT_ARROW
-    | LEFT_MINUS_RIGHT
-    | MINUS
-    ;
-
 //TODO WITH_LA was used
 
 opt_ordinality
@@ -5655,6 +5568,102 @@ opt_returning_clause_into
     |
     ;
 
+// SQL/PGQ
+graph_element_identifier
+    : identifier
+    | unreserved_keyword
+    | plsql_unreserved_keyword
+    | col_name_keyword
+    | type_func_name_keyword
+    ;
+
+graph_table
+    : GRAPH_TABLE OPEN_PAREN graph_reference graph_match_clause graph_table_shape CLOSE_PAREN
+    ;
+
+graph_reference
+    : identifier
+    ;
+
+graph_pattern
+    : path_pattern_list where_clause
+    ;
+
+graph_table_shape
+    : graph_table_columns_clause
+    ;
+
+graph_table_columns_clause
+    : COLUMNS OPEN_PAREN graph_table_column_definition (COMMA graph_table_column_definition)* CLOSE_PAREN
+    ;
+
+graph_table_column_definition
+    : graph_element_identifier (DOT graph_element_identifier) (AS graph_element_identifier)?
+    ;
+
+path_pattern_list
+    : path_pattern (COMMA path_pattern)*
+    ;
+
+path_pattern
+    : path_factor (path_factor)*
+    ;
+
+path_factor
+    : path_primary
+    | path_primary QUESTION_MARK
+    | quantified_path_primary
+    ;
+
+quantified_path_primary
+    : full_edge_pattern graph_pattern_quantifier
+    ;
+
+path_primary
+    : vertex_pattern
+    | edge_pattern
+    ;
+
+graph_pattern_quantifier
+    : STAR
+    | PLUS
+    | OPEN_BRACE Integral CLOSE_BRACE
+    | OPEN_BRACE (Integral)? COMMA (Integral)? CLOSE_BRACE
+    ;
+
+element_pattern_filler
+    : graph_element_identifier? (IS graph_element_identifier)?
+    ;
+
+vertex_pattern
+    : OPEN_PAREN element_pattern_filler CLOSE_PAREN
+    ;
+
+edge_pattern
+    : full_edge_pattern
+    | abbreviated_edge_pattern
+    ;
+
+full_edge_pattern
+    : LEFT_ARROW_BRACKET element_pattern_filler RIGHT_BRACKET_MINUS
+    | TILDE_LEFT_BRACKET element_pattern_filler RIGHT_BRACKET_TILDE
+    | MINUS_LEFT_BRACKET element_pattern_filler BRACKET_RIGHT_ARROW
+    | LEFT_ARROW_TILDE_BRACKET element_pattern_filler RIGHT_BRACKET_TILDE
+    | TILDE_LEFT_BRACKET element_pattern_filler BRACKET_TILDE_RIGHT_ARROW
+    | LEFT_ARROW_BRACKET element_pattern_filler BRACKET_RIGHT_ARROW
+    | MINUS_LEFT_BRACKET element_pattern_filler RIGHT_BRACKET_MINUS
+    ;
+
+abbreviated_edge_pattern
+    : LEFT_ARROW
+    | TILDE
+    | RIGHT_ARROW
+    | LEFT_ARROW_TILDE
+    | TILDE_RIGHT_ARROW
+    | LEFT_MINUS_RIGHT
+    | MINUS
+    ;
+
 // Extension to SQL/PGQ
 updategraphstmt
     : UPDATE GRAPH_TABLE OPEN_PAREN graph_reference graph_match_clause? ((graph_create_clause? graph_set_clause?) | (graph_delete_clause? graph_remove_clause?)) CLOSE_PAREN
@@ -5673,12 +5682,12 @@ graph_set_clause
     ;
 
 graph_set_primary
-    : identifier DOT identifier EQUAL identifier
-    | identifier IS identifier
+    : graph_element_identifier DOT graph_element_identifier EQUAL graph_element_identifier
+    | graph_element_identifier IS graph_element_identifier
     ;
 
 graph_delete_clause
-    : DETACH? DELETE_P identifier (COMMA identifier)*
+    : DETACH? DELETE_P graph_element_identifier (COMMA graph_element_identifier)*
     ;
 
 graph_remove_clause
@@ -5686,8 +5695,8 @@ graph_remove_clause
     ;
 
 property_or_node_label
-    : identifier DOT identifier
-    | identifier IS identifier
+    : graph_element_identifier DOT graph_element_identifier
+    | graph_element_identifier IS graph_element_identifier
     ;
 
 // Key Value Store Extension
