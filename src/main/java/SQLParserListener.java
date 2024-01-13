@@ -265,6 +265,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
             }
         }
     }
+
     @Override
     public void exitKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
         queryList.add(new KVGetQuery(repeatedTokens, "t"+readTableCount++));
