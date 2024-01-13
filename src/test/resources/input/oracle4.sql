@@ -10,4 +10,4 @@ FROM GRAPH_TABLE(aml
         c2."name",
         c2.city
     )
-) AS gt
+) AS gt;
