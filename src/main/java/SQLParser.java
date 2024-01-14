@@ -13,14 +13,14 @@ public class SQLParser {
         InputStream is = System.in;
         if (inputFile != null) is = new FileInputStream(inputFile);
 
-        List<Query> queryList = parse(is, inputFile);
+        List<Query> queryList = parse(is);
         for (Query query : queryList) {
             System.out.println(query.toString() + "\n");
         }
 
     }
 
-    public static String extractCypherQuery(InputStream inputStream, String inputFile) throws Exception {
+    public static String extractCypherQuery(InputStream inputStream) throws Exception {
         CharStream input = CharStreams.fromStream(inputStream);
         PostgreSQLLexer lexer = new PostgreSQLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -29,13 +29,12 @@ public class SQLParser {
 
         ParseTreeWalker walker = new ParseTreeWalker();
         SQLParserListener cypherExtractor = new SQLParserListener();
-        cypherExtractor.setSourceString(inputFile);
         cypherExtractor.setTokenStream(tokens);
         walker.walk(cypherExtractor, tree);
         return cypherExtractor.getResult();
     }
 
-    public static List<Query> parse(InputStream inputStream, String inputFile) {
+    public static List<Query> parse(InputStream inputStream) {
         try {
             CharStream input = CharStreams.fromStream(inputStream);
             PostgreSQLLexer lexer = new PostgreSQLLexer(input);
@@ -46,7 +45,6 @@ public class SQLParser {
 
             ParseTreeWalker walker = new ParseTreeWalker();
             SQLParserListener extractor = new SQLParserListener();
-            extractor.setSourceString(inputFile);
             extractor.setTokenStream(tokens);
             walker.walk(extractor, tree);
 

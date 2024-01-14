@@ -1,13 +1,15 @@
 -- Create Data
 UPDATE GRAPH_TABLE(neo4j
-    CREATE (n)
-    SET n IS TestNode, n."key" = "testKey", n.property = "testProperty"
+    CREATE (m)-[r]->(n)
+    SET m IS TestNode,
+        r IS DEP,
+        n IS TestNode, n.key = "testKey", n.property = "testProperty"
 );
 
 INSERT INTO KVS
 VALUES ("testKey", "testValue");
 
--- Select Data
+-- Select Data From Both and Join
 SELECT kvt.key AS key, kvt.value AS value, gt.n_property AS property
 FROM (
     SELECT * FROM KVS
@@ -15,9 +17,9 @@ FROM (
 ) AS kvt
 INNER JOIN (
     SELECT * FROM GRAPH_TABLE(neo4j
-        MATCH (n IS TestNode)
+        MATCH (m IS TestNode)-[r IS DEP]->(n)
         COLUMNS (
-            n."key" AS n_key,
+            n.key AS n_key,
             n.property AS n_property
         )
     )
@@ -26,8 +28,8 @@ ON kvt.key = gt.n_key;
 
 -- Cleanup
 UPDATE GRAPH_TABLE(neo4j
-    MATCH (n is TestNode)
-    DETACH DELETE n
+    MATCH (m IS TestNode)-[r IS DEP]->(n IS TestNode)
+    DETACH DELETE m, r, n
 );
 
 DELETE FROM KVS
