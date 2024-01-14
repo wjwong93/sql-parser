@@ -7,7 +7,7 @@ FROM GRAPH_TABLE(aml
     WHERE c1.cid = 500
     COLUMNS(
         c2.cid,
-        c2."name",
+        c2.name,
         c2.city
     )
 ) AS gt;

@@ -16,7 +16,7 @@ class SQLParserTest {
         ) {
             assertEquals(
                     Files.readString(Path.of("src/test/resources/output/test.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/test.sql").replaceAll("\\s+", " ")
+                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -32,7 +32,7 @@ class SQLParserTest {
         ) {
             assertEquals(
                     Files.readString(Path.of("src/test/resources/output/oracle1.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/oracle1.sql").replaceAll("\\s+", " ")
+                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -48,7 +48,7 @@ class SQLParserTest {
         ) {
             assertEquals(
                     Files.readString(Path.of("src/test/resources/output/oracle2.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/oracle2.sql").replaceAll("\\s+", " ")
+                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -64,7 +64,7 @@ class SQLParserTest {
         ) {
             assertEquals(
                     Files.readString(Path.of("src/test/resources/output/oracle3.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/oracle3.sql").replaceAll("\\s+", " ")
+                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -80,7 +80,7 @@ class SQLParserTest {
         ) {
             assertEquals(
                     Files.readString(Path.of("src/test/resources/output/yasuda1.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/yasuda1.sql").replaceAll("\\s+", " ")
+                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -96,7 +96,7 @@ class SQLParserTest {
         ) {
             assertEquals(
                     Files.readString(Path.of("src/test/resources/output/yasuda2.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/yasuda2.sql").replaceAll("\\s+", " ")
+                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -112,7 +112,7 @@ class SQLParserTest {
         ) {
             assertEquals(
                     Files.readString(Path.of("src/test/resources/output/yasuda3.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/yasuda3.sql").replaceAll("\\s+", " ")
+                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -128,7 +128,7 @@ class SQLParserTest {
         ) {
             assertEquals(
                     Files.readString(Path.of("src/test/resources/output/yasuda4.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream, "src/test/resources/input/yasuda4.sql").replaceAll("\\s+", " ")
+                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);

@@ -12,14 +12,14 @@ import java.util.stream.Collectors;
 public class KVPutQuery extends KVQuery {
     final private List<String[]> keyvalues;
     public KVPutQuery(String key, String value) {
-        super("PUT(" + key + ", " + value + ");");
+        super("PUT(\"" + key + "\", \"" + value + "\");");
         this.keyvalues = new ArrayList<>();
         this.keyvalues.add(new String[] {key, value});
     }
 
     public KVPutQuery(List<String[]> keyvalues) {
         super(keyvalues.stream().map(
-                kv -> "PUT(" + kv[0] + ", " + kv[1] + ");"
+                kv -> "PUT(\"" + kv[0] + "\", \"" + kv[1] + "\");"
         ).collect(Collectors.joining("\n")));
 
         this.keyvalues = keyvalues;
@@ -32,8 +32,8 @@ public class KVPutQuery extends KVQuery {
             WriteBatch batch = db.createWriteBatch()
         ) {
             for (String[] kv : keyvalues) {
-                String key = kv[0].replaceAll("\"", "");
-                String value = kv[1].replaceAll("\"", "");
+                String key = kv[0];
+                String value = kv[1];
                 batch.put(JniDBFactory.bytes(key), JniDBFactory.bytes(value));
             }
             db.write(batch);

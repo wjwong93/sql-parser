@@ -11,7 +11,7 @@ FROM GRAPH_TABLE(aml
         AND t2.amount > 10000
     COLUMNS(
         c2.cid,
-        c2."name",
+        c2.name,
         c2.city,
         t1.amount AS amount1,
         t2.amount AS amount2

@@ -5701,16 +5701,16 @@ property_or_node_label
 
 // Key Value Store Extension
 kvs_table
-    : KVS WHERE KEY EQUAL identifier (OR KEY EQUAL identifier)*
-    | KVS
+    : KVS kvs_where_key_clause?
+    ;
+
+kvs_where_key_clause
+    : WHERE KEY EQUAL identifier (OR KEY EQUAL identifier)*
+    | WHERE KEY IN_P OPEN_PAREN identifier (COMMA identifier)* CLOSE_PAREN
     ;
 
 insert_kvs
     : INSERT INTO KVS VALUES kv_list
-    ;
-
-updatekvsstmt
-    : UPDATE KVS SET VALUE_P EQUAL identifier WHERE KEY EQUAL identifier (OR KEY EQUAL identifier)*
     ;
 
 kv_list
@@ -5721,7 +5721,10 @@ kv_pair
     : OPEN_PAREN identifier COMMA identifier CLOSE_PAREN
     ;
 
+updatekvsstmt
+    : UPDATE KVS SET VALUE_P EQUAL identifier kvs_where_key_clause
+    ;
+
 deletekvsstmt
-    : DELETE_P FROM KVS WHERE KEY EQUAL identifier (OR KEY EQUAL identifier)*
-    | DELETE_P FROM KVS
+    : DELETE_P FROM KVS kvs_where_key_clause?
     ;

@@ -49,7 +49,7 @@ public class GraphDBExecutor implements AutoCloseable {
             var executor = new GraphDBExecutor("neo4j://localhost:7687", "neo4j", "password");
             FileInputStream inputStream = new FileInputStream(inputFile);
         ) {
-            String graphQuery = SQLParser.extractCypherQuery(inputStream, inputFile);
+            String graphQuery = SQLParser.extractCypherQuery(inputStream);
             List<Record> recordList = executor.executeQuery(graphQuery);
             printRecordList(recordList);
         } catch (Exception e) {

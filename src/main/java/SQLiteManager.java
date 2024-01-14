@@ -41,7 +41,7 @@ public class SQLiteManager implements AutoCloseable {
             SQLiteManager manager = new SQLiteManager()
         ) {
             Connection conn = manager.getConn();
-            List<Query> queryList = SQLParser.parse(inputStream, inputFile);
+            List<Query> queryList = SQLParser.parse(inputStream);
             for (Query query : queryList) {
                 query.executeAndStore(conn);
             }
