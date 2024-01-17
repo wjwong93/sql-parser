@@ -1,6 +1,10 @@
 import org.neo4j.driver.Record;
+import org.neo4j.driver.internal.types.TypeConstructor;
+import org.neo4j.driver.internal.types.TypeRepresentation;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +35,13 @@ public class GraphReadQuery extends ReadQuery {
 
             for (Record record : recordList) {
                 String insertDataSql = "INSERT INTO " + tableId + " VALUES(" +
-                        record.values().stream().map(v -> "\"" + v.asString() + "\"").collect(Collectors.joining(", ")) +
+                        record.values().stream().map(v -> {
+                            if (new TypeRepresentation(TypeConstructor.STRING).isTypeOf(v)) {
+                                return "\"" + v.asString() + "\"";
+                            } else {
+                                return "\"" + v.toString() + "\"";
+                            }
+                        }).collect(Collectors.joining(", ")) +
                         ");";
                 stmt.addBatch(insertDataSql);
             }
