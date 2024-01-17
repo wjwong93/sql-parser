@@ -39,6 +39,8 @@ public abstract class ReadQuery extends Query {
             }
             System.out.println();
         }
+
+        System.out.println();
     }
 
 //    @Override
