@@ -20,8 +20,8 @@ public class LevelDBSetup {
 
         options.createIfMissing(true);
         try (
-                DB db = JniDBFactory.factory.open(dbPath, options);
-                WriteBatch batch = db.createWriteBatch();
+            DB db = JniDBFactory.factory.open(dbPath, options);
+            WriteBatch batch = db.createWriteBatch()
         ) {
             for (String[] row : csvData) {
                 String key = row[0] + "_" + row[2];
