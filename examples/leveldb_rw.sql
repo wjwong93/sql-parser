@@ -12,15 +12,13 @@ OR key = "testKey2";
 
 UPDATE KVS
 SET value = "newValue"
-WHERE key = "testKey1" OR key = "testKey2";
+WHERE key IN ("testKey1", "testKey2");
 
 SELECT *
 FROM KVS
-WHERE key = "testKey1"
-OR key = "testKey2";
+WHERE key IN ("testKey1", "testKey2");
 
 DELETE FROM KVS
-WHERE key = "testKey1"
-OR key = "testKey2";
+WHERE key IN ("testKey1", "testKey2");
 
 SELECT * FROM KVS;
