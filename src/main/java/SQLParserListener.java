@@ -23,6 +23,12 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     final private Map<Integer, String> tokenText = new HashMap<>();
     private Map<Interval, String> replaceTableIntervals;
 
+    private SQLParserListener() {}
+
+    public SQLParserListener(TokenStream tokenStream) {
+        this.tokenStream = tokenStream;
+    }
+
     @Override
     public void visitTerminal(TerminalNode node) {
 //        if (node.getSymbol().getType() == Token.EOF) {
@@ -396,10 +402,6 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
         queryList.add(new KVDeleteQuery(repeatedTokens));
         repeatedTokens = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), null);
-    }
-
-    public void setTokenStream(TokenStream tokenStream) {
-        this.tokenStream = tokenStream;
     }
 
     public String getResult() {
