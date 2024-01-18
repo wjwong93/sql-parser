@@ -1,6 +1,6 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.query;
 
-import java.sql.Connection;
+import com.wjwong93.polystore.GraphDBExecutor;
 
 public class GraphWriteQuery extends GraphQuery {
     public GraphWriteQuery(String query) {
@@ -8,7 +8,7 @@ public class GraphWriteQuery extends GraphQuery {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         try (GraphDBExecutor executor = new GraphDBExecutor("neo4j://localhost:7687", "neo4j", "password")) {
             executor.executeWriteQuery(query);
         }

@@ -1,5 +1,6 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.parser;
 
+import com.wjwong93.polystore.query.Query;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 

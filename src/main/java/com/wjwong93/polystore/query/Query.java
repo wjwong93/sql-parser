@@ -1,4 +1,4 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.query;
 
 import java.sql.Connection;
 
@@ -9,9 +9,9 @@ public abstract class Query {
         this.query = query;
     }
 
-    abstract void execute();
+    abstract public void execute();
 
-    abstract void executeAndStore(Connection conn);
+    abstract public void executeAndStore(Connection conn);
 
     @Override
     public String toString() {

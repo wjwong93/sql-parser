@@ -1,4 +1,4 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.query;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,12 +11,12 @@ public class RelationalReadQuery extends ReadQuery {
     }
 
     @Override
-    void execute() {
+    public void execute() {
 
     }
 
     @Override
-    void executeAndStore(Connection conn) {
+    public void executeAndStore(Connection conn) {
         try (
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query)

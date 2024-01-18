@@ -1,4 +1,4 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.query;
 
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.DB;
@@ -6,7 +6,6 @@ import org.iq80.leveldb.Options;
 import org.iq80.leveldb.WriteBatch;
 
 import java.io.File;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +27,7 @@ public class KVPutQuery extends KVQuery {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         try (
             DB db = JniDBFactory.factory.open(new File("./leveldb"), new Options());
             WriteBatch batch = db.createWriteBatch()

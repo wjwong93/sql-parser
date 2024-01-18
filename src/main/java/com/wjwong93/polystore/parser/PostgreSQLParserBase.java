@@ -1,4 +1,4 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.parser;
 
 import org.antlr.v4.runtime.*;
 

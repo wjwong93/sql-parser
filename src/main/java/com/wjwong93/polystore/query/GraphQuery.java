@@ -1,4 +1,4 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.query;
 
 import java.sql.Connection;
 
@@ -8,7 +8,7 @@ public abstract class GraphQuery extends Query {
     }
 
     @Override
-    void executeAndStore(Connection conn) {
+    public void executeAndStore(Connection conn) {
         execute();
     }
 }

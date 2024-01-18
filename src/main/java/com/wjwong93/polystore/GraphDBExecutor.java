@@ -1,13 +1,13 @@
 package com.wjwong93.polystore;
 
+import com.wjwong93.polystore.parser.SQLParser;
+import com.wjwong93.polystore.query.Query;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 
 import java.io.FileInputStream;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class GraphDBExecutor implements AutoCloseable {
     private final Driver driver;

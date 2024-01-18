@@ -1,4 +1,4 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.query;
 
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.DB;
@@ -7,7 +7,6 @@ import org.iq80.leveldb.Options;
 
 import java.io.File;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class KVGetQuery extends ReadQuery {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         try (DB db = JniDBFactory.factory.open(new File("./leveldb"), new Options())) {
             for (String key : keys) {
                 String value = JniDBFactory.asString(db.get(JniDBFactory.bytes(key)));
@@ -43,7 +42,7 @@ public class KVGetQuery extends ReadQuery {
     }
 
     @Override
-    void executeAndStore(Connection conn) {
+    public void executeAndStore(Connection conn) {
         try (Statement stmt = conn.createStatement()) {
             String createTableSql = "CREATE TABLE " + tableId + "(\n" +
                     "\"key\" TEXT PRIMARY KEY,\n" +
