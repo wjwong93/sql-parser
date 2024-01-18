@@ -4192,6 +4192,7 @@ colid
     | plsql_unreserved_keyword
     | LEFT
     | RIGHT
+    | custom_unreserved_keyword
     ;
 
 table_alias
@@ -4199,6 +4200,7 @@ table_alias
     | unreserved_keyword
     | col_name_keyword
     | plsql_unreserved_keyword
+    | custom_unreserved_keyword
     ;
 
 type_function_name
@@ -4206,6 +4208,7 @@ type_function_name
     | unreserved_keyword
     | plsql_unreserved_keyword
     | type_func_name_keyword
+    | custom_unreserved_keyword
     ;
 
 nonreservedword
@@ -4213,6 +4216,7 @@ nonreservedword
     | unreserved_keyword
     | col_name_keyword
     | type_func_name_keyword
+    | custom_unreserved_keyword
     ;
 
 collabel
@@ -4222,6 +4226,7 @@ collabel
     | col_name_keyword
     | type_func_name_keyword
     | reserved_keyword
+    | custom_unreserved_keyword
     ;
 
 identifier
@@ -4231,6 +4236,7 @@ identifier
     | plsqlvariablename
     | plsqlidentifier
     | plsql_unreserved_keyword
+    | custom_unreserved_keyword
     ;
 
 plsqlidentifier
@@ -4615,6 +4621,10 @@ type_func_name_keyword
     | SIMILAR
     | TABLESAMPLE
     | VERBOSE
+    ;
+
+custom_unreserved_keyword
+    : PATH_LENGTH
     ;
 
 reserved_keyword
@@ -5575,6 +5585,7 @@ graph_element_identifier
     | plsql_unreserved_keyword
     | col_name_keyword
     | type_func_name_keyword
+    | custom_unreserved_keyword
     ;
 
 graph_table
@@ -5599,6 +5610,19 @@ graph_table_columns_clause
 
 graph_table_column_definition
     : graph_element_identifier (DOT graph_element_identifier) (AS graph_element_identifier)?
+    | graphical_value_expression_primary (AS graph_element_identifier)?
+    ;
+
+graphical_value_expression_primary
+    : element_id_function
+    | graphical_path_length_function
+    ;
+element_id_function
+    : ELEMENT_ID OPEN_PAREN graph_element_identifier CLOSE_PAREN
+    ;
+
+graphical_path_length_function
+    : PATH_LENGTH OPEN_PAREN graph_element_identifier CLOSE_PAREN
     ;
 
 path_pattern_list
@@ -5606,7 +5630,7 @@ path_pattern_list
     ;
 
 path_pattern
-    : path_factor (path_factor)*
+    : (graph_element_identifier EQUAL)? path_factor (path_factor)*
     ;
 
 path_factor

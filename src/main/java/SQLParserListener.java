@@ -105,7 +105,11 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
     }
     @Override
     public void enterPath_pattern(PostgreSQLParser.Path_patternContext ctx) {
-        pathPatterns.add("");
+        String pathVariable = "";
+        if (ctx.graph_element_identifier() != null) {
+            pathVariable += ctx.graph_element_identifier().getText() + " " + ctx.EQUAL().getText() + " ";
+        }
+        pathPatterns.add(pathVariable);
     }
     @Override
     public void enterVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx) {
@@ -189,10 +193,23 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
 
     @Override
     public void enterGraph_table_column_definition(PostgreSQLParser.Graph_table_column_definitionContext ctx) {
+        repeatedTokens.add("");
+    }
+
+    @Override
+    public void exitGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx) {
+        queryStringBuilder.append(String.join(", ", repeatedTokens)).append("\n");
+        repeatedTokens = null;
+    }
+
+    @Override
+    public void exitGraph_table_column_definition(PostgreSQLParser.Graph_table_column_definitionContext ctx) {
         StringBuilder columnDefinition = new StringBuilder();
         int identifier_i = 0;
 
-        columnDefinition.append(ctx.graph_element_identifier(identifier_i++).getText().replace("\"", ""));
+        if (ctx.graphical_value_expression_primary() == null) {
+            columnDefinition.append(ctx.graph_element_identifier(identifier_i++).getText().replace("\"", ""));
+        }
 
         if (ctx.DOT() != null) {
             columnDefinition
@@ -206,13 +223,20 @@ public class SQLParserListener extends PostgreSQLParserBaseListener{
                 .append(ctx.graph_element_identifier(identifier_i).getText().replace("\"", ""));
         }
 
-        repeatedTokens.add(columnDefinition.toString());
+        int n = repeatedTokens.size();
+        repeatedTokens.set(n-1, repeatedTokens.get(n-1) + columnDefinition);
     }
 
     @Override
-    public void exitGraph_table_columns_clause(PostgreSQLParser.Graph_table_columns_clauseContext ctx) {
-        queryStringBuilder.append(String.join(", ", repeatedTokens)).append("\n");
-        repeatedTokens = null;
+    public void enterElement_id_function(PostgreSQLParser.Element_id_functionContext ctx) {
+        int n = repeatedTokens.size();
+        repeatedTokens.set(n-1, "elementId(" + ctx.graph_element_identifier().getText() + ")");
+    }
+
+    @Override
+    public void enterGraphical_path_length_function(PostgreSQLParser.Graphical_path_length_functionContext ctx) {
+        int n = repeatedTokens.size();
+        repeatedTokens.set(n-1, "length(" + ctx.graph_element_identifier().getText() + ")");
     }
 
     @Override
