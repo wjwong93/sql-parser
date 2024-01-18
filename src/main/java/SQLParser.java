@@ -21,20 +21,6 @@ public class SQLParser {
 
     }
 
-    public static String extractCypherQuery(InputStream inputStream) throws Exception {
-        CharStream input = CharStreams.fromStream(inputStream);
-        PostgreSQLLexer lexer = new PostgreSQLLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        PostgreSQLParser parser = new PostgreSQLParser(tokens);
-        ParseTree tree = parser.root();
-
-        ParseTreeWalker walker = new ParseTreeWalker();
-        SQLParserListener cypherExtractor = new SQLParserListener();
-        cypherExtractor.setTokenStream(tokens);
-        walker.walk(cypherExtractor, tree);
-        return cypherExtractor.getResult();
-    }
-
     public static List<Query> parse(InputStream inputStream) {
         try {
             CharStream input = CharStreams.fromStream(inputStream);
@@ -45,8 +31,7 @@ public class SQLParser {
             ParseTree tree = parser.root();
 
             ParseTreeWalker walker = new ParseTreeWalker();
-            SQLParserListener extractor = new SQLParserListener();
-            extractor.setTokenStream(tokens);
+            SQLParserListener extractor = new SQLParserListener(tokens);
             walker.walk(extractor, tree);
 
             return extractor.getQueryList();

@@ -1,10 +1,13 @@
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class SQLParserTest {
     @Test
@@ -12,12 +15,19 @@ class SQLParserTest {
         /* No Graph query in SQL
         */
         try (
-            FileInputStream inputStream = new FileInputStream("src/test/resources/input/test.sql");
+            FileInputStream inputStream = new FileInputStream("src/test/resources/input/test.sql")
         ) {
+            List<Query> queryList = SQLParser.parse(inputStream);
+            StringBuilder parseResult = new StringBuilder();
+            for (Query query : queryList) {
+                parseResult.append(query.toString()).append("\n");
+            }
+
             assertEquals(
-                    Files.readString(Path.of("src/test/resources/output/test.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
+                Files.readString(Path.of("src/test/resources/output/test.txt")).replaceAll("\\s+", " "),
+                parseResult.toString().replaceAll("\\s+", " ")
             );
+
         } catch (Exception e) {
             System.err.println(e);
             fail();
@@ -28,11 +38,17 @@ class SQLParserTest {
         /* Sample SQL/PGQ query from Oracle
          */
         try (
-                FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle1.sql");
+            FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle1.sql")
         ) {
+            List<Query> queryList = SQLParser.parse(inputStream);
+            StringBuilder parseResult = new StringBuilder();
+            for (Query query : queryList) {
+                parseResult.append(query.toString()).append("\n");
+            }
+
             assertEquals(
-                    Files.readString(Path.of("src/test/resources/output/oracle1.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
+                Files.readString(Path.of("src/test/resources/output/oracle1.txt")).replaceAll("\\s+", " "),
+                parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -44,11 +60,17 @@ class SQLParserTest {
         /* Sample SQL/PGQ query from Oracle
          */
         try (
-                FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle2.sql");
+            FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle2.sql")
         ) {
+            List<Query> queryList = SQLParser.parse(inputStream);
+            StringBuilder parseResult = new StringBuilder();
+            for (Query query : queryList) {
+                parseResult.append(query.toString()).append("\n");
+            }
+
             assertEquals(
-                    Files.readString(Path.of("src/test/resources/output/oracle2.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
+                    Files.readString(Path.of("src/test/resources/output/oracle2.txt")).replaceAll("\\s+", " "),
+                    parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -60,11 +82,17 @@ class SQLParserTest {
         /* Sample SQL/PGQ query from Oracle
          */
         try (
-                FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle3.sql");
+            FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle3.sql")
         ) {
+            List<Query> queryList = SQLParser.parse(inputStream);
+            StringBuilder parseResult = new StringBuilder();
+            for (Query query : queryList) {
+                parseResult.append(query.toString()).append("\n");
+            }
+
             assertEquals(
-                    Files.readString(Path.of("src/test/resources/output/oracle3.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
+                Files.readString(Path.of("src/test/resources/output/oracle3.txt")).replaceAll("\\s+", " "),
+                parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -76,11 +104,17 @@ class SQLParserTest {
         /* ノードの作成
          */
         try (
-                FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda1.sql");
+            FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda1.sql")
         ) {
+            List<Query> queryList = SQLParser.parse(inputStream);
+            StringBuilder parseResult = new StringBuilder();
+            for (Query query : queryList) {
+                parseResult.append(query.toString()).append("\n");
+            }
+
             assertEquals(
-                    Files.readString(Path.of("src/test/resources/output/yasuda1.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
+                    Files.readString(Path.of("src/test/resources/output/yasuda1.txt")).replaceAll("\\s+", " "),
+                    parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -92,11 +126,17 @@ class SQLParserTest {
         /* リレーションの作成
          */
         try (
-                FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda2.sql");
+            FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda2.sql")
         ) {
+            List<Query> queryList = SQLParser.parse(inputStream);
+            StringBuilder parseResult = new StringBuilder();
+            for (Query query : queryList) {
+                parseResult.append(query.toString()).append("\n");
+            }
+
             assertEquals(
-                    Files.readString(Path.of("src/test/resources/output/yasuda2.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
+                Files.readString(Path.of("src/test/resources/output/yasuda2.txt")).replaceAll("\\s+", " "),
+                parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -108,11 +148,17 @@ class SQLParserTest {
         /* あるキーを持つノードに依存しているノードの検索(例えば間違ったデータの影響を受けているノードn)
         */
         try (
-                FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda3.sql");
+            FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda3.sql")
         ) {
+            List<Query> queryList = SQLParser.parse(inputStream);
+            StringBuilder parseResult = new StringBuilder();
+            for (Query query : queryList) {
+                parseResult.append(query.toString()).append("\n");
+            }
+
             assertEquals(
-                    Files.readString(Path.of("src/test/resources/output/yasuda3.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
+                Files.readString(Path.of("src/test/resources/output/yasuda3.txt")).replaceAll("\\s+", " "),
+                parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
@@ -124,11 +170,17 @@ class SQLParserTest {
         /* あるキーを持つノードに依存しているノードと、新しく計算し直す時に必要なノードの検索
          */
         try (
-                FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda4.sql");
+            FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda4.sql")
         ) {
+            List<Query> queryList = SQLParser.parse(inputStream);
+            StringBuilder parseResult = new StringBuilder();
+            for (Query query : queryList) {
+                parseResult.append(query.toString()).append("\n");
+            }
+
             assertEquals(
-                    Files.readString(Path.of("src/test/resources/output/yasuda4.cypher")).replaceAll("\\s+", " "),
-                    SQLParser.extractCypherQuery(inputStream).replaceAll("\\s+", " ")
+                Files.readString(Path.of("src/test/resources/output/yasuda4.txt")).replaceAll("\\s+", " "),
+                parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
             System.err.println(e);
