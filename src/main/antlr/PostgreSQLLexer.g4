@@ -118,7 +118,7 @@ TYPECAST: '::';
 
 PERCENT: '%';
 
-// For PGQ
+// For SQL/PGQ
 QUESTION_MARK: '\\?';
 TILDE: '~';
 BRACKET_RIGHT_ARROW: ']->';
@@ -149,6 +149,8 @@ KVS: 'KVS';
 
 // For Cypher
 REMOVE: 'REMOVE';
+PATH_LENGTH: 'PATH_LENGTH';
+ELEMENT_ID: 'ELEMENT_ID';
 
 PARAM: '$' ([0-9])+;
 //

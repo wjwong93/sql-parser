@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.tree.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SQLParser {
@@ -53,6 +54,6 @@ public class SQLParser {
             e.printStackTrace();
         }
 
-        return null;
+        return new ArrayList<>();
     }
 }
