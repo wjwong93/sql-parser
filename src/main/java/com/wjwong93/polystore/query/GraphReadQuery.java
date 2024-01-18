@@ -1,5 +1,6 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.query;
 
+import com.wjwong93.polystore.GraphDBExecutor;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.internal.types.TypeConstructor;
 import org.neo4j.driver.internal.types.TypeRepresentation;
@@ -16,14 +17,14 @@ public class GraphReadQuery extends ReadQuery {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         try (GraphDBExecutor graphDBExecutor = new GraphDBExecutor("neo4j://localhost:7687", "neo4j", "password")) {
             graphDBExecutor.executeReadQuery(query);
         }
     }
 
     @Override
-    void executeAndStore(Connection conn) {
+    public void executeAndStore(Connection conn) {
         List<Record> recordList;
         try (GraphDBExecutor graphDBExecutor = new GraphDBExecutor("neo4j://localhost:7687", "neo4j", "password")) {
             recordList = graphDBExecutor.executeQuery(query);

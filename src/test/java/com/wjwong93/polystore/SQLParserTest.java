@@ -1,6 +1,7 @@
 package com.wjwong93.polystore;
 
-import org.apache.commons.lang3.StringUtils;
+import com.wjwong93.polystore.parser.SQLParser;
+import com.wjwong93.polystore.query.Query;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileInputStream;

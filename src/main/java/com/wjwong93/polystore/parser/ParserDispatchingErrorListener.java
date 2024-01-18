@@ -1,4 +1,4 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.parser;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
@@ -6,11 +6,11 @@ import org.antlr.v4.runtime.dfa.DFA;
 
 import java.util.BitSet;
 
-public class LexerDispatchingErrorListener implements ANTLRErrorListener
+public class ParserDispatchingErrorListener implements ANTLRErrorListener
 {
-    Lexer _parent;
+    Parser _parent;
 
-    public LexerDispatchingErrorListener(Lexer parent)
+    public ParserDispatchingErrorListener(Parser parent)
     {
         _parent = parent;
     }

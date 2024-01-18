@@ -1,5 +1,6 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.parser;
 
+import com.wjwong93.polystore.query.*;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -7,7 +8,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SQLParserListener extends PostgreSQLParserBaseListener{
+public class SQLParserListener extends PostgreSQLParserBaseListener {
     private TokenStream tokenStream;
     private List<String> pathPatterns;
     private List<String> repeatedTokens;

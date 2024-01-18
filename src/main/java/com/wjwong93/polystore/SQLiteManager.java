@@ -1,5 +1,8 @@
 package com.wjwong93.polystore;
 
+import com.wjwong93.polystore.parser.SQLParser;
+import com.wjwong93.polystore.query.Query;
+
 import java.io.FileInputStream;
 import java.sql.*;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.wjwong93.polystore;
+package com.wjwong93.polystore.query;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,7 +13,7 @@ public abstract class ReadQuery extends Query {
     }
 
     @Override
-    void executeAndStore(Connection conn) {
+    public void executeAndStore(Connection conn) {
         return;
     }
     public String getTableId() {

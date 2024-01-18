@@ -55,19 +55,19 @@ tasks.test {
 }
 
 tasks.generateGrammarSource {
-    arguments = arguments + listOf("-visitor", "-o", "../main", "-package", "com.wjwong93.polystore")
-    outputDirectory = file("src/main/java/com/wjwong93/polystore")
+    arguments = arguments + listOf("-visitor", "-o", "../main", "-package", "com.wjwong93.polystore.parser")
+    outputDirectory = file("src/main/java/com/wjwong93/polystore/parser")
 
     doLast {
         copy {
-            from(file("src/main/java/com/wjwong93/polystore/PostgreSQLLexer.tokens"))
-            from(file("src/main/java/com/wjwong93/polystore/PostgreSQLLexer.interp"))
-            from(file("src/main/java/com/wjwong93/polystore/PostgreSQLParser.tokens"))
-            from(file("src/main/java/com/wjwong93/polystore/PostgreSQLParser.interp"))
+            from(file("src/main/java/com/wjwong93/polystore/parser/PostgreSQLLexer.tokens"))
+            from(file("src/main/java/com/wjwong93/polystore/parser/PostgreSQLLexer.interp"))
+            from(file("src/main/java/com/wjwong93/polystore/parser/PostgreSQLParser.tokens"))
+            from(file("src/main/java/com/wjwong93/polystore/parser/PostgreSQLParser.interp"))
             into(file("src/main/antlr"))
         }
 
-        val filesToDelete = project.fileTree("src/main/java/com/wjwong93/polystore").matching {
+        val filesToDelete = project.fileTree("src/main/java/com/wjwong93/polystore/parser").matching {
             include("PostgreSQLLexer.tokens")
             include("PostgreSQLLexer.interp")
             include("PostgreSQLParser.tokens")
