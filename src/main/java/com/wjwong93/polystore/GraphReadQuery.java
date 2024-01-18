@@ -1,3 +1,5 @@
+package com.wjwong93.polystore;
+
 import org.neo4j.driver.Record;
 import org.neo4j.driver.internal.types.TypeConstructor;
 import org.neo4j.driver.internal.types.TypeRepresentation;

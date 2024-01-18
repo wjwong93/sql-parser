@@ -1,3 +1,5 @@
+package com.wjwong93.polystore;
+
 import org.iq80.leveldb.*;
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.junit.jupiter.api.Test;

@@ -5,12 +5,12 @@ leveldb
 ### Antlr generated ###
 src/main/**/*.tokens
 src/main/**/*.interp
-src/main/java/PostgreSQLLexer.java
-src/main/java/PostgreSQLParser.java
-src/main/java/PostgreSQLParserBaseListener.java
-src/main/java/PostgreSQLParserBaseVisitor.java
-src/main/java/PostgreSQLParserListener.java
-src/main/java/PostgreSQLParserVisitor.java
+src/main/java/com/wjwong93/polystore/PostgreSQLLexer.java
+src/main/java/com/wjwong93/polystore/PostgreSQLParser.java
+src/main/java/com/wjwong93/polystore/PostgreSQLParserBaseListener.java
+src/main/java/com/wjwong93/polystore/PostgreSQLParserBaseVisitor.java
+src/main/java/com/wjwong93/polystore/PostgreSQLParserListener.java
+src/main/java/com/wjwong93/polystore/PostgreSQLParserVisitor.java
 
 ### IntelliJ IDEA ###
 out/
