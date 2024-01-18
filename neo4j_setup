@@ -8,13 +8,20 @@ docker run \
     --name sqlpgq \
     neo4j:5.15.0
 
-echo "Waiting for Neo4j to start..."
-while ! [[ ("$(docker exec sqlpgq neo4j status)" =~ "Neo4j is running at pid") ]]; do
-  echo "."
+echo -n "Waiting for Neo4j to start..."
+while ! [[ ("$(docker exec sqlpgq neo4j status 2> /dev/null)" =~ "Neo4j is running at pid") ]]; do
+  echo -n "."
   sleep 10
 done
+echo
+
+data_path="src/test/resources/data/yasuda_data.cypher"
+
+if [ "$1" == "oracle" ]; then
+  data_path="src/test/resources/data/oracle_data.cypher"
+fi
 
 echo "Importing data..."
-cat src/test/resources/data/yasuda_data.cypher | docker exec -i sqlpgq cypher-shell
+docker exec -i sqlpgq cypher-shell < "$data_path"
 
 echo "Done."
