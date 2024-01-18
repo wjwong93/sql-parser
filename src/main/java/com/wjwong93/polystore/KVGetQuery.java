@@ -1,3 +1,5 @@
+package com.wjwong93.polystore;
+
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.DB;
 import org.iq80.leveldb.DBIterator;

@@ -1,3 +1,5 @@
+package com.wjwong93.polystore;
+
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 

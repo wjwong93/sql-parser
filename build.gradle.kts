@@ -22,7 +22,7 @@ dependencies {
 }
 
 application {
-    mainClass = "SQLiteManager"
+    mainClass = "com.wjwong93.polystore.SQLiteManager"
 }
 
 tasks.named("run") {
@@ -40,13 +40,13 @@ sourceSets {
 tasks.register<JavaExec>("parse") {
     group = "application"
     description = "Parse a query and output the extracted query fragments."
-    mainClass = "SQLParser"
+    mainClass = "com.wjwong93.polystore.SQLParser"
     classpath = sourceSets["main"].runtimeClasspath
 }
 
 tasks.register<JavaExec>("leveldb_setup") {
     description = "Setup LevelDB database and import test data."
-    mainClass = "LevelDBSetup"
+    mainClass = "com.wjwong93.polystore.LevelDBSetup"
     classpath = sourceSets["main"].runtimeClasspath
 }
 
@@ -55,19 +55,19 @@ tasks.test {
 }
 
 tasks.generateGrammarSource {
-    arguments = arguments + listOf("-visitor", "-o", "../main")
-    outputDirectory = file("src/main/java")
+    arguments = arguments + listOf("-visitor", "-o", "../main", "-package", "com.wjwong93.polystore")
+    outputDirectory = file("src/main/java/com/wjwong93/polystore")
 
     doLast {
         copy {
-            from(file("src/main/java/PostgreSQLLexer.tokens"))
-            from(file("src/main/java/PostgreSQLLexer.interp"))
-            from(file("src/main/java/PostgreSQLParser.tokens"))
-            from(file("src/main/java/PostgreSQLParser.interp"))
+            from(file("src/main/java/com/wjwong93/polystore/PostgreSQLLexer.tokens"))
+            from(file("src/main/java/com/wjwong93/polystore/PostgreSQLLexer.interp"))
+            from(file("src/main/java/com/wjwong93/polystore/PostgreSQLParser.tokens"))
+            from(file("src/main/java/com/wjwong93/polystore/PostgreSQLParser.interp"))
             into(file("src/main/antlr"))
         }
 
-        val filesToDelete = project.fileTree("src/main/java").matching {
+        val filesToDelete = project.fileTree("src/main/java/com/wjwong93/polystore").matching {
             include("PostgreSQLLexer.tokens")
             include("PostgreSQLLexer.interp")
             include("PostgreSQLParser.tokens")

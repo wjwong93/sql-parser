@@ -1,7 +1,9 @@
+package com.wjwong93.polystore;
+
 import java.sql.Connection;
 
-public abstract class KVQuery extends Query {
-    public KVQuery(String query) {
+public abstract class GraphQuery extends Query {
+    public GraphQuery(String query) {
         super(query);
     }
 
@@ -10,3 +12,4 @@ public abstract class KVQuery extends Query {
         execute();
     }
 }
+

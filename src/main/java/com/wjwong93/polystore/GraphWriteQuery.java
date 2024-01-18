@@ -1,3 +1,5 @@
+package com.wjwong93.polystore;
+
 import java.sql.Connection;
 
 public class GraphWriteQuery extends GraphQuery {
