@@ -30,7 +30,7 @@ class SQLParserTest {
             List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
-                parseResult.append(query.toString()).append("\n");
+                parseResult.append(query.getQuery()).append("\n");
             }
 
             assertEquals(
@@ -39,7 +39,7 @@ class SQLParserTest {
             );
 
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
             fail();
         }
     }
@@ -53,7 +53,7 @@ class SQLParserTest {
             List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
-                parseResult.append(query.toString()).append("\n");
+                parseResult.append(query.getQuery()).append("\n");
             }
 
             assertEquals(
@@ -61,7 +61,7 @@ class SQLParserTest {
                 parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
             fail();
         }
     }
@@ -75,7 +75,7 @@ class SQLParserTest {
             List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
-                parseResult.append(query.toString()).append("\n");
+                parseResult.append(query.getQuery()).append("\n");
             }
 
             assertEquals(
@@ -83,7 +83,7 @@ class SQLParserTest {
                     parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
             fail();
         }
     }
@@ -97,7 +97,7 @@ class SQLParserTest {
             List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
-                parseResult.append(query.toString()).append("\n");
+                parseResult.append(query.getQuery()).append("\n");
             }
 
             assertEquals(
@@ -105,7 +105,7 @@ class SQLParserTest {
                 parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
             fail();
         }
     }
@@ -119,7 +119,7 @@ class SQLParserTest {
             List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
-                parseResult.append(query.toString()).append("\n");
+                parseResult.append(query.getQuery()).append("\n");
             }
 
             assertEquals(
@@ -127,7 +127,7 @@ class SQLParserTest {
                     parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
             fail();
         }
     }
@@ -141,7 +141,7 @@ class SQLParserTest {
             List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
-                parseResult.append(query.toString()).append("\n");
+                parseResult.append(query.getQuery()).append("\n");
             }
 
             assertEquals(
@@ -149,7 +149,7 @@ class SQLParserTest {
                 parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
             fail();
         }
     }
@@ -163,7 +163,7 @@ class SQLParserTest {
             List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
-                parseResult.append(query.toString()).append("\n");
+                parseResult.append(query.getQuery()).append("\n");
             }
 
             assertEquals(
@@ -171,7 +171,7 @@ class SQLParserTest {
                 parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
             fail();
         }
     }
@@ -185,7 +185,7 @@ class SQLParserTest {
             List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
-                parseResult.append(query.toString()).append("\n");
+                parseResult.append(query.getQuery()).append("\n");
             }
 
             assertEquals(
@@ -193,7 +193,7 @@ class SQLParserTest {
                 parseResult.toString().replaceAll("\\s+", " ")
             );
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
             fail();
         }
     }

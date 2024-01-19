@@ -1,6 +1,5 @@
 package com.wjwong93.polystore;
 
-import com.wjwong93.polystore.dbExecutor.DBExecutor;
 import com.wjwong93.polystore.dbExecutor.KeyValueDBExecutor;
 import com.wjwong93.polystore.query.KeyValueQuery;
 import org.fusesource.leveldbjni.JniDBFactory;

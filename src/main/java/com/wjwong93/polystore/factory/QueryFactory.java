@@ -1,7 +1,5 @@
 package com.wjwong93.polystore.factory;
 
-import com.wjwong93.polystore.dbExecutor.DBExecutor;
-import com.wjwong93.polystore.dbExecutor.KeyValueDBExecutor;
 import com.wjwong93.polystore.query.*;
 
 import java.util.List;

@@ -56,6 +56,4 @@ public class LevelDBSetup {
     static void deleteDB() throws IOException {
         JniDBFactory.factory.destroy(dbPath, options);
     }
-
-
 }
