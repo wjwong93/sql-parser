@@ -22,7 +22,7 @@ class LevelDBTest {
             for (iterator.seekToFirst(); iterator.hasNext(); iterator.next()) {
                 String key = JniDBFactory.asString(iterator.peekNext().getKey());
                 String value = JniDBFactory.asString(iterator.peekNext().getValue());
-//                System.out.println(key + ", " + value);
+//                System.out.println(key + ": " + value);
                 data.append(key).append(": ").append(value).append("\n");
             }
 
