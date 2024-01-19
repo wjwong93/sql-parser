@@ -7,6 +7,9 @@ public abstract class GraphQuery extends Query {
         super(queryType, query);
     }
 
+    public GraphQuery(QueryType queryType, String query, String tableId) {
+        super(queryType, query, tableId);
+    }
     @Override
     public void executeAndStore(Connection conn) {
         execute();

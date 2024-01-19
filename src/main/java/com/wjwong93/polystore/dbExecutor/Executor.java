@@ -1,6 +1,7 @@
 package com.wjwong93.polystore.dbExecutor;
 
 import com.wjwong93.polystore.LevelDBExecutor;
+import com.wjwong93.polystore.Neo4jExecutor;
 import com.wjwong93.polystore.SQLiteManager;
 import com.wjwong93.polystore.factory.QueryFactory;
 import com.wjwong93.polystore.parser.SQLParser;
@@ -13,7 +14,7 @@ import java.util.List;
 public class Executor implements AutoCloseable {
     private Connection connection;
     private KeyValueDBExecutor keyValueDBExecutor;
-    private DBExecutor graphDBExecutor;
+    private GraphDBExecutor graphDBExecutor;
 
     public Executor() {
         try {
@@ -28,7 +29,7 @@ public class Executor implements AutoCloseable {
         this.keyValueDBExecutor = dbExecutor;
     }
 
-    public void setGraphDBExecutor(DBExecutor dbExecutor) {
+    public void setGraphDBExecutor(GraphDBExecutor dbExecutor) {
         this.graphDBExecutor = dbExecutor;
     }
     public void executeQueryPlan(List<Query> queryPlan) {
@@ -46,7 +47,12 @@ public class Executor implements AutoCloseable {
                 case DELETE -> keyValueDBExecutor.executeDeleteQuery(keyValueQuery);
             }
         } else if (query instanceof GraphQuery graphQuery) {
-
+            switch (query.getType()) {
+                case CREATE -> graphDBExecutor.executeCreateQuery(graphQuery);
+                case READ -> graphDBExecutor.executeReadQuery(graphQuery, connection);
+                case UPDATE -> graphDBExecutor.executeUpdateQuery(graphQuery);
+                case DELETE -> graphDBExecutor.executeDeleteQuery(graphQuery);
+            }
         } else if (query instanceof OuterReadQuery outerQuery) {
             try (
                 Statement stmt = connection.createStatement();
@@ -81,6 +87,7 @@ public class Executor implements AutoCloseable {
         ) {
             List<Query> queryPlan = SQLParser.parse(inputStream, new QueryFactory());
             executor.setKeyValueDBExecutor(new LevelDBExecutor("./leveldb"));
+            executor.setGraphDBExecutor(new Neo4jExecutor("neo4j://localhost:7687", "neo4j", "password"));
             executor.executeQueryPlan(queryPlan);
         } catch (Exception e) {
             e.printStackTrace();

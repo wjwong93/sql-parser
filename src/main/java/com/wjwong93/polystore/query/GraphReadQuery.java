@@ -11,9 +11,9 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GraphReadQuery extends ReadQuery {
+public class GraphReadQuery extends GraphQuery {
     public GraphReadQuery(String query, String tableId) {
-        super(query, tableId);
+        super(QueryType.READ, query, tableId);
     }
 
     @Override
@@ -31,6 +31,7 @@ public class GraphReadQuery extends ReadQuery {
         }
         List<String> cols = recordList.get(0).keys();
         try (Statement stmt = conn.createStatement()) {
+            String tableId = this.getTableId();
             String createTableSql = "CREATE TABLE " + tableId + "(\n" +
                     cols.stream().map(c -> "\"" + c + "\" TEXT NOT NULL").collect(Collectors.joining(",\n")) +
                     "\n);";
