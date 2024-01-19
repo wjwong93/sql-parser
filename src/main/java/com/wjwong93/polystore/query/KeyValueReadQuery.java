@@ -49,7 +49,7 @@ public class KeyValueReadQuery extends KeyValueQuery {
             tableId
         );
 
-        this.keys = keyvalues == null ? new ArrayList<>() : keyvalues.stream().map(kv -> kv[0]).collect(Collectors.toList());
+        this.keys = keyvalues == null ? null : keyvalues.stream().map(kv -> kv[0]).collect(Collectors.toList());
         this.keyvalues = keyvalues;
     }
 
