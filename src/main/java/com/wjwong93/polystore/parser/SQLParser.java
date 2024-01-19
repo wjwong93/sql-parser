@@ -1,5 +1,7 @@
 package com.wjwong93.polystore.parser;
 
+import com.wjwong93.polystore.LevelDBExecutor;
+import com.wjwong93.polystore.factory.QueryFactory;
 import com.wjwong93.polystore.query.Query;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
@@ -17,14 +19,16 @@ public class SQLParser {
         InputStream is = System.in;
         if (inputFile != null) is = new FileInputStream(inputFile);
 
-        List<Query> queryList = parse(is);
+        QueryFactory queryFactory = new QueryFactory();
+
+        List<Query> queryList = parse(is, queryFactory);
         for (Query query : queryList) {
             System.out.println(query.toString() + "\n");
         }
 
     }
 
-    public static List<Query> parse(InputStream inputStream) {
+    public static List<Query> parse(InputStream inputStream, QueryFactory queryFactory) {
         try {
             CharStream input = CharStreams.fromStream(inputStream);
             PostgreSQLLexer lexer = new PostgreSQLLexer(input);
@@ -34,7 +38,7 @@ public class SQLParser {
             ParseTree tree = parser.root();
 
             ParseTreeWalker walker = new ParseTreeWalker();
-            SQLParserListener extractor = new SQLParserListener(tokens);
+            SQLParserListener extractor = new SQLParserListener(tokens, queryFactory);
             walker.walk(extractor, tree);
 
             return extractor.getQueryList();

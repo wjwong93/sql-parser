@@ -1,26 +1,11 @@
 package com.wjwong93.polystore.query;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-public abstract class ReadQuery extends Query {
-    String tableId;
-    public ReadQuery(String query, String tableId) {
-        super(QueryType.READ, query);
-        this.tableId = tableId;
-    }
-
-    @Override
-    public void executeAndStore(Connection conn) {
-        return;
-    }
-    public String getTableId() {
-        return tableId;
-    }
-
-    void printResultSet(ResultSet resultSet) throws SQLException {
+public final class QueryUtils {
+    public static void printResultSet(ResultSet resultSet) throws SQLException {
         ResultSetMetaData rsmd = resultSet.getMetaData();
         int colCount = rsmd.getColumnCount();
 
@@ -44,9 +29,4 @@ public abstract class ReadQuery extends Query {
 
         System.out.println();
     }
-
-//    @Override
-//    public String toString() {
-//        return tableId + ":\n" + query;
-//    }
 }

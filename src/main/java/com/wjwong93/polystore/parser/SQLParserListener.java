@@ -1,5 +1,6 @@
 package com.wjwong93.polystore.parser;
 
+import com.wjwong93.polystore.factory.QueryFactory;
 import com.wjwong93.polystore.query.*;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.misc.Interval;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class SQLParserListener extends PostgreSQLParserBaseListener {
     private TokenStream tokenStream;
+    private QueryFactory queryFactory;
     private List<String> pathPatterns;
     private List<String> repeatedTokens;
     private StringBuilder queryStringBuilder;
@@ -24,8 +26,9 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
 
     private SQLParserListener() {}
 
-    public SQLParserListener(TokenStream tokenStream) {
+    public SQLParserListener(TokenStream tokenStream, QueryFactory queryFactory) {
         this.tokenStream = tokenStream;
+        this.queryFactory = queryFactory;
     }
 
     @Override
@@ -66,7 +69,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
         }
         if (!query.isEmpty()) {
             query.append("\n;");
-            queryList.add(new RelationalReadQuery(query.toString(), "t"+readTableCount++));
+            queryList.add(new OuterReadQuery(query.toString(), "t"+readTableCount++));
         }
         replaceTableIntervals = null;
     }
@@ -341,7 +344,11 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     @Override
     public void exitKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
         String tableId = "t" + readTableCount++;
-        queryList.add(new KVGetQuery(repeatedTokens, tableId));
+//        queryList.add(new KeyValueReadQuery(repeatedTokens, tableId));
+        queryList.add(queryFactory.createKeyValueQuery(
+                QueryType.READ, tableId,
+                repeatedTokens == null ? null : repeatedTokens.stream().map(token -> new String[] {token}).collect(Collectors.toList())
+        ));
         repeatedTokens = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), tableId);
     }
@@ -361,10 +368,12 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     @Override
     public void exitInsert_kvs(PostgreSQLParser.Insert_kvsContext ctx) {
         List<String[]> res = new ArrayList<>();
+        String tableId = "t" + readTableCount++;
         for (int i=0; i<repeatedTokens.size(); i+=2) {
             res.add(new String[] {repeatedTokens.get(i), repeatedTokens.get(i+1)});
         }
-        queryList.add(new KVPutQuery(res));
+//        queryList.add(new KeyValueUpdateQuery(res));
+        queryList.add(queryFactory.createKeyValueQuery(QueryType.CREATE, tableId, res));
         repeatedTokens = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), null);
     }
@@ -382,10 +391,11 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     @Override
     public void exitUpdatekvsstmt(PostgreSQLParser.UpdatekvsstmtContext ctx) {
         String newValue = ctx.identifier().getText().replace("\"", "");
-
         List<String[]> res = repeatedTokens.stream().map(key -> new String[] {key, newValue}).toList();
+        String tableId = "t" + readTableCount++;
 
-        queryList.add(new KVPutQuery(res));
+//        queryList.add(new KeyValueUpdateQuery(res));
+        queryList.add(queryFactory.createKeyValueQuery(QueryType.UPDATE, tableId, res));
         repeatedTokens = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), null);
     }
@@ -398,7 +408,12 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     }
     @Override
     public void exitDeletekvsstmt(PostgreSQLParser.DeletekvsstmtContext ctx) {
-        queryList.add(new KVDeleteQuery(repeatedTokens));
+        String tableId = "t" + readTableCount++;
+//        queryList.add(new KeyValueDeleteQuery(repeatedTokens));
+        queryList.add(queryFactory.createKeyValueQuery(
+                QueryType.DELETE, tableId,
+                repeatedTokens == null ? null : repeatedTokens.stream().map(token -> new String[] {token}).collect(Collectors.toList())
+            ));
         repeatedTokens = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), null);
     }
