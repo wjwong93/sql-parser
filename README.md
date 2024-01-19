@@ -13,7 +13,7 @@ The query language is based on the SQL/PGQ extension to the SQL Standard.
 
 # Setup Neo4j
 python3 convert_script.py
-./neo4j_setup
+./neo4j_setup.sh
 ```
 
 ### Parse query and display extracted query fragments
@@ -30,7 +30,7 @@ python3 convert_script.py
 
 ### Setup ANTLRv4 alias
 ```bash
-./init
+./init.sh
 ```
 
 ### Run tests
