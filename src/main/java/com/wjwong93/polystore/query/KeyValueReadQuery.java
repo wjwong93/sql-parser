@@ -1,5 +1,7 @@
 package com.wjwong93.polystore.query;
 
+import com.wjwong93.polystore.dbExecutor.DBExecutor;
+import com.wjwong93.polystore.dbExecutor.KeyValueDBExecutor;
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.DB;
 import org.iq80.leveldb.DBIterator;
@@ -13,20 +15,47 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class KVGetQuery extends ReadQuery {
+public class KeyValueReadQuery extends KeyValueQuery {
     final private List<String> keys;
-    public KVGetQuery(String key, String tableId) {
-        super("GET(\"" + key + "\");", tableId);
+    final private List<String[]> keyvalues;
+
+    public KeyValueReadQuery(String key, String tableId) {
+        super(QueryType.READ, "GET(\"" + key + "\");", tableId);
         this.keys = new ArrayList<>();
         this.keys.add(key);
+        this.keyvalues = new ArrayList<>();
+        this.keyvalues.add(new String[] {key});
     }
 
-    public KVGetQuery(List<String> keys, String tableId) {
-        super(keys == null ? "GET ALL;" : keys.stream().map(
-            k -> "GET(\"" + k + "\");"
-        ).collect(Collectors.joining("\n")), tableId);
+//    public KeyValueReadQuery(List<String> keys, String tableId) {
+//        super(
+//            QueryType.READ,
+//            keys == null ? "GET ALL;" : keys.stream().map(
+//                k -> "GET(\"" + k + "\");"
+//            ).collect(Collectors.joining("\n")),
+//            tableId
+//        );
+//
+//        this.keys = keys;
+//        this.keyvalues = keys == null ? null : keys.stream().map(k -> new String[] {k}).collect(Collectors.toList());
+//    }
 
-        this.keys = keys;
+    public KeyValueReadQuery(List<String[]> keyvalues, String tableId) {
+        super(
+            QueryType.READ,
+            keyvalues == null ? "GET ALL;" : keyvalues.stream().map(
+                k -> "GET(\"" + k[0] + "\");"
+            ).collect(Collectors.joining("\n")),
+            tableId
+        );
+
+        this.keys = keyvalues == null ? new ArrayList<>() : keyvalues.stream().map(kv -> kv[0]).collect(Collectors.toList());
+        this.keyvalues = keyvalues;
+    }
+
+    @Override
+    public List<String[]> getKeyValues() {
+        return this.keyvalues;
     }
 
     @Override
@@ -44,6 +73,7 @@ public class KVGetQuery extends ReadQuery {
     @Override
     public void executeAndStore(Connection conn) {
         try (Statement stmt = conn.createStatement()) {
+            String tableId = this.getTableId();
             String createTableSql = "CREATE TABLE " + tableId + "(\n" +
                     "\"key\" TEXT PRIMARY KEY,\n" +
                     "\"value\" TEXT NOT NULL\n" +
@@ -79,7 +109,7 @@ public class KVGetQuery extends ReadQuery {
     }
 
     public static void main(String[] args) {
-        KVGetQuery testQuery = new KVGetQuery("testKey", "t0");
+        KeyValueReadQuery testQuery = new KeyValueReadQuery("testKey", "t0");
         testQuery.execute();
     }
 }

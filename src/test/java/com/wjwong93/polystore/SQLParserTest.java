@@ -1,5 +1,6 @@
 package com.wjwong93.polystore;
 
+import com.wjwong93.polystore.factory.QueryFactory;
 import com.wjwong93.polystore.parser.SQLParser;
 import com.wjwong93.polystore.query.Query;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class SQLParserTest {
+    private final QueryFactory queryFactory;
+
+    SQLParserTest() {
+        this.queryFactory = new QueryFactory();
+    }
+
     @Test
     void pureSQLQuery() {
         /* No Graph query in SQL
@@ -20,7 +27,7 @@ class SQLParserTest {
         try (
             FileInputStream inputStream = new FileInputStream("src/test/resources/input/test.sql")
         ) {
-            List<Query> queryList = SQLParser.parse(inputStream);
+            List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
                 parseResult.append(query.toString()).append("\n");
@@ -43,7 +50,7 @@ class SQLParserTest {
         try (
             FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle1.sql")
         ) {
-            List<Query> queryList = SQLParser.parse(inputStream);
+            List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
                 parseResult.append(query.toString()).append("\n");
@@ -65,7 +72,7 @@ class SQLParserTest {
         try (
             FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle2.sql")
         ) {
-            List<Query> queryList = SQLParser.parse(inputStream);
+            List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
                 parseResult.append(query.toString()).append("\n");
@@ -87,7 +94,7 @@ class SQLParserTest {
         try (
             FileInputStream inputStream = new FileInputStream("src/test/resources/input/oracle3.sql")
         ) {
-            List<Query> queryList = SQLParser.parse(inputStream);
+            List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
                 parseResult.append(query.toString()).append("\n");
@@ -109,7 +116,7 @@ class SQLParserTest {
         try (
             FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda1.sql")
         ) {
-            List<Query> queryList = SQLParser.parse(inputStream);
+            List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
                 parseResult.append(query.toString()).append("\n");
@@ -131,7 +138,7 @@ class SQLParserTest {
         try (
             FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda2.sql")
         ) {
-            List<Query> queryList = SQLParser.parse(inputStream);
+            List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
                 parseResult.append(query.toString()).append("\n");
@@ -153,7 +160,7 @@ class SQLParserTest {
         try (
             FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda3.sql")
         ) {
-            List<Query> queryList = SQLParser.parse(inputStream);
+            List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
                 parseResult.append(query.toString()).append("\n");
@@ -175,7 +182,7 @@ class SQLParserTest {
         try (
             FileInputStream inputStream = new FileInputStream("src/test/resources/input/yasuda4.sql")
         ) {
-            List<Query> queryList = SQLParser.parse(inputStream);
+            List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
             StringBuilder parseResult = new StringBuilder();
             for (Query query : queryList) {
                 parseResult.append(query.toString()).append("\n");

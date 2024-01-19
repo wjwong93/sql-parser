@@ -1,5 +1,6 @@
 package com.wjwong93.polystore;
 
+import com.wjwong93.polystore.factory.QueryFactory;
 import com.wjwong93.polystore.parser.SQLParser;
 import com.wjwong93.polystore.query.Query;
 
@@ -45,8 +46,11 @@ public class SQLiteManager implements AutoCloseable {
             FileInputStream inputStream = new FileInputStream(inputFile);
             SQLiteManager manager = new SQLiteManager()
         ) {
+            QueryFactory queryFactory = new QueryFactory();
+
+            List<Query> queryList = SQLParser.parse(inputStream, queryFactory);
+
             Connection conn = manager.getConn();
-            List<Query> queryList = SQLParser.parse(inputStream);
             for (Query query : queryList) {
                 query.executeAndStore(conn);
             }

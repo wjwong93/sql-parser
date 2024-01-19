@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class RelationalReadQuery extends ReadQuery {
-    public RelationalReadQuery(String query, String tableId) {
+public class OuterReadQuery extends ReadQuery {
+    public OuterReadQuery(String query, String tableId) {
         super(query, tableId);
     }
 
@@ -19,7 +19,7 @@ public class RelationalReadQuery extends ReadQuery {
     public void executeAndStore(Connection conn) {
         try (
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query)
+            ResultSet rs = stmt.executeQuery(this.toString())
         ) {
             printResultSet(rs);
         } catch (SQLException e) {

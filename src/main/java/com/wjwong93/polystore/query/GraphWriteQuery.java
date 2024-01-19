@@ -4,13 +4,13 @@ import com.wjwong93.polystore.GraphDBExecutor;
 
 public class GraphWriteQuery extends GraphQuery {
     public GraphWriteQuery(String query) {
-        super(query);
+        super(QueryType.UPDATE, query);
     }
 
     @Override
     public void execute() {
         try (GraphDBExecutor executor = new GraphDBExecutor("neo4j://localhost:7687", "neo4j", "password")) {
-            executor.executeWriteQuery(query);
+            executor.executeWriteQuery(this.toString());
         }
     }
 

@@ -45,19 +45,19 @@ public class GraphDBExecutor implements AutoCloseable {
         });
     }
 
-    public static void main(String[] args) {
-        String inputFile = "src/test/resources/input/yasuda3.sql";
-        try (
-            var executor = new GraphDBExecutor("neo4j://localhost:7687", "neo4j", "password");
-            FileInputStream inputStream = new FileInputStream(inputFile);
-        ) {
-            List<Query> queryList = SQLParser.parse(inputStream);
-            List<Record> recordList = executor.executeQuery(queryList.get(0).toString());
-            printRecordList(recordList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        String inputFile = "src/test/resources/input/yasuda3.sql";
+//        try (
+//            var executor = new GraphDBExecutor("neo4j://localhost:7687", "neo4j", "password");
+//            FileInputStream inputStream = new FileInputStream(inputFile);
+//        ) {
+//            List<Query> queryList = SQLParser.parse(inputStream);
+//            List<Record> recordList = executor.executeQuery(queryList.get(0).toString());
+//            printRecordList(recordList);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     static void printRecordList(List<Record> recordList) {
         System.out.println(String.join(", ", recordList.get(0).keys()));

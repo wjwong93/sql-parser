@@ -19,7 +19,7 @@ public class GraphReadQuery extends ReadQuery {
     @Override
     public void execute() {
         try (GraphDBExecutor graphDBExecutor = new GraphDBExecutor("neo4j://localhost:7687", "neo4j", "password")) {
-            graphDBExecutor.executeReadQuery(query);
+            graphDBExecutor.executeReadQuery(this.toString());
         }
     }
 
@@ -27,7 +27,7 @@ public class GraphReadQuery extends ReadQuery {
     public void executeAndStore(Connection conn) {
         List<Record> recordList;
         try (GraphDBExecutor graphDBExecutor = new GraphDBExecutor("neo4j://localhost:7687", "neo4j", "password")) {
-            recordList = graphDBExecutor.executeQuery(query);
+            recordList = graphDBExecutor.executeQuery(this.toString());
         }
         List<String> cols = recordList.get(0).keys();
         try (Statement stmt = conn.createStatement()) {
