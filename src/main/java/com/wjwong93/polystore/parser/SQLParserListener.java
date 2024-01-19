@@ -10,25 +10,32 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SQLParserListener extends PostgreSQLParserBaseListener {
-    private TokenStream tokenStream;
-    private QueryFactory queryFactory;
+    private final TokenStream tokenStream;
+    private final QueryFactory queryFactory;
     private List<String> pathPatterns;
     private List<String> repeatedTokens;
     private StringBuilder queryStringBuilder;
     final private List<Query> queryList = new ArrayList<>();
 
-    // used to assign tableId to read queries
-    private int readTableCount = 0;
-
     // Store token text
     final private Map<Integer, String> tokenText = new HashMap<>();
     private Map<Interval, String> replaceTableIntervals;
 
-    private SQLParserListener() {}
+    private static class TableIdIssuer {
+        private int tableCount = 0;
+        private TableIdIssuer() {}
+
+        String issueTableId() {
+            return "t" + tableCount++;
+        }
+    }
+
+    private final TableIdIssuer tableIdIssuer;
 
     public SQLParserListener(TokenStream tokenStream, QueryFactory queryFactory) {
         this.tokenStream = tokenStream;
         this.queryFactory = queryFactory;
+        this.tableIdIssuer = new TableIdIssuer();
     }
 
     @Override
@@ -70,7 +77,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
         }
         if (!query.isEmpty()) {
             query.append("\n;");
-            queryList.add(new OuterReadQuery(query.toString(), "t"+readTableCount++));
+            queryList.add(new OuterReadQuery(query.toString(), tableIdIssuer.issueTableId()));
         }
         replaceTableIntervals = null;
     }
@@ -83,7 +90,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
 
     @Override
     public void exitGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
-        String tableId = "t" + readTableCount++;
+        String tableId = tableIdIssuer.issueTableId();
         queryStringBuilder.append(";");
         queryList.add(queryFactory.createGraphQuery(QueryType.READ, tableId, queryStringBuilder.toString()));
         queryStringBuilder = null;
@@ -266,7 +273,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
 
     @Override
     public void exitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
-        String tableId = "t" + readTableCount++;
+        String tableId = tableIdIssuer.issueTableId();
         queryStringBuilder.append(";");
         queryList.add(queryFactory.createGraphQuery(QueryType.UPDATE, tableId, queryStringBuilder.toString()));
         queryStringBuilder = null;
@@ -355,7 +362,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
 
     @Override
     public void exitKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
-        String tableId = "t" + readTableCount++;
+        String tableId = tableIdIssuer.issueTableId();
         queryList.add(queryFactory.createKeyValueQuery(
                 QueryType.READ, tableId,
                 repeatedTokens == null ? null : repeatedTokens.stream().map(token -> new String[] {token}).collect(Collectors.toList())
@@ -379,7 +386,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     @Override
     public void exitInsert_kvs(PostgreSQLParser.Insert_kvsContext ctx) {
         List<String[]> res = new ArrayList<>();
-        String tableId = "t" + readTableCount++;
+        String tableId = tableIdIssuer.issueTableId();
         for (int i=0; i<repeatedTokens.size(); i+=2) {
             res.add(new String[] {repeatedTokens.get(i), repeatedTokens.get(i+1)});
         }
@@ -402,7 +409,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     public void exitUpdatekvsstmt(PostgreSQLParser.UpdatekvsstmtContext ctx) {
         String newValue = ctx.identifier().getText().replace("\"", "");
         List<String[]> res = repeatedTokens.stream().map(key -> new String[] {key, newValue}).toList();
-        String tableId = "t" + readTableCount++;
+        String tableId = tableIdIssuer.issueTableId();
 
         queryList.add(queryFactory.createKeyValueQuery(QueryType.UPDATE, tableId, res));
         repeatedTokens = null;
@@ -417,7 +424,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     }
     @Override
     public void exitDeletekvsstmt(PostgreSQLParser.DeletekvsstmtContext ctx) {
-        String tableId = "t" + readTableCount++;
+        String tableId = tableIdIssuer.issueTableId();
         queryList.add(queryFactory.createKeyValueQuery(
                 QueryType.DELETE, tableId,
                 repeatedTokens == null ? null : repeatedTokens.stream().map(token -> new String[] {token}).collect(Collectors.toList())
