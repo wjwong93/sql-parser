@@ -83,7 +83,8 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     public void exitGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
         String tableId = "t" + readTableCount++;
         queryStringBuilder.append(";");
-        queryList.add(new GraphReadQuery(queryStringBuilder.toString(), tableId));
+//        queryList.add(new GraphReadQuery(queryStringBuilder.toString(), tableId));
+        queryList.add(queryFactory.createGraphQuery(QueryType.READ, tableId, queryStringBuilder.toString()));
         queryStringBuilder = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), tableId);
     }
@@ -255,8 +256,10 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
 
     @Override
     public void exitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
+        String tableId = "t" + readTableCount++;
         queryStringBuilder.append(";");
-        queryList.add(new GraphWriteQuery(queryStringBuilder.toString()));
+//        queryList.add(new GraphWriteQuery(queryStringBuilder.toString()));
+        queryList.add(queryFactory.createGraphQuery(QueryType.UPDATE, tableId, queryStringBuilder.toString()));
         queryStringBuilder = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), null);
     }
@@ -416,13 +419,6 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
             ));
         repeatedTokens = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), null);
-    }
-
-    public String getResult() {
-        if (!queryList.isEmpty())
-            return queryList.get(0).toString().strip();
-        else
-            return "";
     }
 
     public List<Query> getQueryList() {

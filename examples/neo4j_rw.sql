@@ -1,3 +1,4 @@
+-- Create
 UPDATE GRAPH_TABLE(neo4j
     CREATE (n)
     SET n IS TestNode, n.property = "testProperty", n.delete_me = "delete_this_property"
@@ -10,6 +11,7 @@ FROM GRAPH_TABLE(neo4j
     COLUMNS (n.property AS n_property, n.delete_me AS n_delete_me)
 );
 
+-- Cleanup
 UPDATE GRAPH_TABLE(neo4j
     MATCH (n IS TestNode)
     REMOVE n.delete_me

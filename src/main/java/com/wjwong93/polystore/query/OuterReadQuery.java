@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class OuterReadQuery extends ReadQuery {
+public class OuterReadQuery extends Query {
     public OuterReadQuery(String query, String tableId) {
-        super(query, tableId);
+        super(QueryType.READ, query, tableId);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class OuterReadQuery extends ReadQuery {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(this.toString())
         ) {
-            printResultSet(rs);
+            QueryUtils.printResultSet(rs);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
