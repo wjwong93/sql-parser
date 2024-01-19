@@ -22,7 +22,7 @@ dependencies {
 }
 
 application {
-    mainClass = "com.wjwong93.polystore.SQLiteManager"
+    mainClass = "com.wjwong93.polystore.Main"
 }
 
 tasks.named("run") {
@@ -41,13 +41,6 @@ tasks.register<JavaExec>("parse") {
     group = "application"
     description = "Parse a query and output the extracted query fragments."
     mainClass = "com.wjwong93.polystore.parser.SQLParser"
-    classpath = sourceSets["main"].runtimeClasspath
-}
-
-tasks.register<JavaExec>("testExecutor") {
-    group = "application"
-    description = "Test the Executor class."
-    mainClass = "com.wjwong93.polystore.dbExecutor.Executor"
     classpath = sourceSets["main"].runtimeClasspath
 }
 

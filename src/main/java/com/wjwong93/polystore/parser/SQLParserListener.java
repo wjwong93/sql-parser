@@ -47,6 +47,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     public void enterStmt(PostgreSQLParser.StmtContext ctx) {
         replaceTableIntervals = new LinkedHashMap<>();
     }
+
     @Override
     public void exitStmt(PostgreSQLParser.StmtContext ctx) {
         StringBuilder query = new StringBuilder();
@@ -73,6 +74,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
         }
         replaceTableIntervals = null;
     }
+
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
         queryStringBuilder = new StringBuilder();
@@ -83,7 +85,6 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     public void exitGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
         String tableId = "t" + readTableCount++;
         queryStringBuilder.append(";");
-//        queryList.add(new GraphReadQuery(queryStringBuilder.toString(), tableId));
         queryList.add(queryFactory.createGraphQuery(QueryType.READ, tableId, queryStringBuilder.toString()));
         queryStringBuilder = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), tableId);
@@ -104,14 +105,17 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
             queryStringBuilder.append("\n");
         }
     }
+
     @Override
     public void enterPath_pattern_list(PostgreSQLParser.Path_pattern_listContext ctx) {
         pathPatterns = new ArrayList<>();
     }
+
     @Override
     public void exitPath_pattern_list(PostgreSQLParser.Path_pattern_listContext ctx) {
         queryStringBuilder.append(String.join(", ", pathPatterns));
     }
+
     @Override
     public void enterPath_pattern(PostgreSQLParser.Path_patternContext ctx) {
         String pathVariable = "";
@@ -120,16 +124,19 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
         }
         pathPatterns.add(pathVariable);
     }
+
     @Override
     public void enterVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx) {
         int n = pathPatterns.size();
         pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.OPEN_PAREN().getText());
     }
+
     @Override
     public void exitVertex_pattern(PostgreSQLParser.Vertex_patternContext ctx) {
         int n = pathPatterns.size();
         pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.CLOSE_PAREN().getText());
     }
+
     @Override
     public void enterEdge_pattern(PostgreSQLParser.Edge_patternContext ctx) {
         int n = pathPatterns.size();
@@ -139,6 +146,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
             pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.abbreviated_edge_pattern().getText());
 
     }
+
     @Override
     public void exitEdge_pattern(PostgreSQLParser.Edge_patternContext ctx) {
         int n = pathPatterns.size();
@@ -173,11 +181,13 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
         int n = pathPatterns.size();
         pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.full_edge_pattern().getStart().getText());
     }
+
     @Override
     public void exitQuantified_path_primary(PostgreSQLParser.Quantified_path_primaryContext ctx) {
         int n = pathPatterns.size();
         pathPatterns.set(n-1, pathPatterns.get(n-1) + ctx.full_edge_pattern().getStop().getText());
     }
+
     @Override
     public void enterGraph_pattern_quantifier(PostgreSQLParser.Graph_pattern_quantifierContext ctx) {
         int n = pathPatterns.size();
@@ -258,7 +268,6 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     public void exitUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
         String tableId = "t" + readTableCount++;
         queryStringBuilder.append(";");
-//        queryList.add(new GraphWriteQuery(queryStringBuilder.toString()));
         queryList.add(queryFactory.createGraphQuery(QueryType.UPDATE, tableId, queryStringBuilder.toString()));
         queryStringBuilder = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), null);
@@ -347,7 +356,6 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     @Override
     public void exitKvs_table(PostgreSQLParser.Kvs_tableContext ctx) {
         String tableId = "t" + readTableCount++;
-//        queryList.add(new KeyValueReadQuery(repeatedTokens, tableId));
         queryList.add(queryFactory.createKeyValueQuery(
                 QueryType.READ, tableId,
                 repeatedTokens == null ? null : repeatedTokens.stream().map(token -> new String[] {token}).collect(Collectors.toList())
@@ -375,7 +383,6 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
         for (int i=0; i<repeatedTokens.size(); i+=2) {
             res.add(new String[] {repeatedTokens.get(i), repeatedTokens.get(i+1)});
         }
-//        queryList.add(new KeyValueUpdateQuery(res));
         queryList.add(queryFactory.createKeyValueQuery(QueryType.CREATE, tableId, res));
         repeatedTokens = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), null);
@@ -397,7 +404,6 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
         List<String[]> res = repeatedTokens.stream().map(key -> new String[] {key, newValue}).toList();
         String tableId = "t" + readTableCount++;
 
-//        queryList.add(new KeyValueUpdateQuery(res));
         queryList.add(queryFactory.createKeyValueQuery(QueryType.UPDATE, tableId, res));
         repeatedTokens = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), null);
@@ -412,7 +418,6 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     @Override
     public void exitDeletekvsstmt(PostgreSQLParser.DeletekvsstmtContext ctx) {
         String tableId = "t" + readTableCount++;
-//        queryList.add(new KeyValueDeleteQuery(repeatedTokens));
         queryList.add(queryFactory.createKeyValueQuery(
                 QueryType.DELETE, tableId,
                 repeatedTokens == null ? null : repeatedTokens.stream().map(token -> new String[] {token}).collect(Collectors.toList())

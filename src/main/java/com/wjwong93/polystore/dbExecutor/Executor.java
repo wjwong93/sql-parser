@@ -2,7 +2,6 @@ package com.wjwong93.polystore.dbExecutor;
 
 import com.wjwong93.polystore.LevelDBExecutor;
 import com.wjwong93.polystore.Neo4jExecutor;
-import com.wjwong93.polystore.SQLiteManager;
 import com.wjwong93.polystore.factory.QueryFactory;
 import com.wjwong93.polystore.parser.SQLParser;
 import com.wjwong93.polystore.query.*;
@@ -56,7 +55,7 @@ public class Executor implements AutoCloseable {
         } else if (query instanceof OuterReadQuery outerQuery) {
             try (
                 Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(outerQuery.toString())
+                ResultSet rs = stmt.executeQuery(outerQuery.getQuery())
             ) {
                 QueryUtils.printResultSet(rs);
             } catch (SQLException e) {
@@ -90,7 +89,7 @@ public class Executor implements AutoCloseable {
             executor.setGraphDBExecutor(new Neo4jExecutor("neo4j://localhost:7687", "neo4j", "password"));
             executor.executeQueryPlan(queryPlan);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 

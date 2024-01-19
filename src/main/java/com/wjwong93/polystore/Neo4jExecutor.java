@@ -40,7 +40,7 @@ public class Neo4jExecutor implements GraphDBExecutor {
             Session session = driver.session()
         ) {
             String tableId = query.getTableId();
-            List<Record> recordList = session.executeRead(tx -> tx.run(query.toString()).list());
+            List<Record> recordList = session.executeRead(tx -> tx.run(query.getQuery()).list());
             if (recordList.isEmpty()) {
                 // TODO: Implement when read query returns empty result
             }
@@ -76,7 +76,7 @@ public class Neo4jExecutor implements GraphDBExecutor {
             Driver driver = GraphDatabase.driver(uri, AuthTokens.basic(username, password));
             Session session = driver.session()
         ) {
-            session.executeWriteWithoutResult(tx -> tx.run(query.toString()));
+            session.executeWriteWithoutResult(tx -> tx.run(query.getQuery()));
         }
     }
 

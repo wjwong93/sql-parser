@@ -1,6 +1,5 @@
 package com.wjwong93.polystore.parser;
 
-import com.wjwong93.polystore.LevelDBExecutor;
 import com.wjwong93.polystore.factory.QueryFactory;
 import com.wjwong93.polystore.query.Query;
 import org.antlr.v4.runtime.*;
@@ -23,7 +22,7 @@ public class SQLParser {
 
         List<Query> queryList = parse(is, queryFactory);
         for (Query query : queryList) {
-            System.out.println(query.toString() + "\n");
+            System.out.println(query.getQuery() + "\n");
         }
 
     }
@@ -43,7 +42,7 @@ public class SQLParser {
 
             return extractor.getQueryList();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return new ArrayList<>();
