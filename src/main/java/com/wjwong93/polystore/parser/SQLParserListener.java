@@ -2,6 +2,7 @@ package com.wjwong93.polystore.parser;
 
 import com.wjwong93.polystore.factory.QueryFactory;
 import com.wjwong93.polystore.query.*;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -13,6 +14,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     private final TokenStream tokenStream;
     private final QueryFactory queryFactory;
     private List<String> pathPatterns;
+    private List<String> edgeVariables;
     private List<String> repeatedTokens;
     private StringBuilder queryStringBuilder;
     final private List<Query> queryList = new ArrayList<>();
@@ -84,6 +86,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
 
     @Override
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
+        edgeVariables = new ArrayList<>();
         queryStringBuilder = new StringBuilder();
         queryStringBuilder.append("USE ").append(ctx.graph_reference().getText()).append("\n");
     }
@@ -95,6 +98,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
         queryList.add(queryFactory.createGraphQuery(QueryType.READ, tableId, queryStringBuilder.toString()));
         queryStringBuilder = null;
         replaceTableIntervals.put(ctx.getSourceInterval(), tableId);
+        edgeVariables = null;
     }
 
     @Override
@@ -163,6 +167,20 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     }
 
     @Override
+    public void enterFull_edge_pattern(PostgreSQLParser.Full_edge_patternContext ctx) {
+        PostgreSQLParser.Element_pattern_fillerContext elementPatternFillerContext = ctx.element_pattern_filler();
+        if (elementPatternFillerContext.IS() != null
+                && elementPatternFillerContext.graph_element_identifier().size() == 2
+        ) {
+            edgeVariables.add(elementPatternFillerContext.graph_element_identifier(0).getText());
+        } else if (elementPatternFillerContext.IS() == null
+                && elementPatternFillerContext.graph_element_identifier().size() == 1
+        ) {
+            edgeVariables.add(elementPatternFillerContext.graph_element_identifier(0).getText());
+        }
+    }
+
+    @Override
     public void enterElement_pattern_filler(PostgreSQLParser.Element_pattern_fillerContext ctx) {
         int n = pathPatterns.size();
         int identifier_i = 0;
@@ -209,6 +227,18 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
             // Fixed Quantifier
             pathPatterns.set(n-1, pathPatterns.get(n-1) + "*" + ctx.Integral(0).getText());
         }
+    }
+
+    @Override
+    public void enterOne_row_per_step(PostgreSQLParser.One_row_per_stepContext ctx) {
+        String vertex1 = ctx.graph_element_identifier(0).getText();
+        String edge = ctx.graph_element_identifier(1).getText();
+        String vertex2 = ctx.graph_element_identifier(2).getText();
+
+        String unwindClause = String.format("UNWIND %s AS %s\n", String.join(" + ", edgeVariables), edge);
+        String withClause = String.format("WITH *, startNode(%s) AS %s, endNode(%s) AS %s\n", edge, vertex1, edge ,vertex2);
+
+        queryStringBuilder.append(unwindClause).append(withClause);
     }
 
     @Override

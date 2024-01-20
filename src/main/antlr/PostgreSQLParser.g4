@@ -4625,6 +4625,9 @@ type_func_name_keyword
 
 custom_unreserved_keyword
     : PATH_LENGTH
+    | ONE
+    | PER
+    | STEP
     ;
 
 reserved_keyword
@@ -5601,7 +5604,15 @@ graph_pattern
     ;
 
 graph_table_shape
-    : graph_table_columns_clause
+    : (graph_table_rows_clause)? graph_table_columns_clause
+    ;
+
+graph_table_rows_clause
+    : one_row_per_step
+    ;
+
+one_row_per_step
+    : ONE ROW PER STEP OPEN_PAREN graph_element_identifier COMMA graph_element_identifier COMMA graph_element_identifier CLOSE_PAREN
     ;
 
 graph_table_columns_clause
@@ -5617,6 +5628,7 @@ graphical_value_expression_primary
     : element_id_function
     | graphical_path_length_function
     ;
+
 element_id_function
     : ELEMENT_ID OPEN_PAREN graph_element_identifier CLOSE_PAREN
     ;
