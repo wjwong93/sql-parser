@@ -41,9 +41,8 @@ public class Neo4jExecutor implements GraphDBExecutor {
         ) {
             String tableId = query.getTableId();
             List<Record> recordList = session.executeRead(tx -> tx.run(query.getQuery()).list());
-            if (recordList.isEmpty()) {
-                // TODO: Implement when read query returns empty result
-            }
+
+            if (recordList.isEmpty()) return;
 
             List<String> cols = recordList.get(0).keys();
             String createTableSql = "CREATE TABLE " + tableId + "(\n" +
