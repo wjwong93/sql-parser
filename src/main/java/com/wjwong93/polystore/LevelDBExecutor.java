@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LevelDBExecutor implements KeyValueDBExecutor {
@@ -31,40 +32,46 @@ public class LevelDBExecutor implements KeyValueDBExecutor {
 
     @Override
     public void executeReadQuery(KeyValueQuery query, Connection connection) {
-        try (Statement stmt = connection.createStatement()) {
+        try (
+            Statement stmt = connection.createStatement();
+            DB db = JniDBFactory.factory.open(dbPath, dbOptions)
+        ) {
+            List<String> insertRows = new ArrayList<>();
             String tableId = query.getTableId();
-            String createTableSql = "CREATE TABLE " + tableId + "(\n" +
-                    "\"key\" TEXT PRIMARY KEY,\n" +
-                    "\"value\" TEXT NOT NULL\n" +
-                    ");";
-            stmt.addBatch(createTableSql);
-
-            try (DB db = JniDBFactory.factory.open(dbPath, dbOptions)) {
-                List<String[]> keyvalues = query.getKeyValues();
-                if (keyvalues == null) {
-                    // GET ALL
-                    try (DBIterator iterator = db.iterator()) {
-                        for (iterator.seekToFirst(); iterator.hasNext(); iterator.next()) {
-                            String key = JniDBFactory.asString(iterator.peekNext().getKey());
-                            String value = JniDBFactory.asString(iterator.peekNext().getValue());
-                            String insertDataSql = "INSERT INTO " + tableId + " VALUES (\"" + key + "\",\"" + value + "\");";
-                            stmt.addBatch(insertDataSql);
-                        }
-                    }
-                } else {
-                    for (String[] kv : keyvalues) {
-                        String key = kv[0];
-                        String value = JniDBFactory.asString(db.get(JniDBFactory.bytes(key)));
+            List<String[]> keyvalues = query.getKeyValues();
+            if (keyvalues == null) {
+                // GET ALL
+                try (DBIterator iterator = db.iterator()) {
+                    for (iterator.seekToFirst(); iterator.hasNext(); iterator.next()) {
+                        String key = JniDBFactory.asString(iterator.peekNext().getKey());
+                        String value = JniDBFactory.asString(iterator.peekNext().getValue());
                         String insertDataSql = "INSERT INTO " + tableId + " VALUES (\"" + key + "\",\"" + value + "\");";
-                        stmt.addBatch(insertDataSql);
+                        insertRows.add(insertDataSql);
                     }
                 }
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
+            } else {
+                for (String[] kv : keyvalues) {
+                    String key = kv[0];
+                    String value = JniDBFactory.asString(db.get(JniDBFactory.bytes(key)));
+                    if (value != null) {
+                        String insertDataSql = "INSERT INTO " + tableId + " VALUES (\"" + key + "\",\"" + value + "\");";
+                        insertRows.add(insertDataSql);
+                    }
+                }
             }
 
-            stmt.executeBatch();
-        } catch (SQLException e) {
+            if (!insertRows.isEmpty()) {
+                String createTableSql = "CREATE TABLE " + tableId + "(\n" +
+                        "\"key\" TEXT PRIMARY KEY,\n" +
+                        "\"value\" TEXT NOT NULL\n" +
+                        ");";
+                stmt.addBatch(createTableSql);
+
+                for (String row : insertRows) stmt.addBatch(row);
+
+                stmt.executeBatch();
+            }
+        } catch (IOException | SQLException e) {
             System.err.println(e.getMessage());
         }
     }
