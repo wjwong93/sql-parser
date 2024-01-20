@@ -74,8 +74,8 @@ tasks.generateGrammarSource {
             include("PostgreSQLParser.interp")
         }
 
-        filesToDelete.files.forEach {
-            file -> file.delete()
-        }
+//        filesToDelete.files.forEach {
+//            file -> file.delete()
+//        }
     }
 }
