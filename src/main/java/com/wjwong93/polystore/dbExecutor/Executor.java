@@ -22,6 +22,9 @@ public class Executor implements AutoCloseable {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        this.keyValueDBExecutor = new NoOpKeyValueDBExecutor();
+        this.graphDBExecutor = new NoOpGraphDBExecutor();
     }
 
     public void setKeyValueDBExecutor(KeyValueDBExecutor dbExecutor) {
@@ -53,11 +56,19 @@ public class Executor implements AutoCloseable {
                 case DELETE -> graphDBExecutor.executeDeleteQuery(graphQuery);
             }
         } else if (query instanceof OuterReadQuery outerQuery) {
+            String getTableCountSql = "SELECT COUNT(name) FROM sqlite_schema WHERE type= 'table' AND name NOT LIKE 'sqlite_%';";
             try (
                 Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(outerQuery.getQuery())
             ) {
-                QueryUtils.printResultSet(rs);
+                try (ResultSet rs = stmt.executeQuery(getTableCountSql)) {
+                    rs.next();
+                    int tableCount = rs.getInt(1);
+                    if (tableCount == 0) return;
+                }
+
+                try (ResultSet rs = stmt.executeQuery(outerQuery.getQuery())) {
+                    QueryUtils.printResultSet(rs);
+                }
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
             }
