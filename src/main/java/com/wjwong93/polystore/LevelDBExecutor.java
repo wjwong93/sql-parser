@@ -33,11 +33,13 @@ public class LevelDBExecutor implements KeyValueDBExecutor {
     @Override
     public void executeReadQuery(KeyValueQuery query, Connection connection) {
         try (
-            Statement stmt = connection.createStatement();
+            TableBuilder tableBuilder = new TableBuilder(connection);
             DB db = JniDBFactory.factory.open(dbPath, dbOptions)
         ) {
-            List<String> insertRows = new ArrayList<>();
-            String tableId = query.getTableId();
+            int rowCount = 0;
+            tableBuilder.setTableName(query.getTableId());
+            tableBuilder.setColumnNames("key", "value");
+
             List<String[]> keyvalues = query.getKeyValues();
             if (keyvalues == null) {
                 // GET ALL
@@ -45,8 +47,8 @@ public class LevelDBExecutor implements KeyValueDBExecutor {
                     for (iterator.seekToFirst(); iterator.hasNext(); iterator.next()) {
                         String key = JniDBFactory.asString(iterator.peekNext().getKey());
                         String value = JniDBFactory.asString(iterator.peekNext().getValue());
-                        String insertDataSql = "INSERT INTO " + tableId + " VALUES (\"" + key + "\",\"" + value + "\");";
-                        insertRows.add(insertDataSql);
+                        tableBuilder.insertRow(key, value);
+                        rowCount++;
                     }
                 }
             } else {
@@ -54,23 +56,14 @@ public class LevelDBExecutor implements KeyValueDBExecutor {
                     String key = kv[0];
                     String value = JniDBFactory.asString(db.get(JniDBFactory.bytes(key)));
                     if (value != null) {
-                        String insertDataSql = "INSERT INTO " + tableId + " VALUES (\"" + key + "\",\"" + value + "\");";
-                        insertRows.add(insertDataSql);
+                        tableBuilder.insertRow(key, value);
+                        rowCount++;
                     }
                 }
             }
 
-            if (!insertRows.isEmpty()) {
-                String createTableSql = "CREATE TABLE " + tableId + "(\n" +
-                        "\"key\" TEXT PRIMARY KEY,\n" +
-                        "\"value\" TEXT NOT NULL\n" +
-                        ");";
-                stmt.addBatch(createTableSql);
+            if (rowCount > 0) tableBuilder.build();
 
-                for (String row : insertRows) stmt.addBatch(row);
-
-                stmt.executeBatch();
-            }
         } catch (IOException | SQLException e) {
             System.err.println(e.getMessage());
         }
