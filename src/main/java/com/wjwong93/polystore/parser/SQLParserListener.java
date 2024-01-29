@@ -235,7 +235,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
         String edge = ctx.graph_element_identifier(1).getText();
         String vertex2 = ctx.graph_element_identifier(2).getText();
 
-        String unwindClause = String.format("UNWIND %s AS %s\n", String.join(" + ", edgeVariables), edge);
+        String unwindClause = String.format("UNWIND %s AS %s\n", edgeVariables.isEmpty() ? "[]" : String.join(" + ", edgeVariables), edge);
         String withClause = String.format("WITH *, startNode(%s) AS %s, endNode(%s) AS %s\n", edge, vertex1, edge ,vertex2);
 
         queryStringBuilder.append(unwindClause).append(withClause);
@@ -297,6 +297,7 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
 
     @Override
     public void enterUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
+        edgeVariables = new ArrayList<>();
         queryStringBuilder = new StringBuilder();
         queryStringBuilder.append("USE ").append(ctx.graph_reference().getText()).append("\n");
     }
