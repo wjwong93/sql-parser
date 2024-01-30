@@ -88,7 +88,8 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     public void enterGraph_table(PostgreSQLParser.Graph_tableContext ctx) {
         edgeVariables = new ArrayList<>();
         queryStringBuilder = new StringBuilder();
-        queryStringBuilder.append("USE ").append(ctx.graph_reference().getText()).append("\n");
+        if (!ctx.graph_reference().getText().isEmpty())
+            queryStringBuilder.append("USE ").append(ctx.graph_reference().getText()).append("\n");
     }
 
     @Override
@@ -292,7 +293,10 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     @Override
     public void enterGraphical_path_length_function(PostgreSQLParser.Graphical_path_length_functionContext ctx) {
         int n = repeatedTokens.size();
-        repeatedTokens.set(n-1, "length(" + ctx.graph_element_identifier().getText() + ")");
+        String functionName = "";
+        if (ctx.PATH_LENGTH() != null) functionName = "length";
+        else if (ctx.SIZE() != null) functionName = "size";
+        repeatedTokens.set(n-1, functionName + "(" + ctx.graph_element_identifier().getText() + ")");
     }
 
     @Override
