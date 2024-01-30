@@ -17,12 +17,27 @@ dependencies {
     implementation("com.opencsv:opencsv:5.9")
     implementation("org.xerial:sqlite-jdbc:3.44.1.0")
     implementation("org.slf4j:slf4j-nop:2.0.11")
+    implementation("com.basho.riak:riak-client:2.1.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
 }
 
 application {
     mainClass = "com.wjwong93.polystore.Main"
+    applicationDefaultJvmArgs += listOf(
+            "-Xmx1536M",
+            "--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED",
+            "--add-opens", "java.base/java.nio=ALL-UNNAMED",
+            "--add-opens", "java.base/java.security=ALL-UNNAMED",
+            "--add-opens", "jdk.unsupported/sun.misc=ALL-UNNAMED",
+            "--add-opens", "java.base/sun.security.action=ALL-UNNAMED",
+            "--add-opens", "jdk.naming.rmi/com.sun.jndi.rmi.registry=ALL-UNNAMED",
+            "--add-opens", "java.base/sun.net=ALL-UNNAMED",
+            "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+            "--add-opens", "java.base/java.lang.reflect=ALL-UNNAMED",
+            "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
+            "--add-opens", "java.base/java.io=ALL-UNNAMED"
+    )
 }
 
 tasks.named("run") {
