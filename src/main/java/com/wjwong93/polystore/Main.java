@@ -24,6 +24,7 @@ public class Main {
             List<Query> queryPlan = SQLParser.parse(inputStream, new QueryFactory());
             executor.setKeyValueDBExecutor(new LevelDBExecutor("./leveldb"));
             executor.setGraphDBExecutor(new Neo4jExecutor("neo4j://localhost:7687", "neo4j", "password"));
+//            executor.setGraphDBExecutor(new MemgraphExecutor("bolt://localhost:7687", "", ""));
             executor.executeQueryPlan(queryPlan);
         } catch (IOException e) {
             System.err.println(e.getMessage());

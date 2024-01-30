@@ -4628,6 +4628,7 @@ custom_unreserved_keyword
     | ONE
     | PER
     | STEP
+    | SIZE
     ;
 
 reserved_keyword
@@ -5597,6 +5598,7 @@ graph_table
 
 graph_reference
     : identifier
+    |
     ;
 
 graph_pattern
@@ -5634,7 +5636,7 @@ element_id_function
     ;
 
 graphical_path_length_function
-    : PATH_LENGTH OPEN_PAREN graph_element_identifier CLOSE_PAREN
+    : (PATH_LENGTH | SIZE) OPEN_PAREN graph_element_identifier CLOSE_PAREN
     ;
 
 path_pattern_list
