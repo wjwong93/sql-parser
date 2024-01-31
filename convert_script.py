@@ -22,7 +22,7 @@ def buildQuery(row):
         result += f'{to_node_var}.note="{row["to_node_note"]}", '
     result += f'{to_node_var}.ts={row["to_node_ts"]}\n'
 
-    result += f'MERGE ({from_node_var})-[:{row["relation"].upper()}]->({to_node_var})\n'
+    result += f'MERGE ({from_node_var})-[:{row["relation"].upper()}]->({to_node_var});\n'
     
     node_count += 2
 

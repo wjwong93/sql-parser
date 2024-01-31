@@ -18,6 +18,8 @@ dependencies {
     implementation("org.xerial:sqlite-jdbc:3.44.1.0")
     implementation("org.slf4j:slf4j-nop:2.0.11")
     implementation("com.basho.riak:riak-client:2.1.1")
+    implementation("com.arcadedb:arcadedb-engine:23.12.2")
+    implementation("com.arcadedb:arcadedb-network:23.12.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
 }
