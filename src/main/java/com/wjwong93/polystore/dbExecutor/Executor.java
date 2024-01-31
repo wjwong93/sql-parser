@@ -34,6 +34,7 @@ public class Executor implements AutoCloseable {
     public void setGraphDBExecutor(GraphDBExecutor dbExecutor) {
         this.graphDBExecutor = dbExecutor;
     }
+
     public void executeQueryPlan(List<Query> queryPlan) {
         for (Query query : queryPlan) {
             executeQuery(query, connection);

@@ -1,6 +1,7 @@
 cypher/
 **/gen
 leveldb
+log
 
 ### Antlr generated ###
 src/main/**/*.tokens

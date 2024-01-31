@@ -303,7 +303,8 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
     public void enterUpdategraphstmt(PostgreSQLParser.UpdategraphstmtContext ctx) {
         edgeVariables = new ArrayList<>();
         queryStringBuilder = new StringBuilder();
-        queryStringBuilder.append("USE ").append(ctx.graph_reference().getText()).append("\n");
+        if (!ctx.graph_reference().getText().isEmpty())
+            queryStringBuilder.append("USE ").append(ctx.graph_reference().getText()).append("\n");
     }
 
     @Override
