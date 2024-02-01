@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ArcadeDBExecutor implements KeyValueDBExecutor, GraphDBExecutor {
+    // Note: Limited support for Cypher,
+    // see https://github.com/opencypher/cypher-for-gremlin?tab=readme-ov-file#language-support
+
     private final String server, username, password;
     private final int port;
     private String graphDBName, keyValueDBName;
