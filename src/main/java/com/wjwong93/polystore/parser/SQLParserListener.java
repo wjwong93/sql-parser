@@ -134,7 +134,18 @@ public class SQLParserListener extends PostgreSQLParserBaseListener {
         if (ctx.graph_element_identifier() != null) {
             pathVariable += ctx.graph_element_identifier().getText() + " " + ctx.EQUAL().getText() + " ";
         }
+        if (ctx.any_shortest_path_search() != null) {
+            pathVariable += "shortestPath(";
+        }
         pathPatterns.add(pathVariable);
+    }
+
+    @Override
+    public void exitPath_pattern(PostgreSQLParser.Path_patternContext ctx) {
+        if (ctx.any_shortest_path_search() != null) {
+            int n = pathPatterns.size();
+            pathPatterns.set(n-1, pathPatterns.get(n-1) + ")");
+        }
     }
 
     @Override

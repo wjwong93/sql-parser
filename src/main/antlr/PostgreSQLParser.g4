@@ -5639,12 +5639,16 @@ graphical_path_length_function
     : (PATH_LENGTH | SIZE) OPEN_PAREN graph_element_identifier CLOSE_PAREN
     ;
 
+any_shortest_path_search
+    : ANY SHORTEST
+    ;
+
 path_pattern_list
     : path_pattern (COMMA path_pattern)*
     ;
 
 path_pattern
-    : (graph_element_identifier EQUAL)? path_factor (path_factor)*
+    : (graph_element_identifier EQUAL)? (any_shortest_path_search)? path_factor (path_factor)*
     ;
 
 path_factor

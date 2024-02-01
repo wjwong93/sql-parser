@@ -155,6 +155,7 @@ ELEMENT_ID: 'ELEMENT_ID';
 ONE: 'ONE';
 PER: 'PER';
 STEP: 'STEP';
+SHORTEST: 'SHORTEST';
 
 PARAM: '$' ([0-9])+;
 //
